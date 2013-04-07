@@ -12,7 +12,7 @@ This section describe to translate with Sphinx_ and `sphinx-intl` command.
 
 1. Create your document by using Sphinx.
 
-2. Add configurations to `conf.py`::
+2. Add configurations to your `conf.py`::
 
       locale_dirs = ['locale/']   #path is example but recommended.
       gettext_compact = False     #optional.
@@ -73,7 +73,7 @@ You need to use `tx` command for below features:
 Requirements for optional
 --------------------------
 
-- Python 2.5, 2.6, 2.7. (depends transifex_client that only support 2.x)
+- Python 2.5, 2.6, 2.7. (transifex_client only support 2.x)
 
 - Your transifex_ account if you want to download po files from transifex
   or you want to translate on transifex.
