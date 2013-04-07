@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import with_statement
+
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 import os
@@ -6,6 +8,7 @@ import sys
 
 install_requires = [
     'setuptools',
+    'six',
     'polib',
 ]
 
