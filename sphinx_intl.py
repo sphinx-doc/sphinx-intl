@@ -1,3 +1,12 @@
+# -*- coding: utf-8 -*-
+"""
+    sphinx-intl
+    ~~~~~~~~~~~
+    Sphinx utility that make it easy to translate and to apply translation.
+
+    :copyright: Copyright 2013 by Takayuki SHIMIZUKAWA.
+    :license: BSD, see LICENSE for details.
+"""
 from __future__ import with_statement
 from __future__ import print_function
 
