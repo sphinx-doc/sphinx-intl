@@ -8,10 +8,10 @@
     :license: BSD, see LICENSE for details.
 """
 from __future__ import with_statement
-from __future__ import print_function
 
 import os
 import sys
+from six import PY3, print_, exec_
 from glob import glob
 import optparse
 import textwrap
@@ -50,12 +50,32 @@ required = object()
 
 
 ####################################
-# Python 2/3 compat
-if sys.version_info < (3,):
-    PY3 = False
-    convert_with_2to3 = None
+# Python compat
+if sys.version_info >= (2, 6):
+    # Python >= 2.6
+    relpath = os.path.relpath
 else:
-    PY3 = True
+    from os.path import curdir
+    def relpath(path, start=curdir):
+        """Return a relative version of a path"""
+        from os.path import sep, abspath, commonprefix, join, pardir
+
+        if not path:
+            raise ValueError("no path specified")
+
+        start_list = abspath(start).split(sep)
+        path_list = abspath(path).split(sep)
+
+        # Work out how much of the filepath is shared by start and path.
+        i = len(commonprefix([start_list, path_list]))
+
+        rel_list = [pardir] * (len(start_list)-i) + path_list[i:]
+        if not rel_list:
+            return start
+        return join(*rel_list)
+    del curdir
+
+if PY3:
     def convert_with_2to3(filepath):
         from lib2to3.refactor import RefactoringTool, get_fixers_from_package
         from lib2to3.pgen2.parse import ParseError
@@ -71,6 +91,8 @@ else:
             # try to match ParseError details with SyntaxError details
             raise SyntaxError(err.msg, (filepath, lineno, offset, err.value))
         return str(tree)
+else:
+    convert_with_2to3 = None
 
 
 def command(func):
@@ -121,10 +143,8 @@ def execfile_(filepath, _globals):
             code = compile(source, filepath_enc, 'exec')
         else:
             raise
-    try:
-        exec(code, _globals)
-    except SyntaxError:
-        exec (code) in _globals
+
+    exec_(code, _globals)
 
 
 def read_config(path):
@@ -143,7 +163,7 @@ def read_config(path):
 
 
 def get_lang_dirs(path):
-    dirs = [os.path.relpath(d, path)
+    dirs = [relpath(d, path)
             for d in glob(path+'/[a-z]*')
             if os.path.isdir(d) and not d.endswith('pot')]
     return dirs
@@ -178,7 +198,7 @@ def update(locale_dirs, language=()):
                 base, ext = os.path.splitext(pot_file)
                 if ext != ".pot":
                     continue
-                basename = os.path.relpath(base, pot_dir)
+                basename = relpath(base, pot_dir)
                 for lang in language:
                     po_dir = os.path.join(locale_dir, lang, 'LC_MESSAGES')
                     po_file = os.path.join(po_dir, basename + ".po")
@@ -189,11 +209,11 @@ def update(locale_dirs, language=()):
                     pot = polib.pofile(pot_file)
                     if os.path.exists(po_file):
                         po = polib.pofile(po_file)
-                        print('Update:', po_file)
+                        print_('Update:', po_file)
                     else:
                         po = polib.POFile()
                         po.metadata = pot.metadata
-                        print('Create:', po_file)
+                        print_('Create:', po_file)
                     po.merge(pot)
                     po.save(po_file)
 
@@ -220,7 +240,7 @@ def build(locale_dirs, language=()):
                         continue
 
                     mo_file = base + ".mo"
-                    print('Build: %s' % mo_file)
+                    print_('Build: %s' % mo_file)
                     po = polib.pofile(po_file)
                     po.save_as_mofile(fpath=mo_file)
 
@@ -237,7 +257,7 @@ def create_transifexrc(transifex_username, transifex_password):
     target = os.path.normpath(os.path.expanduser('~/.transifexrc'))
 
     if os.path.exists(target):
-        print(target, 'already exists, skipped.')
+        print_(target, 'already exists, skipped.')
         return
 
     if not transifex_username or not 'transifex_password':
@@ -249,7 +269,7 @@ def create_transifexrc(transifex_username, transifex_password):
 
     with open(target, 'wt') as rc:
         rc.write(TRANSIFEXRC_TEMPLATE % locals())
-    print('Create:', target)
+    print_('Create:', target)
 
 
 @command
@@ -261,7 +281,7 @@ def create_txconfig():
     """
     target = os.path.normpath('.tx/config')
     if os.path.exists(target):
-        print(target, 'already exists, skipped.')
+        print_(target, 'already exists, skipped.')
         return
 
     if not os.path.exists('.tx'):
@@ -270,7 +290,7 @@ def create_txconfig():
     with open(target, 'wt') as f:
         f.write(TXCONFIG_TEMPLATE)
 
-    print('Create:', target)
+    print_('Create:', target)
 
 
 @command
@@ -310,7 +330,7 @@ def update_txconfig_resources(locale_dirs, transifex_project_name):
                 base, ext = os.path.splitext(pot_file)
                 if ext != ".pot":
                     continue
-                resource_path = os.path.relpath(base, pot_dir)
+                resource_path = relpath(base, pot_dir)
                 pot = polib.pofile(pot_file)
                 if len(pot):
                     resource_name = \
@@ -318,7 +338,7 @@ def update_txconfig_resources(locale_dirs, transifex_project_name):
                     args = (args_tmpl % locals()).split()
                     txclib.utils.exec_command('set', args, tx_root)
                 else:
-                    print(src_pot, 'is empty, skipped')
+                    print_(src_pot, 'is empty, skipped')
 
     txclib.utils.exec_command('set', ['-t', 'PO'], tx_root)
 
@@ -425,7 +445,7 @@ def main():
         run(sys.argv[1:])
     except RuntimeError:
         typ, err, tb = sys.exc_info()
-        print("ERROR:", err, file=sys.stderr)
+        print_("ERROR:", err, file=sys.stderr)
 
 
 if __name__ == '__main__':
