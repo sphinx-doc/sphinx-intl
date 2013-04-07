@@ -58,7 +58,7 @@ Requirements for basic
 
 Optional features
 ==================
-These features need `transifex_client`_ library.
+These features need `transifex-client`_ library.
 
 * create .transifexrc file from environment variable, without interactive input.
 * create .tx/config file without interactive input.
@@ -73,7 +73,7 @@ You need to use `tx` command for below features:
 Requirements for optional
 --------------------------
 
-- Python 2.5, 2.6, 2.7. (transifex_client only support 2.x)
+- Python 2.5, 2.6, 2.7. (transifex-client only support 2.x)
 
 - Your transifex_ account if you want to download po files from transifex
   or you want to translate on transifex.
