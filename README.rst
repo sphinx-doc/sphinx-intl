@@ -97,11 +97,14 @@ If you want to use `Optional Features`_, you need install additional library::
 Commands, options, environment variables
 =========================================
 
+Commands
+--------
+
 Type `sphinx-intl` without arguments, options to show command help.
 
 
 Setup environment variables
-==============================
+---------------------------
 
 All command-line options can be set with environment variables using the format SPHINXINTL_<UPPER_LONG_NAME> . Dashes (-) have to replaced with underscores (_).
 
@@ -115,7 +118,7 @@ This is the same as passing the option to sphinx-intl directly::
 
 
 Setup sphinx conf.py
-======================
+---------------------
 
 Add below settings to sphinx document's conf.py if not exists::
 
@@ -126,4 +129,19 @@ Add below settings to sphinx document's conf.py if not exists::
 .. _transifex: https://transifex.com
 .. _`transifex-client`: https://pypi.python.org/pypi/transifex-client
 .. _polib: https://pypi.python.org/pypi/polib
+
+
+License
+=======
+Licensed under the BSD license.
+See the LICENSE file for specific terms.
+
+
+Original
+========
+
+This utilty derived from these projects.
+
+* https://bitbucket.org/tk0miya/sphinx-gettext-helper
+* https://bitbucket.org/shimizukawa/sphinx-transifex
 
