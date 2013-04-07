@@ -27,7 +27,7 @@ with open(os.path.join(here, 'README.rst')) as f:
 
 setup(
     name='sphinx-intl',
-    version='0.9.0',
+    version='0.9.1b1',
     description='Sphinx utility that make it easy to translate and to apply translation.',
     long_description=README,
     classifiers=[
