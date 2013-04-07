@@ -5,6 +5,9 @@ sphinx-intl: translation support utility for Sphinx
 `sphinx-intl` is a utility tool that provides several features that make it easy to translate and to apply translation to Sphinx_ generated document. Optional: support the Transifex service for translation with Sphinx_ .
 
 
+.. contents::
+   :local:
+
 QuickStart for sphinx translation
 ===================================
 
@@ -140,6 +143,23 @@ This utilty derived from these projects.
 * https://bitbucket.org/tk0miya/sphinx-gettext-helper
 * https://bitbucket.org/shimizukawa/sphinx-transifex
 
+
+CHANGES
+========
+
+0.9.1 (Unreleased)
+-------------------
+
+0.9.0 (2013/4/7)
+-----------------
+* first release.
+* provide these commands:
+
+  * update
+  * build
+  * create-transifexrc
+  * create-txconfig
+  * update-txconfig-resources
 
 
 .. _Sphinx: http://sphinx-doc.org
