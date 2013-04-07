@@ -7,7 +7,7 @@ import os
 import sys
 
 install_requires = [
-    'setuptools',
+    'distribute',
     'six',
     'polib',
 ]
