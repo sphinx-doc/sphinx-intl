@@ -19,13 +19,13 @@ This section describe to translate with Sphinx_ and `sphinx-intl` command.
 
    `locale_dirs` is essential and `gettext_compact` is optional.
 
-3. Build document's pot files::
+3. Extract document's translatable messages into pot files::
 
       $ make gettext
 
 4. Setup/Update your `locale_dirs`::
 
-      $ sphinx-intl update -l de,ja
+      $ sphinx-intl update -l de -l ja
 
    Done. You got these directories that contain po files:
 
@@ -35,7 +35,7 @@ This section describe to translate with Sphinx_ and `sphinx-intl` command.
 
 5. Translate your po files under `./locale/<lang>/LC_MESSAGES/`.
 
-6. Make translated document::
+6. Build mo files and make translated document::
 
       $ sphinx-intl build
       $ make -e SPHINXOPTS="-D language='ja'" html
@@ -49,8 +49,8 @@ Basic Features
 * create or update po files from pot files.
 * build mo files from po files.
 
-Requirements
---------------
+Requirements for basic
+-----------------------
 
 - Python 2.5, 2.6, 2.7, 3.1, 3.2, 3.3.
 - external library: polib_
@@ -70,8 +70,8 @@ You need to use `tx` command for below features:
 * `tx push -s` : push pot (translation catalogs) to transifex.
 * `tx pull -l ja` : pull po (translated catalogs) from transifex.
 
-Requirements
---------------
+Requirements for optional
+--------------------------
 
 - Python 2.5, 2.6, 2.7. (depends transifex_client that only support 2.x)
 
@@ -87,11 +87,11 @@ Installation
 
 Recommend strongly: use virtualenv for this procedure::
 
-   $ pip install https://bitbucket.org/shimizukawa/sphinx-intl/get/default.zip
+   $ pip install sphinx-intl
 
 If you want to use `Optional Features`_, you need install additional library::
 
-   $ pip install transifex-client
+   $ pip install sphinx-intl[transifex]
 
 
 Commands, options, environment variables
@@ -107,11 +107,11 @@ All command-line options can be set with environment variables using the format 
 
 For example, to set the locale dirs::
 
-   export SPHINXINTL_LOCALE_DIRS=locale
+   export SPHINXINTL_LANGUAGE=de,ja
 
 This is the same as passing the option to sphinx-intl directly::
 
-   sphinx-intl --locale-dirs=locale <command>
+   sphinx-intl --language=de --language=ja <command>
 
 
 Setup sphinx conf.py
