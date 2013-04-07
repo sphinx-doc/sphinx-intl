@@ -53,7 +53,7 @@ Requirements for basic
 -----------------------
 
 - Python 2.5, 2.6, 2.7, 3.1, 3.2, 3.3.
-- external library: polib_
+- external library: distribute_, six_, polib_
 
 
 Optional features
@@ -125,11 +125,6 @@ Add below settings to sphinx document's conf.py if not exists::
    locale_dirs = ['locale/']   #for example
    gettext_compact = False     #optional
 
-.. _Sphinx: http://sphinx-doc.org
-.. _transifex: https://transifex.com
-.. _`transifex-client`: https://pypi.python.org/pypi/transifex-client
-.. _polib: https://pypi.python.org/pypi/polib
-
 
 License
 =======
@@ -144,4 +139,13 @@ This utilty derived from these projects.
 
 * https://bitbucket.org/tk0miya/sphinx-gettext-helper
 * https://bitbucket.org/shimizukawa/sphinx-transifex
+
+
+
+.. _Sphinx: http://sphinx-doc.org
+.. _transifex: https://transifex.com
+.. _`transifex-client`: https://pypi.python.org/pypi/transifex-client
+.. _distribute: https://pypi.python.org/pypi/distribute
+.. _six: https://pypi.python.org/pypi/six
+.. _polib: https://pypi.python.org/pypi/polib
 
