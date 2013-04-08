@@ -149,11 +149,11 @@ CHANGES
 
 0.9.1 (Unreleased)
 -------------------
+* Add flake8 test and fix some errors.
 
 0.9.0 (2013/4/7)
 -----------------
-* first release.
-* provide these commands:
+* First release that provides these commands:
 
   * update
   * build
