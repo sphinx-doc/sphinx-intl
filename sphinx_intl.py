@@ -11,11 +11,10 @@ from __future__ import with_statement
 
 import os
 import sys
-from six import PY3, print_, exec_
+from six import PY3, print_, exec_, b
 from glob import glob
 import optparse
 import textwrap
-from functools import wraps
 if sys.version_info < (2, 7):
     from ordereddict import OrderedDict
 else:
@@ -56,6 +55,7 @@ if sys.version_info >= (2, 6):
     relpath = os.path.relpath
 else:
     from os.path import curdir
+
     def relpath(path, start=curdir):
         """Return a relative version of a path"""
         from os.path import sep, abspath, commonprefix, join, pardir
@@ -111,7 +111,7 @@ def command(func):
         varnames = func.func_code.co_varnames[:argcount]
         defaults = list(func.func_defaults or [])
     defaults = [required] * (argcount - len(defaults)) + defaults
-    for name,val in zip(varnames, defaults):
+    for name, val in zip(varnames, defaults):
         options[name] = val
 
     func.options = options
@@ -338,7 +338,7 @@ def update_txconfig_resources(locale_dirs, transifex_project_name):
                     args = (args_tmpl % locals()).split()
                     txclib.utils.exec_command('set', args, tx_root)
                 else:
-                    print_(src_pot, 'is empty, skipped')
+                    print_(pot_file, 'is empty, skipped')
 
     txclib.utils.exec_command('set', ['-t', 'PO'], tx_root)
 
@@ -378,18 +378,19 @@ def parse_option(argv):
     parser.add_option('-d', '--locale-dirs', dest='locale_dirs',
                       type='string', action='append', default=[],
                       metavar='dir',
-                      help='locale directories that allow comman separated string. '
-                           'This option override locale_dirs in conf.py setting'
-                           'if provided. default is empty list.')
-    parser.add_option(      '--transifex-username', dest='transifex_username',
+                      help='locale directories that allow comman separated '
+                           'string. This option override locale_dirs in '
+                           'conf.py setting if provided. default is empty '
+                           'list.')
+    parser.add_option('--transifex-username', dest='transifex_username',
                       type='string', action='store', default=None,
                       metavar='username',
                       help='Your transifex username. default is None.')
-    parser.add_option(      '--transifex-password', dest='transifex_password',
+    parser.add_option('--transifex-password', dest='transifex_password',
                       type='string', action='store', default=None,
                       metavar='password',
                       help='Your transifex password. default is None.')
-    parser.add_option(      '--transifex-project-name',
+    parser.add_option('--transifex-project-name',
                       dest='transifex_project_name',
                       type='string', action='store', default=None,
                       metavar='project-name',
@@ -397,7 +398,7 @@ def parse_option(argv):
     options, args = parser.parse_args(argv)
 
     if len(args) != 1 or args[0] not in commands:
-        parser.print_help() #exit
+        parser.print_help()
         sys.exit(-1)
 
     environ = dict(os.environ)
@@ -450,4 +451,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
