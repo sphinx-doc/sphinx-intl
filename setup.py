@@ -18,7 +18,11 @@ if sys.version_info < (2, 7):
 extras_require = {
     'transifex': [
         'transifex_client',
-    ]
+    ],
+    'test': [
+        'nose',
+        'flake8',
+    ],
 }
 
 here = os.path.abspath(os.path.dirname(__file__))
