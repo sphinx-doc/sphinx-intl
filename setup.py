@@ -2,7 +2,6 @@
 from __future__ import with_statement
 
 from setuptools import setup, find_packages
-from setuptools.command.test import test as TestCommand
 import os
 import sys
 
@@ -28,11 +27,13 @@ extras_require = {
 here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, 'README.rst')) as f:
     README = f.read()
+description = \
+    'Sphinx utility that make it easy to translate and to apply translation.'
 
 setup(
     name='sphinx-intl',
     version='0.9.1b1',
-    description='Sphinx utility that make it easy to translate and to apply translation.',
+    description=description,
     long_description=README,
     classifiers=[
         "Development Status :: 4 - Beta",
@@ -53,9 +54,9 @@ setup(
         "Programming Language :: Python :: 3.2",
         "Programming Language :: Python :: 3.3",
     ],
-    author = "Takayuki SHIMIZUKAWA",
-    author_email = "shimizukawa@gmail.com",
-    url = "https://bitbucket.org/shimizukawa/sphinx-intl",
+    author="Takayuki SHIMIZUKAWA",
+    author_email="shimizukawa@gmail.com",
+    url="https://bitbucket.org/shimizukawa/sphinx-intl",
     namespace_packages=[],
     packages=find_packages(),
     include_package_data=True,
@@ -63,7 +64,7 @@ setup(
     install_requires=install_requires,
     extras_require=extras_require,
     py_modules=['sphinx_intl'],
-    entry_points = """\
+    entry_points="""\
     [console_scripts]
     sphinx-intl = sphinx_intl:main
     """,

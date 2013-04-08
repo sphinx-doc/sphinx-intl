@@ -29,7 +29,7 @@ def in_tmp(*args, **kwargs):
             try:
                 os.chdir(tempdir)
                 func(*args2, **kwargs2)
-                #shutil.rmtree(tempdir)
+                shutil.rmtree(tempdir, ignore_errors=True)
             finally:
                 os.chdir(cwd)
         return deco
@@ -39,13 +39,16 @@ def in_tmp(*args, **kwargs):
 def teardown_module():
     pass
 
+
 @in_tmp()
 def test_update():
     sphinx_intl.update(['locale'])
 
+
 @in_tmp()
 def test_build():
     sphinx_intl.build(['locale'])
+
 
 @in_tmp()
 def test_create_transifexrc():
@@ -53,11 +56,13 @@ def test_create_transifexrc():
         raise SkipTest('transifex-client not support Python3')
     sphinx_intl.create_transifexrc('spam-id', 'egg-pw')
 
+
 @in_tmp()
 def test_create_txconfig():
     if PY3:
         raise SkipTest('transifex-client not support Python3')
     sphinx_intl.create_txconfig()
+
 
 @in_tmp()
 def test_update_txconfig_resources():
