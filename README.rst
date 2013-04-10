@@ -161,6 +161,11 @@ This utilty derived from these projects.
 CHANGES
 ========
 
+0.9.2 (Unreleased)
+-------------------
+* Fix: update command did not detect pot/po difference when translated
+  count and untranslated count are not difference.
+
 0.9.1 (2013/4/10)
 -------------------
 * Add flake8 test and fix some errors.

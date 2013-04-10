@@ -217,16 +217,14 @@ def update(locale_dir, pot_dir=None, language=(), out=sys.stdout):
                 pot = polib.pofile(pot_file)
                 if os.path.exists(po_file):
                     po = polib.pofile(po_file)
-                    trans_n = len(po.translated_entries())
-                    untrans_n = len(po.untranslated_entries())
+                    msgids = set([str(m) for m in po])
                     po.merge(pot)
-                    trans_n2 = len(po.translated_entries())
-                    untrans_n2 = len(po.untranslated_entries())
-                    trans_d = trans_n2 - trans_n
-                    untrans_d = untrans_n2 - untrans_n
-                    if trans_d or untrans_d:
-                        print_('Update:', po_file, "%+d, %+d" % (
-                            trans_d, untrans_d), file=out)
+                    new_msgids = set([str(m) for m in po])
+                    if msgids != new_msgids:
+                        added = new_msgids - msgids
+                        deleted = msgids - new_msgids
+                        print_('Update:', po_file, "+%d, -%d" % (
+                            len(added), len(deleted)), file=out)
                         po.save(po_file)
                     else:
                         print_('Not Changed:', po_file, file=out)
