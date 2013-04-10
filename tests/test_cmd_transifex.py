@@ -27,16 +27,16 @@ def teardown_module():
 
 
 @in_tmp()
-def test_create_transifexrc():
+def test_create_transifexrc(temp):
     commands.create_transifexrc('spam-id', 'egg-pw')
 
 
 @in_tmp()
-def test_create_txconfig():
+def test_create_txconfig(temp):
     commands.create_txconfig()
 
 
 @in_tmp()
-def test_update_txconfig_resources():
+def test_update_txconfig_resources(temp):
     commands.create_txconfig()
     commands.update_txconfig_resources('ham-project', 'locale')

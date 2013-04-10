@@ -24,20 +24,20 @@ def teardown_module():
 
 @raises(SystemExit)
 @in_tmp()
-def test_command_not_found():
+def test_command_not_found(temp):
     commands.parse_option(['some-command'])
 
 
 @raises(RuntimeError)
 @in_tmp()
-def test_confpy_not_have_locale_dirs():
+def test_confpy_not_have_locale_dirs(temp):
     f = open('conf.py', 'w')
     f.close()
     commands.parse_option(['update'])
 
 
 @in_tmp()
-def test_confpy_have_locale_dirs():
+def test_confpy_have_locale_dirs(temp):
     f = open('conf.py', 'w')
     f.write('locale_dirs=["somedir"]\n')
     f.close()
@@ -46,7 +46,7 @@ def test_confpy_have_locale_dirs():
 
 
 @in_tmp()
-def test_confpy_in_subdir():
+def test_confpy_in_subdir(temp):
     os.mkdir('source')
     f = open('source/conf.py', 'w')
     f.write('locale_dirs=["somedir"]\n')
@@ -56,6 +56,6 @@ def test_confpy_in_subdir():
 
 
 @in_tmp()
-def test_no_confpy_and_locale_dir_specified():
+def test_no_confpy_and_locale_dir_specified(temp):
     opts, args = commands.parse_option(['update', '-d', 'somedir'])
     assert opts.locale_dir == 'somedir'
