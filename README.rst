@@ -28,7 +28,7 @@ This section describe to translate with Sphinx_ and `sphinx-intl` command.
 
 4. Setup/Update your `locale_dir`::
 
-      $ sphinx-intl update -l de -l ja
+      $ sphinx-intl update -p _build/locale -l de -l ja
 
    Done. You got these directories that contain po files:
 
@@ -150,6 +150,8 @@ CHANGES
 0.9.1 (Unreleased)
 -------------------
 * Add flake8 test and fix some errors.
+* Add --pot-dir option. default is `pot` directory under `locale_dir`.
+  If you using Sphinx default settings, `-p _build/locale` is useful.
 * Drop multiple `locale directories` feature. Now use only first directory of `locale_dirs` in conf.py.
 
 0.9.0 (2013/4/7)
