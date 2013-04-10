@@ -8,6 +8,8 @@
     :copyright: Copyright 2013 by Takayuki SHIMIZUKAWA.
     :license: BSD, see LICENSE for details.
 """
+from __future__ import with_statement
+
 from StringIO import StringIO
 
 from nose.tools import raises
