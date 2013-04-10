@@ -18,7 +18,7 @@ from nose import SkipTest
 from nose.tools import raises
 from six import PY3
 
-import sphinx_intl
+from sphinx_intl import commands
 
 __dir__ = os.path.dirname(os.path.abspath(__file__))
 
@@ -49,7 +49,7 @@ def teardown_module():
 @raises(SystemExit)
 @in_tmp()
 def test_command_not_found():
-    sphinx_intl.parse_option(['some-command'])
+    commands.parse_option(['some-command'])
 
 
 @raises(RuntimeError)
@@ -57,7 +57,7 @@ def test_command_not_found():
 def test_confpy_not_have_locale_dirs():
     f = open('conf.py', 'w')
     f.close()
-    sphinx_intl.parse_option(['update'])
+    commands.parse_option(['update'])
 
 
 @in_tmp()
@@ -65,7 +65,7 @@ def test_confpy_have_locale_dirs():
     f = open('conf.py', 'w')
     f.write('locale_dirs=["somedir"]\n')
     f.close()
-    opts, args = sphinx_intl.parse_option(['update'])
+    opts, args = commands.parse_option(['update'])
     assert opts.locale_dir == 'somedir'
 
 
@@ -75,49 +75,49 @@ def test_confpy_in_subdir():
     f = open('source/conf.py', 'w')
     f.write('locale_dirs=["somedir"]\n')
     f.close()
-    opts, args = sphinx_intl.parse_option(['update', '-c', 'source/conf.py'])
+    opts, args = commands.parse_option(['update', '-c', 'source/conf.py'])
     assert opts.locale_dir == 'somedir'
 
 
 @in_tmp()
 def test_no_confpy_and_locale_dir_specified():
-    opts, args = sphinx_intl.parse_option(['update', '-d', 'somedir'])
+    opts, args = commands.parse_option(['update', '-d', 'somedir'])
     assert opts.locale_dir == 'somedir'
 
 
 @raises(RuntimeError)
 @in_tmp()
 def test_update_pot_notfound():
-    sphinx_intl.update('locale')
+    commands.update('locale')
 
 
 @in_tmp()
 def test_update():
-    sphinx_intl.update('locale', '_build/locale')
+    commands.update('locale', '_build/locale')
 
 
 @in_tmp()
 def test_build():
-    sphinx_intl.build('locale')
+    commands.build('locale')
 
 
 @in_tmp()
 def test_create_transifexrc():
     if PY3:
         raise SkipTest('transifex-client not support Python3')
-    sphinx_intl.create_transifexrc('spam-id', 'egg-pw')
+    commands.create_transifexrc('spam-id', 'egg-pw')
 
 
 @in_tmp()
 def test_create_txconfig():
     if PY3:
         raise SkipTest('transifex-client not support Python3')
-    sphinx_intl.create_txconfig()
+    commands.create_txconfig()
 
 
 @in_tmp()
 def test_update_txconfig_resources():
     if PY3:
         raise SkipTest('transifex-client not support Python3')
-    sphinx_intl.create_txconfig()
-    sphinx_intl.update_txconfig_resources('ham-project', 'locale')
+    commands.create_txconfig()
+    commands.update_txconfig_resources('ham-project', 'locale')
