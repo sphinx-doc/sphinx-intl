@@ -152,7 +152,7 @@ def read_config(path):
     olddir = os.getcwd()
     try:
         if not os.path.isfile(path):
-            msg = "'%s' is not found (or specify --locale_dirs option)." % path
+            msg = "'%s' is not found (or specify --locale_dir option)." % path
             raise RuntimeError(msg)
         os.chdir(os.path.dirname(path) or ".")
         execfile_(path, namespace)
@@ -179,70 +179,68 @@ def get_tx_root():
 
 
 @command
-def update(locale_dirs, language=()):
+def update(locale_dir, language=()):
     """
     Update specified language's po files from pot.
 
-    :param locale_dirs: list of locale directry. required.
+    :param locale_dir: a locale directry. required.
     :param language: tuple of language. if empty, all languages are specified.
     :return: None
     """
-    for locale_dir in locale_dirs:
-        locale_dir = locale_dir.rstrip()
-        pot_dir = os.path.join(locale_dir, 'pot')
-        if not language:
-            language = get_lang_dirs(locale_dir)
-        for dirpath, dirnames, filenames in os.walk(pot_dir):
-            for filename in filenames:
-                pot_file = os.path.join(dirpath, filename)
-                base, ext = os.path.splitext(pot_file)
-                if ext != ".pot":
-                    continue
-                basename = relpath(base, pot_dir)
-                for lang in language:
-                    po_dir = os.path.join(locale_dir, lang, 'LC_MESSAGES')
-                    po_file = os.path.join(po_dir, basename + ".po")
-                    outdir = os.path.dirname(po_file)
-                    if not os.path.exists(outdir):
-                        os.makedirs(outdir)
+    locale_dir = locale_dir.rstrip()
+    pot_dir = os.path.join(locale_dir, 'pot')
+    if not language:
+        language = get_lang_dirs(locale_dir)
+    for dirpath, dirnames, filenames in os.walk(pot_dir):
+        for filename in filenames:
+            pot_file = os.path.join(dirpath, filename)
+            base, ext = os.path.splitext(pot_file)
+            if ext != ".pot":
+                continue
+            basename = relpath(base, pot_dir)
+            for lang in language:
+                po_dir = os.path.join(locale_dir, lang, 'LC_MESSAGES')
+                po_file = os.path.join(po_dir, basename + ".po")
+                outdir = os.path.dirname(po_file)
+                if not os.path.exists(outdir):
+                    os.makedirs(outdir)
 
-                    pot = polib.pofile(pot_file)
-                    if os.path.exists(po_file):
-                        po = polib.pofile(po_file)
-                        print_('Update:', po_file)
-                    else:
-                        po = polib.POFile()
-                        po.metadata = pot.metadata
-                        print_('Create:', po_file)
-                    po.merge(pot)
-                    po.save(po_file)
+                pot = polib.pofile(pot_file)
+                if os.path.exists(po_file):
+                    po = polib.pofile(po_file)
+                    print_('Update:', po_file)
+                else:
+                    po = polib.POFile()
+                    po.metadata = pot.metadata
+                    print_('Create:', po_file)
+                po.merge(pot)
+                po.save(po_file)
 
 
 @command
-def build(locale_dirs, language=()):
+def build(locale_dir, language=()):
     """
     Build all po files into mo file.
 
-    :param locale_dirs: list of locale directry. required.
+    :param locale_dir: a locale directry. required.
     :param language: tuple of language. if empty, all languages are specified.
     :return: None
     """
-    for locale_dir in locale_dirs:
-        if not language:
-            language = get_lang_dirs(locale_dir)
-        for lang in language:
-            lang_dir = os.path.join(locale_dir, lang)
-            for dirpath, dirnames, filenames in os.walk(lang_dir):
-                for filename in filenames:
-                    po_file = os.path.join(dirpath, filename)
-                    base, ext = os.path.splitext(po_file)
-                    if ext != ".po":
-                        continue
+    if not language:
+        language = get_lang_dirs(locale_dir)
+    for lang in language:
+        lang_dir = os.path.join(locale_dir, lang)
+        for dirpath, dirnames, filenames in os.walk(lang_dir):
+            for filename in filenames:
+                po_file = os.path.join(dirpath, filename)
+                base, ext = os.path.splitext(po_file)
+                if ext != ".po":
+                    continue
 
-                    mo_file = base + ".mo"
-                    print_('Build: %s' % mo_file)
-                    po = polib.pofile(po_file)
-                    po.save_as_mofile(fpath=mo_file)
+                mo_file = base + ".mo"
+                print_('Build: %s' % mo_file)
+                po = polib.pofile(po_file)
+                po.save_as_mofile(fpath=mo_file)
 
 
 @command
@@ -250,8 +248,8 @@ def create_transifexrc(transifex_username, transifex_password):
     """
     Create `$HOME/.transifexrc`
 
-    :param locale_dirs: list of locale directry. required.
-    :param language: tuple of language. if empty, all languages are specified.
+    :param transifex_username: transifex username.
+    :param transifex_password: transifex password.
     :return: None
     """
     target = os.path.normpath(os.path.expanduser('~/.transifexrc'))
@@ -294,11 +292,11 @@ def create_txconfig():
 
 
 @command
-def update_txconfig_resources(locale_dirs, transifex_project_name):
+def update_txconfig_resources(locale_dir, transifex_project_name):
     """
     Update resource sections of `./.tx/config`.
 
-    :param locale_dirs: list of locale directry. required.
+    :param locale_dir: a locale directry. required.
     :param transifex_project_name: transifex project name.
     :return: None
     """
@@ -322,23 +320,22 @@ def update_txconfig_resources(locale_dirs, transifex_project_name):
         '--source-file %(locale_dir)s/pot/%(resource_path)s.pot '
         '--execute'
     )
-    for locale_dir in locale_dirs:
-        pot_dir = os.path.join(locale_dir, 'pot')
-        for dirpath, dirnames, filenames in os.walk(pot_dir):
-            for filename in filenames:
-                pot_file = os.path.join(dirpath, filename)
-                base, ext = os.path.splitext(pot_file)
-                if ext != ".pot":
-                    continue
-                resource_path = relpath(base, pot_dir)
-                pot = polib.pofile(pot_file)
-                if len(pot):
-                    resource_name = \
-                        resource_path.replace('\\', '/').replace('/', '--')
-                    args = (args_tmpl % locals()).split()
-                    txclib.utils.exec_command('set', args, tx_root)
-                else:
-                    print_(pot_file, 'is empty, skipped')
+    pot_dir = os.path.join(locale_dir, 'pot')
+    for dirpath, dirnames, filenames in os.walk(pot_dir):
+        for filename in filenames:
+            pot_file = os.path.join(dirpath, filename)
+            base, ext = os.path.splitext(pot_file)
+            if ext != ".pot":
+                continue
+            resource_path = relpath(base, pot_dir)
+            pot = polib.pofile(pot_file)
+            if len(pot):
+                resource_name = \
+                    resource_path.replace('\\', '/').replace('/', '--')
+                args = (args_tmpl % locals()).split()
+                txclib.utils.exec_command('set', args, tx_root)
+            else:
+                print_(pot_file, 'is empty, skipped')
 
     txclib.utils.exec_command('set', ['-t', 'PO'], tx_root)
 
@@ -355,7 +352,7 @@ def parse_option(argv):
       format TXUTIL_<UPPER_LONG_NAME> . Dashes (-) have to replaced with
       underscores (_).
 
-      For example, to set the locale dirs:
+      For example, to set the languages:
 
          export SPHINXINTL_LANGUAGE=de,ja
 
@@ -375,11 +372,11 @@ def parse_option(argv):
                       type='string', action='append', default=[],
                       metavar='de',
                       help='target language')
-    parser.add_option('-d', '--locale-dirs', dest='locale_dirs',
-                      type='string', action='append', default=[],
+    parser.add_option('-d', '--locale-dir', dest='locale_dir',
+                      type='string', action='store', default=None,
                       metavar='dir',
                       help='locale directories that allow comman separated '
-                           'string. This option override locale_dirs in '
+                           'string. This option override locale_dir in '
                            'conf.py setting if provided. default is empty '
                            'list.')
     parser.add_option('--transifex-username', dest='transifex_username',
@@ -407,18 +404,18 @@ def parse_option(argv):
         optname = key[len(ENVKEY_PREFIX):].lower().replace('-', '_')
         if hasattr(options, optname):
             if not getattr(options, optname):
-                if optname in ('locale_dirs', 'language'):
+                if optname in ('locale_dir', 'language'):
                     setattr(options, optname, value.split(','))
                 else:
                     setattr(options, optname, value)
 
-    if not options.locale_dirs:
+    if not options.locale_dir:
         config = read_config(options.config)
         if 'locale_dirs' not in config:
             msg = "locale_dirs was not defined: %s" % options.config
             raise RuntimeError(msg)
 
-        options.locale_dirs = config['locale_dirs']
+        options.locale_dir = config['locale_dirs'][0]
 
     return options, args
 

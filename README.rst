@@ -26,7 +26,7 @@ This section describe to translate with Sphinx_ and `sphinx-intl` command.
 
       $ make gettext
 
-4. Setup/Update your `locale_dirs`::
+4. Setup/Update your `locale_dir`::
 
       $ sphinx-intl update -l de -l ja
 
@@ -111,7 +111,7 @@ Setup environment variables
 
 All command-line options can be set with environment variables using the format SPHINXINTL_<UPPER_LONG_NAME> . Dashes (-) have to replaced with underscores (_).
 
-For example, to set the locale dirs::
+For example, to set the languages::
 
    export SPHINXINTL_LANGUAGE=de,ja
 
@@ -150,6 +150,7 @@ CHANGES
 0.9.1 (Unreleased)
 -------------------
 * Add flake8 test and fix some errors.
+* Drop multiple `locale directories` feature. Now use only first directory of `locale_dirs` in conf.py.
 
 0.9.0 (2013/4/7)
 -----------------
