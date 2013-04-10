@@ -157,6 +157,7 @@ CHANGES
 * Add flake8 test and fix some errors.
 * Add --pot-dir option. default is `pot` directory under `locale_dir`.
   If you using Sphinx default settings, `-p _build/locale` is useful.
+* Add append/deprecated msgid count information for `update` command.
 * Drop multiple `locale directories` feature. Now use only first directory of
   `locale_dirs` in conf.py.
 * Fix: `-c` option is not working. Thanks @tk0miya!
