@@ -65,7 +65,6 @@ setup(
     zip_safe=False,
     install_requires=install_requires,
     extras_require=extras_require,
-    py_modules=['sphinx_intl'],
     entry_points="""\
     [console_scripts]
     sphinx-intl = sphinx_intl.commands:main
