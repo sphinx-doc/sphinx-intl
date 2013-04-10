@@ -42,12 +42,12 @@ def teardown_module():
 
 @in_tmp()
 def test_update():
-    sphinx_intl.update(['locale'])
+    sphinx_intl.update('locale')
 
 
 @in_tmp()
 def test_build():
-    sphinx_intl.build(['locale'])
+    sphinx_intl.build('locale')
 
 
 @in_tmp()
@@ -69,4 +69,4 @@ def test_update_txconfig_resources():
     if PY3:
         raise SkipTest('transifex-client not support Python3')
     sphinx_intl.create_txconfig()
-    sphinx_intl.update_txconfig_resources(['locale'], 'ham')
+    sphinx_intl.update_txconfig_resources('locale', 'ham')
