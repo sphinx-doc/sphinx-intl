@@ -10,7 +10,6 @@
 """
 
 from nose import SkipTest
-from nose.tools import raises
 from six import PY3
 
 from sphinx_intl import commands
@@ -20,22 +19,6 @@ from utils import in_tmp
 
 def teardown_module():
     pass
-
-
-@raises(RuntimeError)
-@in_tmp()
-def test_update_pot_notfound():
-    commands.update('locale')
-
-
-@in_tmp()
-def test_update():
-    commands.update('locale', '_build/locale')
-
-
-@in_tmp()
-def test_build():
-    commands.build('locale')
 
 
 @in_tmp()
