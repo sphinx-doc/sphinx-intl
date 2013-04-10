@@ -27,6 +27,12 @@ def test_update_pot_notfound(temp):
     commands.update('locale')
 
 
+@raises(RuntimeError)
+@in_tmp()
+def test_update_no_language(temp):
+    commands.update('locale', '_build/locale')
+
+
 @in_tmp()
 def test_update_simple(temp):
     commands.update('locale', '_build/locale', language=('ja',))

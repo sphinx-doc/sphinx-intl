@@ -200,6 +200,12 @@ def update(locale_dir, pot_dir=None, language=(), out=sys.stdout):
         raise RuntimeError(msg)
     if not language:
         language = get_lang_dirs(locale_dir)
+    if not language:
+        msg = ("No languages are found. Please specify language with -l "
+               "option, or preparing language directories in %(locale_dir)r."
+               % locals())
+        raise RuntimeError(msg)
+
     for dirpath, dirnames, filenames in os.walk(pot_dir):
         for filename in filenames:
             pot_file = os.path.join(dirpath, filename)
