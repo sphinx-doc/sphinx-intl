@@ -70,6 +70,16 @@ def test_confpy_have_locale_dirs():
 
 
 @in_tmp()
+def test_confpy_in_subdir():
+    os.mkdir('source')
+    f = open('source/conf.py', 'w')
+    f.write('locale_dirs=["somedir"]\n')
+    f.close()
+    opts, args = sphinx_intl.parse_option(['update', '-c', 'source/conf.py'])
+    assert opts.locale_dir == 'somedir'
+
+
+@in_tmp()
 def test_no_confpy_and_locale_dir_specified():
     opts, args = sphinx_intl.parse_option(['update', '-d', 'somedir'])
     assert opts.locale_dir == 'somedir'
