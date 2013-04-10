@@ -22,7 +22,7 @@ This section describe to translate with Sphinx_ and `sphinx-intl` command.
       locale_dirs = ['locale/']   #path is example but recommended.
       gettext_compact = False     #optional.
 
-   `locale_dirs` is essential and `gettext_compact` is optional.
+   `locale_dirs` is required and `gettext_compact` is optional.
 
 3. Extract document's translatable messages into pot files::
 
