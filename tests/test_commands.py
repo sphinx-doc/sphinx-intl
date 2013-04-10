@@ -69,4 +69,4 @@ def test_update_txconfig_resources():
     if PY3:
         raise SkipTest('transifex-client not support Python3')
     sphinx_intl.create_txconfig()
-    sphinx_intl.update_txconfig_resources('locale', 'ham')
+    sphinx_intl.update_txconfig_resources('ham-project', 'locale')
