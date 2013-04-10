@@ -14,4 +14,3 @@ msgstr ""
 #: ..\..\README.rst:2
 msgid "sphinx-intl: translation support utility for Sphinx"
 msgstr ""
-

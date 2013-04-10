@@ -8,6 +8,7 @@
     :copyright: Copyright 2013 by Takayuki SHIMIZUKAWA.
     :license: BSD, see LICENSE for details.
 """
+from StringIO import StringIO
 
 from nose.tools import raises
 
@@ -27,8 +28,48 @@ def test_update_pot_notfound(temp):
 
 
 @in_tmp()
-def test_update(temp):
-    commands.update('locale', '_build/locale')
+def test_update_simple(temp):
+    commands.update('locale', '_build/locale', language=('ja',))
+
+
+@in_tmp()
+def test_update_difference_detect(temp):
+    out = StringIO()
+    commands.update('locale', '_build/locale', language=('ja',), out=out)
+    output = out.getvalue()
+    assert output.count('Create:') == 1
+    assert output.count('Update:') == 0
+    assert output.count('Not Changed:') == 0
+
+    with open('_build/locale/README.pot', 'a') as f:
+        f.write('\nmsgid "test1"\nmsgstr ""\n')
+
+    out.truncate(0)
+    commands.update('locale', '_build/locale', out=out)
+    output = out.getvalue()
+    assert output.count('Create:') == 0
+    assert output.count('Update:') == 1
+    assert output.count('Not Changed:') == 0
+
+    with open('_build/locale/README.pot', 'r') as f:
+        d = f.read()
+        d = d.replace('test1', 'test2')
+    with open('_build/locale/README.pot', 'w') as f:
+        f.write(d)
+
+    out.truncate(0)
+    commands.update('locale', '_build/locale', out=out)
+    output = out.getvalue()
+    assert output.count('Create:') == 0
+    assert output.count('Update:') == 1
+    assert output.count('Not Changed:') == 0
+
+    out.truncate(0)
+    commands.update('locale', '_build/locale', out=out)
+    output = out.getvalue()
+    assert output.count('Create:') == 0
+    assert output.count('Update:') == 0
+    assert output.count('Not Changed:') == 1
 
 
 @in_tmp()
