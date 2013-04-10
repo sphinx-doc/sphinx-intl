@@ -270,6 +270,39 @@ def build(locale_dir, language=(), out=sys.stdout):
 
 
 @command
+def stat(locale_dir, language=(), out=sys.stdout):
+    """
+    Print statistics for all po files.
+
+    :param locale_dir: a locale directry. required.
+    :param language: tuple of language. if empty, all languages are specified.
+    :param out: file like object for displaying information.
+    :return: None
+    """
+    if not language:
+        language = get_lang_dirs(locale_dir)
+    for lang in language:
+        lang_dir = os.path.join(locale_dir, lang)
+        for dirpath, dirnames, filenames in os.walk(lang_dir):
+            for filename in filenames:
+                po_file = os.path.join(dirpath, filename)
+                base, ext = os.path.splitext(po_file)
+                if ext != ".po":
+                    continue
+
+                po = polib.pofile(po_file)
+                print_(po_file, ':',
+                       ("%d translated, "
+                        "%d fuzzy, "
+                        "%d untranslated." % (
+                        len(po.translated_entries()),
+                        len(po.fuzzy_entries()),
+                        len(po.untranslated_entries()),
+                        )),
+                       file=out)
+
+
+@command
 def create_transifexrc(transifex_username, transifex_password, out=sys.stdout):
     """
     Create `$HOME/.transifexrc`

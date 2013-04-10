@@ -163,6 +163,7 @@ CHANGES
 
 0.9.2 (Unreleased)
 -------------------
+* Add `stat` command for displaying statistics like 'msgfmt --statistics'.
 * Documentation and error messages are improved.
 * Fix: update command did not detect pot/po difference when translated
   count and untranslated count are not difference.
