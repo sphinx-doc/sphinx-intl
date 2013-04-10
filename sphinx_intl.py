@@ -155,7 +155,7 @@ def read_config(path):
             msg = "'%s' is not found (or specify --locale_dir option)." % path
             raise RuntimeError(msg)
         os.chdir(os.path.dirname(path) or ".")
-        execfile_(path, namespace)
+        execfile_(os.path.basename(path), namespace)
     finally:
         os.chdir(olddir)
 

@@ -159,6 +159,7 @@ CHANGES
   If you using Sphinx default settings, `-p _build/locale` is useful.
 * Drop multiple `locale directories` feature. Now use only first directory of
   `locale_dirs` in conf.py.
+* Fix: `-c` option is not working. Thanks @tk0miya!
 
 0.9.0 (2013/4/7)
 -----------------
