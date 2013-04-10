@@ -81,5 +81,14 @@ def test_update_difference_detect(temp):
 
 
 @in_tmp()
+def test_stat(temp):
+    out = StringIO()
+    commands.update('locale', '_build/locale', language=('ja',), out=out)
+    commands.stat('locale', out=out)
+    output = out.getvalue()
+    assert 'README.po : 0 translated, 0 fuzzy, 1 untranslated.' in output
+
+
+@in_tmp()
 def test_build(temp):
     commands.build('locale')
