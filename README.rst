@@ -163,7 +163,7 @@ CHANGES
 
 0.9.2 (Unreleased)
 -------------------
-* Documentation Improved.
+* Documentation and error messages are improved.
 * Fix: update command did not detect pot/po difference when translated
   count and untranslated count are not difference.
 
