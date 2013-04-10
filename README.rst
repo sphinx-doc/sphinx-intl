@@ -2,7 +2,9 @@
 sphinx-intl: translation support utility for Sphinx
 ======================================================
 
-`sphinx-intl` is a utility tool that provides several features that make it easy to translate and to apply translation to Sphinx_ generated document. Optional: support the Transifex service for translation with Sphinx_ .
+`sphinx-intl` is a utility tool that provides several features that make it
+easy to translate and to apply translation to Sphinx_ generated document.
+Optional: support the Transifex service for translation with Sphinx_ .
 
 
 .. contents::
@@ -63,7 +65,8 @@ Optional features
 ==================
 These features need `transifex-client`_ library.
 
-* create .transifexrc file from environment variable, without interactive input.
+* create .transifexrc file from environment variable, without interactive
+  input.
 * create .tx/config file without interactive input.
 * update .tx/config file from locale/pot files automatically.
 * build mo files from po files in the locale directory.
@@ -109,7 +112,9 @@ Type `sphinx-intl` without arguments, options to show command help.
 Setup environment variables
 ---------------------------
 
-All command-line options can be set with environment variables using the format SPHINXINTL_<UPPER_LONG_NAME> . Dashes (-) have to replaced with underscores (_).
+All command-line options can be set with environment variables using the
+format SPHINXINTL_<UPPER_LONG_NAME> . Dashes (-) have to replaced with
+underscores (_).
 
 For example, to set the languages::
 
@@ -152,7 +157,8 @@ CHANGES
 * Add flake8 test and fix some errors.
 * Add --pot-dir option. default is `pot` directory under `locale_dir`.
   If you using Sphinx default settings, `-p _build/locale` is useful.
-* Drop multiple `locale directories` feature. Now use only first directory of `locale_dirs` in conf.py.
+* Drop multiple `locale directories` feature. Now use only first directory of
+  `locale_dirs` in conf.py.
 
 0.9.0 (2013/4/7)
 -----------------
