@@ -192,6 +192,11 @@ def update(locale_dir, pot_dir=None, language=()):
     locale_dir = locale_dir.rstrip()
     if not pot_dir:
         pot_dir = os.path.join(locale_dir, 'pot')
+    if not os.path.exists(pot_dir):
+        msg = ("%(pot_dir)r is not exist. Please specify pot directory with "
+               "-p option, or preparing your pot files in %(pot_dir)r."
+               % locals())
+        raise RuntimeError(msg)
     if not language:
         language = get_lang_dirs(locale_dir)
     for dirpath, dirnames, filenames in os.walk(pot_dir):
