@@ -66,6 +66,6 @@ setup(
     py_modules=['sphinx_intl'],
     entry_points="""\
     [console_scripts]
-    sphinx-intl = sphinx_intl:main
+    sphinx-intl = sphinx_intl.commands:main
     """,
 )
