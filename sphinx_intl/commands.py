@@ -179,7 +179,7 @@ def get_tx_root():
 
 
 @command
-def update(locale_dir, pot_dir=None, language=()):
+def update(locale_dir, pot_dir=None, language=(), out=sys.stdout):
     """
     Update specified language's po files from pot.
 
@@ -187,6 +187,7 @@ def update(locale_dir, pot_dir=None, language=()):
     :param pot_dir: a pot directry. if negative, use `pot` directory under
                     `locale_dir`.
     :param language: tuple of language. if empty, all languages are specified.
+    :param out: file like object for displaying information.
     :return: None
     """
     locale_dir = locale_dir.rstrip()
@@ -225,25 +226,26 @@ def update(locale_dir, pot_dir=None, language=()):
                     untrans_d = untrans_n2 - untrans_n
                     if trans_d or untrans_d:
                         print_('Update:', po_file, "%+d, %+d" % (
-                            trans_d, untrans_d))
+                            trans_d, untrans_d), file=out)
                         po.save(po_file)
                     else:
-                        print_('Not Changed:', po_file)
+                        print_('Not Changed:', po_file, file=out)
                 else:
                     po = polib.POFile()
                     po.metadata = pot.metadata
-                    print_('Create:', po_file)
+                    print_('Create:', po_file, file=out)
                     po.merge(pot)
                     po.save(po_file)
 
 
 @command
-def build(locale_dir, language=()):
+def build(locale_dir, language=(), out=sys.stdout):
     """
     Build all po files into mo file.
 
     :param locale_dir: a locale directry. required.
     :param language: tuple of language. if empty, all languages are specified.
+    :param out: file like object for displaying information.
     :return: None
     """
     if not language:
@@ -258,24 +260,25 @@ def build(locale_dir, language=()):
                     continue
 
                 mo_file = base + ".mo"
-                print_('Build: %s' % mo_file)
+                print_('Build:', mo_file, file=out)
                 po = polib.pofile(po_file)
                 po.save_as_mofile(fpath=mo_file)
 
 
 @command
-def create_transifexrc(transifex_username, transifex_password):
+def create_transifexrc(transifex_username, transifex_password, out=sys.stdout):
     """
     Create `$HOME/.transifexrc`
 
     :param transifex_username: transifex username.
     :param transifex_password: transifex password.
+    :param out: file like object for displaying information.
     :return: None
     """
     target = os.path.normpath(os.path.expanduser('~/.transifexrc'))
 
     if os.path.exists(target):
-        print_(target, 'already exists, skipped.')
+        print_(target, 'already exists, skipped.', file=out)
         return
 
     if not transifex_username or not 'transifex_password':
@@ -287,19 +290,20 @@ def create_transifexrc(transifex_username, transifex_password):
 
     with open(target, 'wt') as rc:
         rc.write(TRANSIFEXRC_TEMPLATE % locals())
-    print_('Create:', target)
+    print_('Create:', target, file=out)
 
 
 @command
-def create_txconfig():
+def create_txconfig(out=sys.stdout):
     """
     Create `./.tx/config`
 
+    :param out: file like object for displaying information.
     :return: None
     """
     target = os.path.normpath('.tx/config')
     if os.path.exists(target):
-        print_(target, 'already exists, skipped.')
+        print_(target, 'already exists, skipped.', file=out)
         return
 
     if not os.path.exists('.tx'):
@@ -308,12 +312,12 @@ def create_txconfig():
     with open(target, 'wt') as f:
         f.write(TXCONFIG_TEMPLATE)
 
-    print_('Create:', target)
+    print_('Create:', target, file=out)
 
 
 @command
 def update_txconfig_resources(transifex_project_name, locale_dir,
-                              pot_dir=None):
+                              pot_dir=None, out=sys.stdout):
     """
     Update resource sections of `./.tx/config`.
 
@@ -321,6 +325,7 @@ def update_txconfig_resources(transifex_project_name, locale_dir,
     :param locale_dir: a locale directry. required.
     :param pot_dir: a pot directry. if negative, use `pot` directory under
                     `locale_dir`.
+    :param out: file like object for displaying information.
     :return: None
     """
     try:
@@ -359,7 +364,7 @@ def update_txconfig_resources(transifex_project_name, locale_dir,
                 args = (args_tmpl % locals()).split()
                 txclib.utils.exec_command('set', args, tx_root)
             else:
-                print_(pot_file, 'is empty, skipped')
+                print_(pot_file, 'is empty, skipped', file=out)
 
     txclib.utils.exec_command('set', ['-t', 'PO'], tx_root)
 
