@@ -22,15 +22,15 @@ def teardown_module():
 
 @raises(RuntimeError)
 @in_tmp()
-def test_update_pot_notfound():
+def test_update_pot_notfound(temp):
     commands.update('locale')
 
 
 @in_tmp()
-def test_update():
+def test_update(temp):
     commands.update('locale', '_build/locale')
 
 
 @in_tmp()
-def test_build():
+def test_build(temp):
     commands.build('locale')
