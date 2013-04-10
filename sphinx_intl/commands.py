@@ -152,7 +152,7 @@ def read_config(path):
     olddir = os.getcwd()
     try:
         if not os.path.isfile(path):
-            msg = "'%s' is not found (or specify --locale_dir option)." % path
+            msg = "'%s' is not found (or specify --locale-dir option)." % path
             raise RuntimeError(msg)
         os.chdir(os.path.dirname(path) or ".")
         execfile_(os.path.basename(path), namespace)
