@@ -5,6 +5,8 @@ from setuptools import setup, find_packages
 import os
 import sys
 
+from sphinx_intl import __version__
+
 install_requires = [
     'distribute',
     'six',
@@ -32,7 +34,7 @@ description = \
 
 setup(
     name='sphinx-intl',
-    version='0.9.1b1',
+    version=__version__,
     description=description,
     long_description=README,
     classifiers=[
