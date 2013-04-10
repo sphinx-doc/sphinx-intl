@@ -152,7 +152,7 @@ This utilty derived from these projects.
 CHANGES
 ========
 
-0.9.1 (Unreleased)
+0.9.1 (2013/4/10)
 -------------------
 * Add flake8 test and fix some errors.
 * Add --pot-dir option. default is `pot` directory under `locale_dir`.
