@@ -28,6 +28,7 @@ def in_tmp(*args, **kwargs):
             cwd = os.getcwd()
             try:
                 os.chdir(tempdir)
+                os.makedirs(os.path.join(tempdir, 'locale', 'pot'))
                 func(*args2, **kwargs2)
                 shutil.rmtree(tempdir, ignore_errors=True)
             finally:
