@@ -161,6 +161,10 @@ This utilty derived from these projects.
 CHANGES
 ========
 
+0.9.3 (Unreleased)
+-------------------
+
+
 0.9.2 (2013/4/11)
 -------------------
 * Add `stat` command for displaying statistics like 'msgfmt --statistics'.
