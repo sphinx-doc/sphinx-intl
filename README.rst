@@ -163,6 +163,8 @@ CHANGES
 
 0.9.3 (Unreleased)
 -------------------
+* Fix: because `--config` option did not consider directory path, locale_dir
+  did not contain directory path to `conf.py` file.
 
 
 0.9.2 (2013/4/11)

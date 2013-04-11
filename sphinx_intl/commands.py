@@ -486,7 +486,8 @@ def parse_option(argv):
             msg = "locale_dirs was not defined: %s" % options.config
             raise RuntimeError(msg)
 
-        options.locale_dir = config['locale_dirs'][0]
+        options.locale_dir = os.path.join(
+            os.path.dirname(options.config), config['locale_dirs'][0])
 
     return options, args
 
