@@ -52,7 +52,7 @@ def test_confpy_in_subdir(temp):
     f.write('locale_dirs=["somedir"]\n')
     f.close()
     opts, args = commands.parse_option(['update', '-c', 'source/conf.py'])
-    assert opts.locale_dir == 'somedir'
+    assert opts.locale_dir == os.path.normpath('source/somedir')
 
 
 @in_tmp()
