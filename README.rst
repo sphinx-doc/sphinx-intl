@@ -160,7 +160,7 @@ This utilty derived from these projects.
 CHANGES
 ========
 
-0.9.3 (Unreleased)
+0.9.3 (2013/04/20)
 -------------------
 * Fix: because `--config` option did not consider directory path, locale_dir
   did not contain directory path to `conf.py` file.
