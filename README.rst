@@ -34,7 +34,6 @@ This section describe to translate with Sphinx_ and `sphinx-intl` command.
 
    Done. You got these directories that contain po files:
 
-   * `./locale/pot/`
    * `./locale/de/LC_MESSAGES/`
    * `./locale/ja/LC_MESSAGES/`
 
