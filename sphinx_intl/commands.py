@@ -415,7 +415,7 @@ def parse_option(argv):
 
     Environment Variables:
       All command-line options can be set with environment variables using the
-      format TXUTIL_<UPPER_LONG_NAME> . Dashes (-) have to replaced with
+      format SPHINXINTL_<UPPER_LONG_NAME> . Dashes (-) have to replaced with
       underscores (_).
 
       For example, to set the languages:
