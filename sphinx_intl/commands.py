@@ -295,9 +295,9 @@ def stat(locale_dir, language=(), out=sys.stdout):
                        ("%d translated, "
                         "%d fuzzy, "
                         "%d untranslated." % (
-                        len(po.translated_entries()),
-                        len(po.fuzzy_entries()),
-                        len(po.untranslated_entries()),
+                            len(po.translated_entries()),
+                            len(po.fuzzy_entries()),
+                            len(po.untranslated_entries()),
                         )),
                        file=out)
 
