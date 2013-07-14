@@ -17,14 +17,17 @@ if sys.version_info < (2, 7):
     install_requires.append('ordereddict')
 
 extras_require = {
-    'transifex': [
-        'transifex_client',
-    ],
     'test': [
         'nose',
         'flake8',
     ],
 }
+
+if sys.version_info < (2, 6):
+    extras_require['transifex'] = ['transifex_client==0.8']
+else:
+    extras_require['transifex'] = ['transifex_client']
+
 
 here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, 'README.rst')) as f:
