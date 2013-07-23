@@ -95,27 +95,50 @@ else:
     convert_with_2to3 = None
 
 
-def command(func):
-    name = func.__name__.replace('_', '-')
-    commands[name] = (func, [l.strip()
-                             for l in func.__doc__.splitlines()
-                             if l][0])
+class Command(object):
 
-    options = OrderedDict()
-    if PY3:
-        argcount = func.__code__.co_argcount
-        varnames = func.__code__.co_varnames[:argcount]
-        defaults = list(func.__defaults__ or [])
-    else:
-        argcount = func.func_code.co_argcount
-        varnames = func.func_code.co_varnames[:argcount]
-        defaults = list(func.func_defaults or [])
-    defaults = [required] * (argcount - len(defaults)) + defaults
-    for name, val in zip(varnames, defaults):
-        options[name] = val
+    @classmethod
+    def register(cls, func):
+        options = OrderedDict()
+        if PY3:
+            argcount = func.__code__.co_argcount
+            varnames = func.__code__.co_varnames[:argcount]
+            defaults = list(func.__defaults__ or [])
+        else:
+            argcount = func.func_code.co_argcount
+            varnames = func.func_code.co_varnames[:argcount]
+            defaults = list(func.func_defaults or [])
+        defaults = [required] * (argcount - len(defaults)) + defaults
+        for name, val in zip(varnames, defaults):
+            options[name] = val
 
-    func.options = options
-    return func
+        cmdobj = cls(
+            func,
+            options,
+            [l.strip() for l in func.__doc__.splitlines() if l][0]
+        )
+        name = func.__name__.replace('_', '-')
+        commands[name] = cmdobj
+        func.cmdobj = cmdobj
+        return func
+
+    def __init__(self, function, description, options={}):
+        self.function = function
+        self.description = description
+        self.options = options
+
+    def __call__(self, options):
+        kwargs = self.options.copy()
+        for k, v in kwargs.items():
+            if v is required and not getattr(options, k):
+                msg = "'--%s' option is required." % k.replace('_', '-')
+                raise RuntimeError(msg)
+            kwargs[k] = getattr(options, k, v)
+
+        return self.function(**kwargs)
+
+
+command = Command.register
 
 
 def execfile_(filepath, _globals):
@@ -427,7 +450,9 @@ def parse_option(argv):
          sphinx-intl --language=de --language=ja <command>
     """) % {
         'commands': '\n  '.join(
-            '%s: %s' % (c, d) for c, (f, d) in commands.items())}
+            '%s: %s' % (name, cmdobj.description)
+            for name, cmdobj in commands.items()
+        )}
 
     parser = optparse.OptionParser(usage=usage)
     parser.add_option('-c', '--config', dest='config',
@@ -497,14 +522,7 @@ def run(argv):
     cmd = args[0]
 
     if cmd in commands:
-        func, desc = commands[cmd]
-        kwargs = func.options.copy()
-        for k, v in kwargs.items():
-            if v is required and not getattr(options, k):
-                msg = "'--%s' option is required." % k.replace('_', '-')
-                raise RuntimeError(msg)
-            kwargs[k] = getattr(options, k, v)
-        func(**kwargs)
+        commands[cmd](options)
     else:
         msg = 'unknown command: %s' % cmd
         raise RuntimeError(msg)
