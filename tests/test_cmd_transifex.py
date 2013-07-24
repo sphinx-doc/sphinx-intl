@@ -12,8 +12,6 @@
 from nose import SkipTest
 from six import PY3
 
-import os
-import shutil
 import re
 from textwrap import dedent
 
@@ -49,24 +47,19 @@ def test_update_txconfig_resources(temp):
 
 @in_tmp()
 def test_update_txconfig_resources_with_config(temp):
-    tx_dir = os.path.join(temp, '.tx')
-    os.makedirs(tx_dir)
-    f = open(os.path.join(tx_dir, 'config'), 'wt')
-    f.write(dedent("""\
+    tx_dir = temp / '.tx'
+    tx_dir.makedirs()
+    (tx_dir / 'config').write_text(dedent("""\
     [main]
 
     [ham-project.domain1]
     """))
-    f.close()
 
-    locale_dir = os.path.join(temp, 'locale')
-    pot_dir = os.path.join(locale_dir, 'pot')
-    shutil.copytree(os.path.join(temp, '_build', 'locale'), pot_dir)
+    (temp / '_build' / 'locale').copytree(temp / 'locale' / 'pot')
 
     cmd = 'update-txconfig-resources'
     options, args = commands.parse_option([cmd, '-d', 'locale'])
     commands.commands[cmd](options)
 
-    f = open(os.path.join(tx_dir, 'config'), 'rt')
-    data = f.read()
+    data = (tx_dir / 'config').text()
     assert re.search(r'\[ham-project\.README\]', data)
