@@ -162,6 +162,8 @@ CHANGES
 
 0.9.4 (Unreleased)
 -------------------
+* #3: `update-txconfig-resources` command now detect project-name from
+  `.tx/config` that already exists.
 
 0.9.3 (2013/04/20)
 -------------------

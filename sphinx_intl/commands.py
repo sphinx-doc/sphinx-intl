@@ -9,8 +9,10 @@
 """
 from __future__ import with_statement
 
+import re
 import os
 import sys
+import types
 from six import PY3, print_, exec_, b
 from glob import glob
 import optparse
@@ -98,7 +100,18 @@ else:
 class Command(object):
 
     @classmethod
-    def register(cls, func):
+    def register(cls, *args, **kw):
+        if (not kw
+           and len(args) == 1
+           and isinstance(args[0], types.FunctionType)):
+            return cls._register(args[0])
+        else:
+            def _wrapper(func):
+                return cls._register(func, *args, **kw)
+            return _wrapper
+
+    @classmethod
+    def _register(cls, func, call_prehook=None):
         options = OrderedDict()
         if PY3:
             argcount = func.__code__.co_argcount
@@ -117,18 +130,24 @@ class Command(object):
             options,
             [l.strip() for l in func.__doc__.splitlines() if l][0]
         )
+        cmdobj.call_prehook = call_prehook
+
         name = func.__name__.replace('_', '-')
         commands[name] = cmdobj
         func.cmdobj = cmdobj
         return func
 
-    def __init__(self, function, description, options={}):
+    def __init__(self, function, options, description):
         self.function = function
         self.description = description
         self.options = options
 
+        self.call_prehook = None
+
     def __call__(self, options):
         kwargs = self.options.copy()
+        if callable(self.call_prehook):
+            kwargs, options = self.call_prehook(self, kwargs, options)
         for k, v in kwargs.items():
             if v is required and not getattr(options, k):
                 msg = "'--%s' option is required." % k.replace('_', '-')
@@ -375,7 +394,20 @@ def create_txconfig(out=sys.stdout):
     print_('Create:', target, file=out)
 
 
-@command
+def load_txconfig_project_name(cmdobj, required_options, options):
+    target = os.path.normpath('.tx/config')
+    if os.path.exists(target):
+        matched = re.search(r'\[(.*)\..*\]', open(target, 'r').read())
+        if matched:
+            options.transifex_project_name = matched.groups()[0]
+            print_(
+                'Project name loaded from .tx/config:',
+                options.transifex_project_name)
+
+    return required_options, options
+
+
+@command(call_prehook=load_txconfig_project_name)
 def update_txconfig_resources(transifex_project_name, locale_dir,
                               pot_dir=None, out=sys.stdout):
     """
