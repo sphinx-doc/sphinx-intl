@@ -13,7 +13,7 @@ import re
 import os
 import sys
 import types
-from six import PY3, print_, exec_, b
+from six import PY3, print_, exec_, b, callable
 from glob import glob
 import optparse
 import textwrap
