@@ -11,6 +11,7 @@ install_requires = [
     'distribute',
     'six',
     'polib',
+    'sphinx',
 ]
 
 if sys.version_info < (2, 7):
