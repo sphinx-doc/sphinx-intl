@@ -8,7 +8,7 @@ import sys
 from sphinx_intl import __version__
 
 install_requires = [
-    'distribute',
+    'setuptools',
     'six',
     'polib',
     'sphinx',
