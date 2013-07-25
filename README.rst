@@ -56,8 +56,8 @@ Basic Features
 Requirements for basic
 -----------------------
 
-- Python 2.5, 2.6, 2.7, 3.1, 3.2, 3.3.
-- external library: distribute_, six_, polib_
+- Python 2.5, 2.6, 2.7, 3.1, 3.2, 3.3, pypy.
+- external library: setuptools_, six_, polib_
 
 
 Optional features
@@ -164,6 +164,7 @@ CHANGES
 -------------------
 * #3: `update-txconfig-resources` command now detect project-name from
   `.tx/config` that already exists.
+* Now using setuptools instead of distribute.
 
 0.9.3 (2013/04/20)
 -------------------
@@ -201,7 +202,7 @@ CHANGES
 .. _Sphinx: http://sphinx-doc.org
 .. _transifex: https://transifex.com
 .. _`transifex-client`: https://pypi.python.org/pypi/transifex-client
-.. _distribute: https://pypi.python.org/pypi/distribute
+.. _setuptools: https://pypi.python.org/pypi/setuptools
 .. _six: https://pypi.python.org/pypi/six
 .. _polib: https://pypi.python.org/pypi/polib
 
