@@ -488,7 +488,7 @@ def parse_option(argv):
 
     parser = optparse.OptionParser(usage=usage)
     parser.add_option('-c', '--config', dest='config',
-                      type='string', action='store', default='conf.py',
+                      type='string', action='store', default=None,
                       metavar='FILE',
                       help='read configurations from FILE')
     parser.add_option('-l', '--language', dest='language',
@@ -536,6 +536,9 @@ def parse_option(argv):
                     setattr(options, optname, value.split(','))
                 else:
                     setattr(options, optname, value)
+
+    if options.config is None:
+        options.config = 'conf.py'
 
     if not options.locale_dir:
         config = read_config(options.config)
