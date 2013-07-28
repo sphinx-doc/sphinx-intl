@@ -162,7 +162,8 @@ CHANGES
 
 0.9.4 (Unreleased)
 -------------------
-* #3: `update-txconfig-resources` command now detect project-name from
+* Fix: sphinx-intl didn't use SPHINXINTL_CONFIG environment value.
+* Feature #3: `update-txconfig-resources` command now detect project-name from
   `.tx/config` that already exists.
 * Now using setuptools instead of distribute.
 
