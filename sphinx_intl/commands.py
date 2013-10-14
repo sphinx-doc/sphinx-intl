@@ -451,8 +451,8 @@ def update_txconfig_resources(transifex_project_name, locale_dir,
             resource_path = relpath(base, pot_dir)
             pot = polib.pofile(pot_file)
             if len(pot):
-                resource_name = resource_path.replace(
-                    '\\', '/').replace('/', '--').replace('.', '_')
+                resource_name = re.sub(r'[\\/]', '--', resource_path)
+                resource_name = resource_name.replace('.', '_')
                 args = (args_tmpl % locals()).split()
                 txclib.utils.exec_command('set', args, tx_root)
             else:
