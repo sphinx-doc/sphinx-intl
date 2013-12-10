@@ -160,7 +160,7 @@ This utilty derived from these projects.
 CHANGES
 ========
 
-0.9.4 (Unreleased)
+0.9.4 (2013/12/10)
 -------------------
 * Fix: sphinx-intl didn't use SPHINXINTL_CONFIG environment value.
 * Feature #3: `update-txconfig-resources` command now detect project-name from
