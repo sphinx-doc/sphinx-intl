@@ -51,6 +51,7 @@ def test_update_txconfig_resources_with_config(temp):
     tx_dir.makedirs()
     (tx_dir / 'config').write_text(dedent("""\
     [main]
+    host = https://www.transifex.com
 
     [ham-project.domain1]
     """))
