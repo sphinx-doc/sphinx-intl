@@ -306,7 +306,8 @@ def build(locale_dir, language=(), out=sys.stdout):
                     continue
 
                 mo_file = base + ".mo"
-                if os.path.getmtime(mo_file) > os.path.getmtime(po_file):
+                if os.path.exists(mo_file) and \
+                        os.path.getmtime(mo_file) > os.path.getmtime(po_file):
                     continue
                 print_('Build:', mo_file, file=out)
                 po = polib.pofile(po_file)
