@@ -440,7 +440,11 @@ def update_txconfig_resources(transifex_project_name, locale_dir,
         '--source-file %(locale_dir)s/pot/%(resource_path)s.pot '
         '--execute'
     )
-    transifex_project_name = transifex_project_name.replace('.', '')
+
+    # convert transifex_project_name to internal name
+    transifex_project_name = transifex_project_name.replace(' ', '-')
+    transifex_project_name = re.sub(r'[^\-_\w]', '', transifex_project_name)
+
     if not pot_dir:
         pot_dir = os.path.join(locale_dir, 'pot')
     for dirpath, dirnames, filenames in os.walk(pot_dir):
