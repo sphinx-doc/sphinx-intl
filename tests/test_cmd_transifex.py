@@ -64,3 +64,24 @@ def test_update_txconfig_resources_with_config(temp):
 
     data = (tx_dir / 'config').text()
     assert re.search(r'\[ham-project\.README\]', data)
+
+
+@in_tmp()
+def test_update_txconfig_resources_with_pot_dir_argument(temp):
+    tx_dir = temp / '.tx'
+    tx_dir.makedirs()
+    (tx_dir / 'config').write_text(dedent("""\
+    [main]
+    host = https://www.transifex.com
+
+    [ham-project.domain1]
+    """))
+
+    cmd = 'update-txconfig-resources'
+    cmd_args = [cmd, '-d', 'locale', '-p', '_build/locale']
+    options, args = commands.parse_option(cmd_args)
+    commands.commands[cmd](options)
+
+    data = (tx_dir / 'config').text()
+    assert re.search(r'\[ham-project\.README\]', data)
+    assert re.search(r'source_file = _build/locale/README.pot', data)
