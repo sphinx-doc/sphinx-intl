@@ -1,4 +1,4 @@
 tox
-virtualenv
+nose
 docutils
--e .[test]
+flake8
