@@ -1,3 +1,4 @@
 tox
 virtualenv
 docutils
+-e .[test]
