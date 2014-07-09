@@ -166,7 +166,7 @@ CHANGES
 * Fix: PR#2, PR#4: `update-txconfig-resources` disregarded `--pot-dir` option.
   Thanks to Giacomo Spettoli, Takeshi Komiya.
 * Fix: PR#5: `update-txconfig-resources` command raise errors when project name
-  includes spaces and dots.
+  includes spaces and dots. Thanks to Takeshi Komiya.
 * PR#3: Skip building process if mo file is newer than po file. Thanks to
   Nozomu Kaneko.
 * Add supporting Python-3.4
