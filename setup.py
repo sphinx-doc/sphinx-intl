@@ -57,6 +57,7 @@ setup(
         "Programming Language :: Python :: 3.1",
         "Programming Language :: Python :: 3.2",
         "Programming Language :: Python :: 3.3",
+        "Programming Language :: Python :: 3.4",
     ],
     author="Takayuki SHIMIZUKAWA",
     author_email="shimizukawa@gmail.com",
