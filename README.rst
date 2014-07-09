@@ -160,6 +160,13 @@ This utilty derived from these projects.
 CHANGES
 ========
 
+0.9.5 (unreleased)
+-------------------
+
+* Fix: PR#2: `update-txconfig-resources` disregarded `--pot-dir` option.
+  Thanks to Giacomo Spettoli.
+
+
 0.9.4 (2013/12/10)
 -------------------
 * Fix: sphinx-intl didn't use SPHINXINTL_CONFIG environment value.
