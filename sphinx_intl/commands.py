@@ -437,7 +437,7 @@ def update_txconfig_resources(transifex_project_name, locale_dir,
         '--auto-local -r %(transifex_project_name)s.%(resource_name)s '
         '%(locale_dir)s/<lang>/LC_MESSAGES/%(resource_path)s.po '
         '--source-lang en '
-        '--source-file %(locale_dir)s/pot/%(resource_path)s.pot '
+        '--source-file %(pot_dir)s/%(resource_path)s.pot '
         '--execute'
     )
     if not pot_dir:
