@@ -160,7 +160,7 @@ This utilty derived from these projects.
 CHANGES
 ========
 
-0.9.5 (unreleased)
+0.9.5 (2014/07/10)
 -------------------
 
 * Fix: PR#2, PR#4: `update-txconfig-resources` disregarded `--pot-dir` option.
