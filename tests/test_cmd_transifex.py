@@ -82,6 +82,6 @@ def test_update_txconfig_resources_with_pot_dir_argument(temp):
     options, args = commands.parse_option(cmd_args)
     commands.commands[cmd](options)
 
-    data = (tx_dir / 'config').text()
+    data = (tx_dir / 'config').text().replace('\\', '/')
     assert re.search(r'\[ham-project\.README\]', data)
     assert re.search(r'source_file = _build/locale/README.pot', data)
