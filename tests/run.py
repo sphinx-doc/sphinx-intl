@@ -11,7 +11,7 @@
 """
 
 import sys
-from os import path, chdir, listdir, environ
+from os import path
 
 # always test the sphinx-intl package from this directory
 sys.path.insert(0, path.join(path.dirname(__file__), path.pardir))
