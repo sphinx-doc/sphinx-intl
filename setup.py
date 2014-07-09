@@ -20,7 +20,6 @@ if sys.version_info < (2, 7):
 extras_require = {
     'test': [
         'nose',
-        'flake8',
     ],
 }
 
