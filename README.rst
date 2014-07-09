@@ -163,8 +163,10 @@ CHANGES
 0.9.5 (unreleased)
 -------------------
 
-* Fix: PR#2: `update-txconfig-resources` disregarded `--pot-dir` option.
-  Thanks to Giacomo Spettoli.
+* Fix: PR#2, PR#4: `update-txconfig-resources` disregarded `--pot-dir` option.
+  Thanks to Giacomo Spettoli, Takeshi Komiya.
+* PR#3: Skip building process if mo file is newer than po file.
+  Thanks to Nozomu Kaneko.
 
 
 0.9.4 (2013/12/10)
