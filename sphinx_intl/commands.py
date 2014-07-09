@@ -306,6 +306,9 @@ def build(locale_dir, language=(), out=sys.stdout):
                     continue
 
                 mo_file = base + ".mo"
+                if os.path.exists(mo_file) and \
+                        os.path.getmtime(mo_file) > os.path.getmtime(po_file):
+                    continue
                 print_('Build:', mo_file, file=out)
                 po = polib.pofile(po_file)
                 po.save_as_mofile(fpath=mo_file)
@@ -437,7 +440,7 @@ def update_txconfig_resources(transifex_project_name, locale_dir,
         '--auto-local -r %(transifex_project_name)s.%(resource_name)s '
         '%(locale_dir)s/<lang>/LC_MESSAGES/%(resource_path)s.po '
         '--source-lang en '
-        '--source-file %(locale_dir)s/pot/%(resource_path)s.pot '
+        '--source-file %(pot_dir)s/%(resource_path)s.pot '
         '--execute'
     )
 

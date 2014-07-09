@@ -56,7 +56,7 @@ Basic Features
 Requirements for basic
 -----------------------
 
-- Python 2.5, 2.6, 2.7, 3.1, 3.2, 3.3, pypy.
+- Python 2.5, 2.6, 2.7, 3.1, 3.2, 3.3, 3.4, pypy.
 - external library: setuptools_, six_, polib_
 
 
@@ -159,6 +159,15 @@ This utilty derived from these projects.
 
 CHANGES
 ========
+
+0.9.5 (unreleased)
+-------------------
+
+* Fix: PR#2, PR#4: `update-txconfig-resources` disregarded `--pot-dir` option.
+  Thanks to Giacomo Spettoli, Takeshi Komiya.
+* PR#3: Skip building process if mo file is newer than po file.
+  Thanks to Nozomu Kaneko.
+* Add supporting Python-3.4
 
 0.9.4 (2013/12/10)
 -------------------
