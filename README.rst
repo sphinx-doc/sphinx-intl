@@ -57,7 +57,7 @@ Requirements for basic
 -----------------------
 
 - Python 2.5, 2.6, 2.7, 3.1, 3.2, 3.3, 3.4, pypy.
-- external library: setuptools_, six_, polib_
+- external library: setuptools_, six_, polib_, click_
 
 
 Optional features
@@ -160,6 +160,11 @@ This utilty derived from these projects.
 CHANGES
 ========
 
+0.9.6 (unreleased)
+-------------------
+
+* Depends to click for command-line feature.
+
 0.9.5 (2014/07/10)
 -------------------
 
@@ -218,4 +223,5 @@ CHANGES
 .. _setuptools: https://pypi.python.org/pypi/setuptools
 .. _six: https://pypi.python.org/pypi/six
 .. _polib: https://pypi.python.org/pypi/polib
+.. _click: https://pypi.python.org/pypi/click
 

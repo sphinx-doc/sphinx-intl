@@ -11,6 +11,7 @@ install_requires = [
     'setuptools',
     'six',
     'polib',
+    'click',
     'sphinx',
 ]
 
