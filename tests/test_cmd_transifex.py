@@ -127,3 +127,32 @@ def test_update_txconfig_resources_with_project_name_including_spaces(temp):
 
     data = (tx_dir / 'config').text()
     assert re.search(r'\[ham-project-com\.README\]', data)
+
+
+@in_tmp()
+def test_update_txconfig_resources_with_potfile_including_symbols(temp):
+    tx_dir = temp / '.tx'
+    tx_dir.makedirs()
+    (tx_dir / 'config').write_text(dedent("""\
+    [main]
+    host = https://www.transifex.com
+    """))
+
+    (temp / '_build' / 'locale').copytree(temp / 'locale' / 'pot')
+
+    # copy README.pot to 'example document.pot'
+    readme = (temp / '_build' / 'locale' / 'README.pot').text()
+    (temp / 'locale' / 'pot' / 'example document.pot').write_text(readme)
+
+    # copy README.pot to 'test.document.pot'
+    (temp / 'locale' / 'pot' / 'test.document.pot').write_text(readme)
+
+    cmd = 'update-txconfig-resources'
+    cmd_args = [cmd, '-d', 'locale',
+                '--transifex-project-name', 'ham project com']
+    options, args = commands.parse_option(cmd_args)
+    commands.commands[cmd](options)
+
+    data = (tx_dir / 'config').text()
+    assert re.search(r'\[ham-project-com\.example_document\]', data)
+    assert re.search(r'\[ham-project-com\.test_document\]', data)
