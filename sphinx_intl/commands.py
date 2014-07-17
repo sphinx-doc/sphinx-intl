@@ -557,6 +557,12 @@ def parse_option(argv):
         options.locale_dir = os.path.join(
             os.path.dirname(options.config), config['locale_dirs'][0])
 
+    if not options.pot_dir:
+        if os.path.exists('_build/locale'):
+            options.pot_dir = '_build/locale'
+        elif os.path.exists('build/locale'):
+            options.pot_dir = 'build/locale'
+
     return options, args
 
 

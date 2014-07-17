@@ -59,3 +59,33 @@ def test_confpy_in_subdir(temp):
 def test_no_confpy_and_locale_dir_specified(temp):
     opts, args = commands.parse_option(['update', '-d', 'somedir'])
     assert opts.locale_dir == 'somedir'
+
+
+@in_tmp()
+def test_build_locale_dir_in_current_dir1(temp):
+    (temp / '_build').rmtree()
+
+    os.mkdir('_build')
+    os.mkdir('_build/locale')
+    opts, args = commands.parse_option(['update', '-d', 'somedir'])
+    assert opts.locale_dir == 'somedir'
+    assert opts.pot_dir == '_build/locale'
+
+
+@in_tmp()
+def test_build_locale_dir_in_current_dir2(temp):
+    (temp / '_build').rmtree()
+
+    os.mkdir('build')
+    os.mkdir('build/locale')
+    opts, args = commands.parse_option(['update', '-d', 'somedir'])
+    assert opts.locale_dir == 'somedir'
+    assert opts.pot_dir == 'build/locale'
+
+
+@in_tmp()
+def test_no_build_locale_dir(temp):
+    (temp / '_build').rmtree()
+
+    opts, args = commands.parse_option(['update', '-d', 'somedir'])
+    assert opts.pot_dir is None
