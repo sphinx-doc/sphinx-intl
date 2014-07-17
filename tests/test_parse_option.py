@@ -46,13 +46,23 @@ def test_confpy_have_locale_dirs(temp):
 
 
 @in_tmp()
-def test_confpy_in_subdir(temp):
+def test_confpy_in_source_dir(temp):
     os.mkdir('source')
     f = open('source/conf.py', 'w')
     f.write('locale_dirs=["somedir"]\n')
     f.close()
-    opts, args = commands.parse_option(['update', '-c', 'source/conf.py'])
+    opts, args = commands.parse_option(['update'])
     assert opts.locale_dir == os.path.normpath('source/somedir')
+
+
+@in_tmp()
+def test_confpy_in_subdir(temp):
+    os.mkdir('subdir')
+    f = open('subdir/conf.py', 'w')
+    f.write('locale_dirs=["somedir"]\n')
+    f.close()
+    opts, args = commands.parse_option(['update', '-c', 'subdir/conf.py'])
+    assert opts.locale_dir == os.path.normpath('subdir/somedir')
 
 
 @in_tmp()
