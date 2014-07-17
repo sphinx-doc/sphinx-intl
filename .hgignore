@@ -1,0 +1,8 @@
+syntax: glob
+.*
+_*
+dist
+locale
+*.egg-info
+*.pyc
+*.pyo
