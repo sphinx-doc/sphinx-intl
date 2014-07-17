@@ -546,7 +546,10 @@ def parse_option(argv):
                     setattr(options, optname, value)
 
     if options.config is None:
-        options.config = 'conf.py'
+        if os.path.exists('source/conf.py'):
+            options.config = 'source/conf.py'
+        else:
+            options.config = 'conf.py'
 
     if not options.locale_dir:
         config = read_config(options.config)
