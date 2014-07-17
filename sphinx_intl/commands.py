@@ -437,10 +437,10 @@ def update_txconfig_resources(transifex_project_name, locale_dir,
 
     tx_root = get_tx_root()
     args_tmpl = (
-        '--auto-local -r %(transifex_project_name)s.%(resource_name)s '
-        '%(locale_dir)s/<lang>/LC_MESSAGES/%(resource_path)s.po '
-        '--source-lang en '
-        '--source-file %(pot_dir)s/%(resource_path)s.pot '
+        '--auto-local', '-r', '%(transifex_project_name)s.%(resource_name)s',
+        '%(locale_dir)s/<lang>/LC_MESSAGES/%(resource_path)s.po',
+        '--source-lang', 'en',
+        '--source-file', '%(pot_dir)s/%(resource_path)s.pot',
         '--execute'
     )
 
@@ -460,8 +460,8 @@ def update_txconfig_resources(transifex_project_name, locale_dir,
             pot = polib.pofile(pot_file)
             if len(pot):
                 resource_name = re.sub(r'[\\/]', '--', resource_path)
-                resource_name = resource_name.replace('.', '_')
-                args = (args_tmpl % locals()).split()
+                resource_name = re.sub(r'[^\-_\w]', '_', resource_name)
+                args = [arg % locals() for arg in args_tmpl]
                 txclib.utils.exec_command('set', args, tx_root)
             else:
                 print_(pot_file, 'is empty, skipped', file=out)
