@@ -142,10 +142,10 @@ def test_update_txconfig_resources_with_potfile_including_symbols(temp):
 
     # copy README.pot to 'example document.pot'
     readme = (temp / '_build' / 'locale' / 'README.pot').text()
-    (temp / 'locale' / 'pot' / 'example document.pot').write_text(readme)
+    (temp / '_build' / 'locale' / 'example document.pot').write_text(readme)
 
     # copy README.pot to 'test.document.pot'
-    (temp / 'locale' / 'pot' / 'test.document.pot').write_text(readme)
+    (temp / '_build' / 'locale' / 'test.document.pot').write_text(readme)
 
     cmd = 'update-txconfig-resources'
     cmd_args = [cmd, '-d', 'locale',
