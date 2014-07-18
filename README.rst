@@ -57,7 +57,7 @@ Requirements for basic
 -----------------------
 
 - Python 2.5, 2.6, 2.7, 3.1, 3.2, 3.3, 3.4, pypy.
-- external library: setuptools_, six_, polib_
+- external library: setuptools_, six_, polib_, click_
 
 
 Optional features
@@ -160,13 +160,18 @@ This utilty derived from these projects.
 CHANGES
 ========
 
-0.9.5 (unreleased)
+0.9.6 (unreleased)
+-------------------
+
+* Depends to click for command-line feature.
+
+0.9.5 (2014/07/10)
 -------------------
 
 * Fix: PR#2, PR#4: `update-txconfig-resources` disregarded `--pot-dir` option.
   Thanks to Giacomo Spettoli, Takeshi Komiya.
 * Fix: PR#5: `update-txconfig-resources` command raise errors when project name
-  includes spaces and dots.
+  includes spaces and dots. Thanks to Takeshi Komiya.
 * PR#3: Skip building process if mo file is newer than po file. Thanks to
   Nozomu Kaneko.
 * Add supporting Python-3.4
@@ -218,4 +223,5 @@ CHANGES
 .. _setuptools: https://pypi.python.org/pypi/setuptools
 .. _six: https://pypi.python.org/pypi/six
 .. _polib: https://pypi.python.org/pypi/polib
+.. _click: https://pypi.python.org/pypi/click
 
