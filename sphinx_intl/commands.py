@@ -220,6 +220,21 @@ def get_tx_root():
     return tx_root
 
 
+#http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance
+# 4th version, seems short and fast enough compared to the others.
+def levenshtein(seq1, seq2):
+    oneago = None
+    thisrow = range(1, len(seq2) + 1) + [0]
+    for x in xrange(len(seq1)):
+        twoago, oneago, thisrow = oneago, thisrow, [0] * len(seq2) + [x + 1]
+        for y in xrange(len(seq2)):
+            delcost = oneago[y] + 1
+            addcost = thisrow[y - 1] + 1
+            subcost = oneago[y - 1] + (seq1[x] != seq2[y])
+            thisrow[y] = min(delcost, addcost, subcost)
+    return thisrow[len(seq2) - 1]
+
+
 @command
 def update(locale_dir, pot_dir=None, language=(), out=sys.stdout):
     """
@@ -267,6 +282,18 @@ def update(locale_dir, pot_dir=None, language=(), out=sys.stdout):
                     po = polib.pofile(po_file)
                     msgids = set([str(m) for m in po])
                     po.merge(pot)
+                    # merge() will place modified content as obsolete
+                    # try to use obsolete translations (if any), mark as fuzzy
+                    for old in po.obsolete_entries():
+                        if not old.msgstr:
+                            continue
+                        for new in po.untranslated_entries():
+                            dist = levenshtein(old.msgid, new.msgid)
+                            ratio = 1. - (float(dist) / len(new.msgid))
+                            # use old mgstr if msgids are 65% similar or more
+                            if dist and ratio > 0.65:
+                                new.msgstr = old.msgstr
+                                new.flags.append('fuzzy')
                     new_msgids = set([str(m) for m in po])
                     if msgids != new_msgids:
                         added = new_msgids - msgids
