@@ -190,7 +190,9 @@ def execfile_(filepath, _globals):
 
 
 def read_config(path):
-    namespace = {}
+    namespace = {
+        "__file__": os.path.abspath(path),
+        }
     olddir = os.getcwd()
     try:
         if not os.path.isfile(path):
