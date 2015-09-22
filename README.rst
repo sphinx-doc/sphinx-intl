@@ -160,7 +160,7 @@ This utilty derived from these projects.
 CHANGES
 =======
 
-0.9.6 (unreleased)
+0.9.6 (2015/09/22)
 ------------------
 
 * PR#6: Fix update_txconfig_resources command raise errors with pot filename
