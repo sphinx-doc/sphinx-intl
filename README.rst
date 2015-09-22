@@ -163,6 +163,8 @@ CHANGES
 0.9.7 (unreleased)
 ------------------
 
+* Depends to click for command-line feature.
+
 
 0.9.6 (2015/09/22)
 ------------------

@@ -10,6 +10,7 @@ from sphinx_intl import __version__
 install_requires = [
     'setuptools',
     'six',
+    'click',
     'polib',
     'sphinx',
 ]
