@@ -11,7 +11,6 @@ install_requires = [
     'setuptools',
     'six',
     'polib',
-    'click',
     'sphinx',
 ]
 
@@ -26,6 +25,8 @@ extras_require = {
 
 if sys.version_info < (2, 6):
     extras_require['transifex'] = ['transifex_client==0.8']
+elif sys.platform == 'win32':
+    extras_require['transifex'] = ['transifex_client<0.9']
 else:
     extras_require['transifex'] = ['transifex_client']
 

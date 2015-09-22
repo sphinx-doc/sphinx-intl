@@ -158,22 +158,25 @@ This utilty derived from these projects.
 
 
 CHANGES
-========
+=======
 
 0.9.6 (unreleased)
--------------------
+------------------
 
-* Depends to click for command-line feature.
 * PR#6: Fix update_txconfig_resources command raise errors with pot filename
   including symbols and spaces. Thanks to Takeshi Komiya.
 * PR#7: Fix sphinx-intl could not find conf.py in projects separating build
   and source directories. Thanks to Takeshi Komiya.
 * PR#8: Detects pot_dir automatically if sphinx has generated. Thanks to
   Takeshi Komiya.
+* PR#9: Support `fuzzy` translations. Thanks to Guilherme Brondani Torri.
+* PR#10: Add __file__ to conf.py's namespace.
+* On Windows environment, now using "transifex<0.9" because "transifex>=0.9" requires
+  unnecessary py2exe installation.
 
 
 0.9.5 (2014/07/10)
--------------------
+------------------
 
 * Fix: PR#2, PR#4: `update-txconfig-resources` disregarded `--pot-dir` option.
   Thanks to Giacomo Spettoli, Takeshi Komiya.
