@@ -15,9 +15,6 @@ install_requires = [
     'sphinx',
 ]
 
-if sys.version_info < (2, 7):
-    install_requires.append('ordereddict')
-
 extras_require = {
     'test': [
         'nose',
