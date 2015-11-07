@@ -56,7 +56,7 @@ Basic Features
 Requirements for basic
 -----------------------
 
-- Python 2.5, 2.6, 2.7, 3.1, 3.2, 3.3, 3.4, 3.5, pypy.
+- Python 2.5, 2.6, 2.7, 3.3, 3.4, 3.5, pypy.
 - external library: setuptools_, six_, polib_, click_
 
 
@@ -163,6 +163,7 @@ CHANGES
 0.9.7 (2015/11/07)
 ------------------
 
+* Drop supporting Python-3.1 and 3.2
 * Depends to click for command-line feature.
 
 
