@@ -11,6 +11,7 @@
 import os
 import tempfile
 from functools import wraps
+from contextlib import contextmanager
 
 from path import path
 
@@ -34,3 +35,13 @@ def in_tmp(template_dir='root', **kwargs):
                 os.chdir(cwd)
         return deco
     return generator
+
+
+@contextmanager
+def isolated_root_dir(runner):
+    with runner.isolated_filesystem() as tempdir:
+        tempdir = path(tempdir)
+        target = tempdir / 'root'
+        (__dir__ / 'root').copytree(target)
+        os.chdir(target)
+        yield target

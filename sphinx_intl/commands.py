@@ -15,7 +15,7 @@ import sys
 from glob import glob
 import textwrap
 
-from six import PY3, exec_, b, callable
+from six import PY3, exec_, b
 import polib
 import click
 
@@ -200,7 +200,7 @@ def get_lang_dirs(path):
     dirs = [relpath(d, path)
             for d in glob(path+'/[a-z]*')
             if os.path.isdir(d) and not d.endswith('pot')]
-    return tuple(dirs)
+    return (tuple(dirs),)
 
 
 def get_tx_root():
@@ -299,7 +299,7 @@ def main(ctx, config):
         'stat': {
             'locale_dir': ctx.locale_dir,
         },
-        'update_txconfig_resources': {
+        'update-txconfig-resources': {
             'locale_dir': ctx.locale_dir,
             'pot_dir': ctx.pot_dir,
             'transifex_project_name': ctx.transifex_project_name,
@@ -329,13 +329,13 @@ def update(locale_dir, pot_dir, language):
         raise click.BadParameter(msg, param_hint='pot_dir')
     if not language:
         language = get_lang_dirs(locale_dir)
+    language = sum(language, ())  # flatten
     if not language:
         msg = ("No languages are found. Please specify language with -l "
                "option, or preparing language directories under %(locale_dir)r "
                "directory."
                % locals())
         raise click.BadParameter(msg, param_hint='language')
-    language = sum(language, ())  # flatten
 
     for dirpath, dirnames, filenames in os.walk(pot_dir):
         for filename in filenames:
@@ -443,7 +443,7 @@ def stat(locale_dir, language):
                 )
 
 
-@main.command()
+@main.command('create-transifexrc')
 @option_transifex_username
 @option_transifex_password
 def create_transifexrc(transifex_username, transifex_password):
@@ -468,7 +468,7 @@ def create_transifexrc(transifex_username, transifex_password):
     click.echo('Create: {0}'.format(target))
 
 
-@main.command()
+@main.command('create-txconfig')
 def create_txconfig():
     """
     Create `./.tx/config`
@@ -487,7 +487,7 @@ def create_txconfig():
     click.echo('Create: {0}'.format(target))
 
 
-@main.command()
+@main.command('update-txconfig-resources')
 @option_transifex_project_name
 @option_locale_dir
 @option_pot_dir
