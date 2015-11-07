@@ -56,7 +56,7 @@ Basic Features
 Requirements for basic
 -----------------------
 
-- Python 2.5, 2.6, 2.7, 3.1, 3.2, 3.3, 3.4, pypy.
+- Python 2.5, 2.6, 2.7, 3.1, 3.2, 3.3, 3.4, 3.5, pypy.
 - external library: setuptools_, six_, polib_, click_
 
 
@@ -121,7 +121,7 @@ For example, to set the languages::
 
 This is the same as passing the option to sphinx-intl directly::
 
-   sphinx-intl --language=de --language=ja <command>
+   sphinx-intl <command> --language=de --language=ja
 
 
 Setup sphinx conf.py
@@ -160,7 +160,7 @@ This utilty derived from these projects.
 CHANGES
 =======
 
-0.9.7 (unreleased)
+0.9.7 (2015/11/07)
 ------------------
 
 * Depends to click for command-line feature.
