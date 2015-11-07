@@ -1,0 +1,15 @@
+language: python
+python: 3.5
+env:
+  matrix:
+    - TOXENV=py26
+    - TOXENV=py27
+    - TOXENV=py33
+    - TOXENV=py34
+    - TOXENV=py35
+    - TOXENV=flake8
+    - TOXENV=sdist
+install:
+  - pip install -r requirements-testing.txt
+cache: pip
+script: tox
