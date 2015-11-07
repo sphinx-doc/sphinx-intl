@@ -3,7 +3,7 @@ Testing for sphinx-intl
 =======================
 
 :Support environments:
-   python2.5 python2.6 python2.7 python3.1 python3.2 python3.3 python3.4 pypy
+   python2.5 python2.6 python2.7 python3.3 python3.4 python3.5 pypy
 
 First, you need install testing tools::
 
@@ -15,6 +15,6 @@ And run::
 
 .. note::
 
-   sphinx-intl using drone.io service to test for all environments.
-   https://drone.io/bitbucket.org/shimizukawa/sphinx-intl/admin
+   sphinx-intl using travis-ci service to test for all environments.
+   https://travis-ci.org/sphinx-doc/sphinx-intl
 

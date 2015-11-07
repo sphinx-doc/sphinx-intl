@@ -61,7 +61,7 @@ setup(
     ],
     author="Takayuki SHIMIZUKAWA",
     author_email="shimizukawa@gmail.com",
-    url="https://bitbucket.org/shimizukawa/sphinx-intl",
+    url="https://github.com/sphinx-doc/sphinx-intl",
     namespace_packages=[],
     packages=find_packages(),
     include_package_data=True,
