@@ -8,16 +8,17 @@
     :copyright: Copyright 2013 by Takayuki SHIMIZUKAWA.
     :license: BSD, see LICENSE for details.
 """
-
-from nose import SkipTest
-from six import PY3
-
 import re
 from textwrap import dedent
 
-from sphinx_intl import commands
+from click.testing import CliRunner
+from nose import SkipTest
+from six import PY3
 
+from sphinx_intl import commands
 from utils import in_tmp
+
+runner = CliRunner()
 
 
 def setup_module():
@@ -25,24 +26,33 @@ def setup_module():
         raise SkipTest('transifex-client not support Python3')
 
 
-def teardown_module():
-    pass
-
-
 @in_tmp()
 def test_create_transifexrc(temp):
-    commands.create_transifexrc('spam-id', 'egg-pw')
+    r1 = runner.invoke(commands.main,
+                       [
+                           'create-transifexrc',
+                           '--transifex-username', 'spam-id',
+                           '--transifex-password', 'egg-pw',
+                       ])
+    assert r1.exit_code == 0
 
 
 @in_tmp()
 def test_create_txconfig(temp):
-    commands.create_txconfig()
+    r1 = runner.invoke(commands.main, ['create-txconfig'])
+    assert r1.exit_code == 0
 
 
 @in_tmp()
 def test_update_txconfig_resources(temp):
-    commands.create_txconfig()
-    commands.update_txconfig_resources('ham-project', 'locale')
+    r1 = runner.invoke(commands.main, ['create-txconfig'])
+    assert r1.exit_code == 0
+    r2 = runner.invoke(commands.update_txconfig_resources,
+                       [
+                           '--transifex-project-name', 'ham-project',
+                           '-d', 'locale',
+                       ])
+    assert r2.exit_code == 0
 
 
 @in_tmp()
@@ -58,9 +68,8 @@ def test_update_txconfig_resources_with_config(temp):
 
     (temp / '_build' / 'locale').copytree(temp / 'locale' / 'pot')
 
-    cmd = 'update-txconfig-resources'
-    options, args = commands.parse_option([cmd, '-d', 'locale'])
-    commands.commands[cmd](options)
+    r1 = runner.invoke(commands.main, ['update-txconfig-resources', '-d', 'locale'])
+    assert r1.exit_code == 0
 
     data = (tx_dir / 'config').text()
     assert re.search(r'\[ham-project\.README\]', data)
@@ -77,10 +86,12 @@ def test_update_txconfig_resources_with_pot_dir_argument(temp):
     [ham-project.domain1]
     """))
 
-    cmd = 'update-txconfig-resources'
-    cmd_args = [cmd, '-d', 'locale', '-p', '_build/locale']
-    options, args = commands.parse_option(cmd_args)
-    commands.commands[cmd](options)
+    r1 = runner.invoke(commands.main,
+                       ['update-txconfig-resources',
+                        '-d', 'locale',
+                        '-p', '_build/locale',
+                        ])
+    assert r1.exit_code == 0
 
     data = (tx_dir / 'config').text().replace('\\', '/')
     assert re.search(r'\[ham-project\.README\]', data)
@@ -98,11 +109,12 @@ def test_update_txconfig_resources_with_project_name_including_dots(temp):
 
     (temp / '_build' / 'locale').copytree(temp / 'locale' / 'pot')
 
-    cmd = 'update-txconfig-resources'
-    cmd_args = [cmd, '-d', 'locale',
-                '--transifex-project-name', 'ham-project.com']
-    options, args = commands.parse_option(cmd_args)
-    commands.commands[cmd](options)
+    r1 = runner.invoke(commands.main,
+                       ['update-txconfig-resources',
+                        '-d', 'locale',
+                        '--transifex-project-name', 'ham-project.com',
+                        ])
+    assert r1.exit_code == 0
 
     data = (tx_dir / 'config').text()
     assert re.search(r'\[ham-projectcom\.README\]', data)
@@ -119,11 +131,12 @@ def test_update_txconfig_resources_with_project_name_including_spaces(temp):
 
     (temp / '_build' / 'locale').copytree(temp / 'locale' / 'pot')
 
-    cmd = 'update-txconfig-resources'
-    cmd_args = [cmd, '-d', 'locale',
-                '--transifex-project-name', 'ham project com']
-    options, args = commands.parse_option(cmd_args)
-    commands.commands[cmd](options)
+    r1 = runner.invoke(commands.main,
+                       ['update-txconfig-resources',
+                        '-d', 'locale',
+                        '--transifex-project-name', 'ham project com',
+                        ])
+    assert r1.exit_code == 0
 
     data = (tx_dir / 'config').text()
     assert re.search(r'\[ham-project-com\.README\]', data)
@@ -147,11 +160,12 @@ def test_update_txconfig_resources_with_potfile_including_symbols(temp):
     # copy README.pot to 'test.document.pot'
     (temp / '_build' / 'locale' / 'test.document.pot').write_text(readme)
 
-    cmd = 'update-txconfig-resources'
-    cmd_args = [cmd, '-d', 'locale',
-                '--transifex-project-name', 'ham project com']
-    options, args = commands.parse_option(cmd_args)
-    commands.commands[cmd](options)
+    r1 = runner.invoke(commands.main,
+                       ['update-txconfig-resources',
+                        '-d', 'locale',
+                        '--transifex-project-name', 'ham project com',
+                        ])
+    assert r1.exit_code == 0
 
     data = (tx_dir / 'config').text()
     assert re.search(r'\[ham-project-com\.example_document\]', data)
