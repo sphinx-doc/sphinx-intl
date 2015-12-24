@@ -416,8 +416,8 @@ def build(locale_dir, output_dir, language):
         for dirpath, dirnames, filenames in os.walk(lang_dir):
             if use_output_dir:
                 dirpath_output = os.path.join(
-                        output_dir,
-                        os.path.relpath(dirpath, locale_dir))
+                    output_dir,
+                    os.path.relpath(dirpath, locale_dir))
 
             for filename in filenames:
                 po_file = os.path.join(dirpath, filename)
