@@ -59,7 +59,7 @@ Basic Features
 Requirements for basic
 -----------------------
 
-- Python 2.5, 2.6, 2.7, 3.3, 3.4, 3.5, pypy.
+- Python 2.6, 2.7, 3.3, 3.4, 3.5, pypy.
 - external library: setuptools_, six_, polib_, click_
 
 
@@ -81,13 +81,10 @@ You need to use `tx` command for below features:
 Requirements for optional
 --------------------------
 
-- Python 2.5, 2.6, 2.7. (transifex-client only support 2.x)
-
 - Your transifex_ account if you want to download po files from transifex
   or you want to translate on transifex.
 
 - external library: `transifex-client`_
-
 
 
 Installation

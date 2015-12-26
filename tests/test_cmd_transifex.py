@@ -12,18 +12,11 @@ import re
 from textwrap import dedent
 
 from click.testing import CliRunner
-from nose import SkipTest
-from six import PY3
 
 from sphinx_intl import commands
 from utils import in_tmp
 
 runner = CliRunner()
-
-
-def setup_module():
-    if PY3:
-        raise SkipTest('transifex-client not support Python3')
 
 
 @in_tmp()

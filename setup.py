@@ -3,7 +3,6 @@ from __future__ import with_statement
 
 from setuptools import setup, find_packages
 import os
-import sys
 
 from sphinx_intl import __version__
 
@@ -16,18 +15,13 @@ install_requires = [
 ]
 
 extras_require = {
+    'transifex': [
+        'transifex_client>=0.11'
+    ],
     'test': [
         'nose',
     ],
 }
-
-if sys.version_info < (2, 6):
-    extras_require['transifex'] = ['transifex_client==0.8']
-elif sys.platform == 'win32':
-    extras_require['transifex'] = ['transifex_client<0.9']
-else:
-    extras_require['transifex'] = ['transifex_client']
-
 
 here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, 'README.rst')) as f:
@@ -50,14 +44,12 @@ setup(
         "Topic :: Utilities",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.5",
         "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.1",
-        "Programming Language :: Python :: 3.2",
         "Programming Language :: Python :: 3.3",
         "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
     ],
     author="Takayuki SHIMIZUKAWA",
     author_email="shimizukawa@gmail.com",

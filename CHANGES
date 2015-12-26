@@ -8,6 +8,10 @@ CHANGES
 Environments
 ------------
 
+* Add supporting Python-3.5
+* Drop supporting Python-2.5
+* use transifex-client>=0.11 for all environments
+
 Incompatibility
 ---------------
 
