@@ -166,6 +166,8 @@ CHANGES
 0.9.8 (unreleased)
 ------------------
 
+* #2,#3: Add option to create MO files in a separate directory. Thanks to Campbell Barton.
+
 0.9.7 (2015/11/07)
 ------------------
 
