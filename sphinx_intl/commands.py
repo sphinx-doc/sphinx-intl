@@ -240,8 +240,8 @@ def build(locale_dir, output_dir, language):
     languages = sum(language, ())  # flatten
 
     if not output_dir or (
-                os.path.exists(output_dir) and
-                os.path.samefile(locale_dir, output_dir)):
+            os.path.exists(output_dir) and
+            os.path.samefile(locale_dir, output_dir)):
         output_dir = locale_dir
 
     basic.build(locale_dir, output_dir, languages)

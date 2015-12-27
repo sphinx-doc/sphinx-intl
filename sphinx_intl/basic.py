@@ -90,7 +90,7 @@ def update(locale_dir, pot_dir, languages):
                         deleted = msgids - new_msgids
                         status['update'] += 1
                         click.echo('Update: {0} +{1}, -{2}'.format(
-                                po_file, len(added), len(deleted)))
+                            po_file, len(added), len(deleted)))
                         po.save(po_file)
                     else:
                         status['notchanged'] += 1
@@ -122,8 +122,7 @@ def build(locale_dir, output_dir, languages):
         for dirpath, dirnames, filenames in os.walk(lang_dir):
             if use_output_dir:
                 dirpath_output = os.path.join(
-                        output_dir,
-                        os.path.relpath(dirpath, locale_dir))
+                    output_dir, os.path.relpath(dirpath, locale_dir))
 
             for filename in filenames:
                 po_file = os.path.join(dirpath, filename)
@@ -138,8 +137,8 @@ def build(locale_dir, output_dir, languages):
                 else:
                     mo_file = base + ".mo"
 
-                if os.path.exists(mo_file) and \
-                                os.path.getmtime(mo_file) > os.path.getmtime(po_file):
+                if (os.path.exists(mo_file) and
+                   os.path.getmtime(mo_file) > os.path.getmtime(po_file)):
                     continue
                 click.echo('Build: {0}'.format(mo_file))
                 po = polib.pofile(po_file)
