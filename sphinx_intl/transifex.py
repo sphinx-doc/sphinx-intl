@@ -7,7 +7,7 @@ import textwrap
 import click
 import polib
 
-from pycompat import relpath
+from .pycompat import relpath
 
 
 # ==================================

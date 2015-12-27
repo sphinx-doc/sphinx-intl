@@ -15,9 +15,9 @@ from glob import glob
 
 import click
 
-import basic
-import transifex
-from pycompat import execfile_, relpath
+from . import basic
+from . import transifex
+from .pycompat import execfile_, relpath
 
 ENVVAR_PREFIX = 'SPHINXINTL'
 

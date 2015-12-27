@@ -6,7 +6,7 @@ from glob import glob
 import polib
 import click
 
-from pycompat import relpath
+from .pycompat import relpath
 
 
 # ==================================
