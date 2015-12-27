@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-    test_commands
+    test_cmd_pot
     ~~~~~~~~~~~~~
 
-    Test all commands that have no special checks.
+    Test pot related commands.
 
-    :copyright: Copyright 2013 by Takayuki SHIMIZUKAWA.
+    :copyright: Copyright 2015 by Takayuki SHIMIZUKAWA.
     :license: BSD, see LICENSE for details.
 """
 from __future__ import with_statement

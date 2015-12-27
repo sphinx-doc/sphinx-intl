@@ -11,115 +11,46 @@ from __future__ import with_statement
 
 import re
 import os
-import sys
 from glob import glob
-import textwrap
 
-from six import PY3, exec_, b
-import polib
 import click
 
+import basic
+import transifex
+from pycompat import execfile_, relpath
 
 ENVVAR_PREFIX = 'SPHINXINTL'
-FS_ENCODING = sys.getfilesystemencoding() or sys.getdefaultencoding()
 
 
 # ==================================
-# templates
+# utility functions
 
-TRANSIFEXRC_TEMPLATE = """\
-[https://www.transifex.com]
-hostname = https://www.transifex.com
-password = %(transifex_password)s
-username = %(transifex_username)s
-token =
-"""
-
-TXCONFIG_TEMPLATE = """\
-[main]
-host = https://www.transifex.com
-"""
-
-
-# ==================================
-# Python compat
-if sys.version_info >= (2, 6):
-    # Python >= 2.6
-    relpath = os.path.relpath
-else:
-    from os.path import curdir
-
-    def relpath(path, start=curdir):
-        """Return a relative version of a path"""
-        from os.path import sep, abspath, commonprefix, join, pardir
-
-        if not path:
-            raise ValueError("no path specified")
-
-        start_list = abspath(start).split(sep)
-        path_list = abspath(path).split(sep)
-
-        # Work out how much of the filepath is shared by start and path.
-        i = len(commonprefix([start_list, path_list]))
-
-        rel_list = [pardir] * (len(start_list)-i) + path_list[i:]
-        if not rel_list:
-            return start
-        return join(*rel_list)
-    del curdir
-
-if PY3:
-    def convert_with_2to3(filepath):
-        from lib2to3.refactor import RefactoringTool, get_fixers_from_package
-        from lib2to3.pgen2.parse import ParseError
-        fixers = get_fixers_from_package('lib2to3.fixes')
-        refactoring_tool = RefactoringTool(fixers)
-        source = refactoring_tool._read_python_source(filepath)[0]
-        try:
-            tree = refactoring_tool.refactor_string(source, 'conf.py')
-        except ParseError:
-            typ, err, tb = sys.exc_info()
-            # do not propagate lib2to3 exceptions
-            lineno, offset = err.context[1]
-            # try to match ParseError details with SyntaxError details
-            raise SyntaxError(err.msg, (filepath, lineno, offset, err.value))
-        return str(tree)
-else:
-    convert_with_2to3 = None
-
-
-def execfile_(filepath, _globals):
-    # get config source -- 'b' is a no-op under 2.x, while 'U' is
-    # ignored under 3.x (but 3.x compile() accepts \r\n newlines)
-    f = open(filepath, 'rbU')
+def read_config(path):
+    namespace = {
+        "__file__": os.path.abspath(path),
+    }
+    olddir = os.getcwd()
     try:
-        source = f.read()
+        if not os.path.isfile(path):
+            msg = "'%s' is not found (or specify --locale-dir option)." % path
+            raise click.BadParameter(msg)
+        os.chdir(os.path.dirname(path) or ".")
+        execfile_(os.path.basename(path), namespace)
     finally:
-        f.close()
+        os.chdir(olddir)
 
-    # py25,py26,py31 accept only LF eol instead of CRLF
-    if sys.version_info[:2] in ((2, 5), (2, 6), (3, 1)):
-        source = source.replace(b('\r\n'), b('\n'))
+    return namespace
 
-    # compile to a code object, handle syntax errors
-    filepath_enc = filepath.encode(FS_ENCODING)
-    try:
-        code = compile(source, filepath_enc, 'exec')
-    except SyntaxError:
-        if convert_with_2to3:
-            # maybe the file uses 2.x syntax; try to refactor to
-            # 3.x syntax using 2to3
-            source = convert_with_2to3(filepath)
-            code = compile(source, filepath_enc, 'exec')
-        else:
-            raise
 
-    exec_(code, _globals)
+def get_lang_dirs(path):
+    dirs = [relpath(d, path)
+            for d in glob(path+'/[a-z]*')
+            if os.path.isdir(d) and not d.endswith('pot')]
+    return (tuple(dirs),)
 
 
 # ==================================
 # click options
-
 
 class LanguagesType(click.ParamType):
     name = 'languages'
@@ -128,6 +59,7 @@ class LanguagesType(click.ParamType):
     def convert(self, value, param, ctx):
         langs = value.split(',')
         return tuple(langs)
+
 
 LANGUAGES = LanguagesType()
 
@@ -184,60 +116,7 @@ option_transifex_project_name = click.option(
 
 
 # ==================================
-# utility functions
-
-
-def read_config(path):
-    namespace = {
-        "__file__": os.path.abspath(path),
-        }
-    olddir = os.getcwd()
-    try:
-        if not os.path.isfile(path):
-            msg = "'%s' is not found (or specify --locale-dir option)." % path
-            raise click.BadParameter(msg)
-        os.chdir(os.path.dirname(path) or ".")
-        execfile_(os.path.basename(path), namespace)
-    finally:
-        os.chdir(olddir)
-
-    return namespace
-
-
-def get_lang_dirs(path):
-    dirs = [relpath(d, path)
-            for d in glob(path+'/[a-z]*')
-            if os.path.isdir(d) and not d.endswith('pot')]
-    return (tuple(dirs),)
-
-
-def get_tx_root():
-    import txclib.utils
-    tx_root = txclib.utils.find_dot_tx()
-    if tx_root is None:
-        msg = "'.tx/config' not found. You need 'create-txconfig' first."
-        raise click.BadParameter(msg)
-    return tx_root
-
-
-# http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance
-# 4th version, seems short and fast enough compared to the others.
-def levenshtein(seq1, seq2):
-    oneago = None
-    thisrow = list(range(1, len(seq2) + 1)) + [0]
-    for x in range(len(seq1)):
-        oneago, thisrow = thisrow, [0] * len(seq2) + [x + 1]
-        for y in range(len(seq2)):
-            delcost = oneago[y] + 1
-            addcost = thisrow[y - 1] + 1
-            subcost = oneago[y - 1] + (seq1[x] != seq2[y])
-            thisrow[y] = min(delcost, addcost, subcost)
-    return thisrow[len(seq2) - 1]
-
-
-# ==================================
 # commands
-
 
 @click.group()
 @click.option(
@@ -337,60 +216,15 @@ def update(locale_dir, pot_dir, language):
         raise click.BadParameter(msg, param_hint='pot_dir')
     if not language:
         language = get_lang_dirs(locale_dir)
-    language = sum(language, ())  # flatten
-    if not language:
+    languages = sum(language, ())  # flatten
+    if not languages:
         msg = ("No languages are found. Please specify language with -l "
                "option, or preparing language directories under %(locale_dir)r "
                "directory."
                % locals())
         raise click.BadParameter(msg, param_hint='language')
 
-    for dirpath, dirnames, filenames in os.walk(pot_dir):
-        for filename in filenames:
-            pot_file = os.path.join(dirpath, filename)
-            base, ext = os.path.splitext(pot_file)
-            if ext != ".pot":
-                continue
-            basename = relpath(base, pot_dir)
-            for lang in language:
-                po_dir = os.path.join(locale_dir, lang, 'LC_MESSAGES')
-                po_file = os.path.join(po_dir, basename + ".po")
-                outdir = os.path.dirname(po_file)
-                if not os.path.exists(outdir):
-                    os.makedirs(outdir)
-
-                pot = polib.pofile(pot_file)
-                if os.path.exists(po_file):
-                    po = polib.pofile(po_file)
-                    msgids = set([str(m) for m in po])
-                    po.merge(pot)
-                    # merge() will place modified content as obsolete
-                    # try to use obsolete translations (if any), mark as fuzzy
-                    for old in po.obsolete_entries():
-                        if not old.msgstr:
-                            continue
-                        for new in po.untranslated_entries():
-                            dist = levenshtein(old.msgid, new.msgid)
-                            ratio = 1. - (float(dist) / len(new.msgid))
-                            # use old mgstr if msgids are 65% similar or more
-                            if dist and ratio > 0.65:
-                                new.msgstr = old.msgstr
-                                new.flags.append('fuzzy')
-                    new_msgids = set([str(m) for m in po])
-                    if msgids != new_msgids:
-                        added = new_msgids - msgids
-                        deleted = msgids - new_msgids
-                        click.echo('Update: {0} +{1}, -{2}'.format(
-                            po_file, len(added), len(deleted)))
-                        po.save(po_file)
-                    else:
-                        click.echo('Not Changed: {0}'.format(po_file))
-                else:
-                    po = polib.POFile()
-                    po.metadata = pot.metadata
-                    click.echo('Create: {0}'.format(po_file))
-                    po.merge(pot)
-                    po.save(po_file)
+    basic.update(locale_dir, pot_dir, languages)
 
 
 @main.command()
@@ -403,41 +237,14 @@ def build(locale_dir, output_dir, language):
     """
     if not language:
         language = get_lang_dirs(locale_dir)
-    language = sum(language, ())  # flatten
+    languages = sum(language, ())  # flatten
+
     if not output_dir or (
-            os.path.exists(output_dir) and
-            os.path.samefile(locale_dir, output_dir)):
+                os.path.exists(output_dir) and
+                os.path.samefile(locale_dir, output_dir)):
         output_dir = locale_dir
-        use_output_dir = False
-    else:
-        use_output_dir = True
-    for lang in language:
-        lang_dir = os.path.join(locale_dir, lang)
-        for dirpath, dirnames, filenames in os.walk(lang_dir):
-            if use_output_dir:
-                dirpath_output = os.path.join(
-                    output_dir,
-                    os.path.relpath(dirpath, locale_dir))
 
-            for filename in filenames:
-                po_file = os.path.join(dirpath, filename)
-                base, ext = os.path.splitext(po_file)
-                if ext != ".po":
-                    continue
-
-                if use_output_dir:
-                    if not os.path.exists(dirpath_output):
-                        os.makedirs(dirpath_output)
-                    mo_file = os.path.join(dirpath_output, filename + ".mo")
-                else:
-                    mo_file = base + ".mo"
-
-                if os.path.exists(mo_file) and \
-                        os.path.getmtime(mo_file) > os.path.getmtime(po_file):
-                    continue
-                click.echo('Build: {0}'.format(mo_file))
-                po = polib.pofile(po_file)
-                po.save_as_mofile(fpath=mo_file)
+    basic.build(locale_dir, output_dir, languages)
 
 
 @main.command()
@@ -449,25 +256,8 @@ def stat(locale_dir, language):
     """
     if not language:
         language = get_lang_dirs(locale_dir)
-    language = sum(language, ())  # flatten
-    for lang in language:
-        lang_dir = os.path.join(locale_dir, lang)
-        for dirpath, dirnames, filenames in os.walk(lang_dir):
-            for filename in filenames:
-                po_file = os.path.join(dirpath, filename)
-                base, ext = os.path.splitext(po_file)
-                if ext != ".po":
-                    continue
-
-                po = polib.pofile(po_file)
-                click.echo(
-                    '{0}: {1} translated, {2} fuzzy, {3} untranslated.'.format(
-                        po_file,
-                        len(po.translated_entries()),
-                        len(po.fuzzy_entries()),
-                        len(po.untranslated_entries()),
-                    )
-                )
+    languages = sum(language, ())  # flatten
+    basic.stat(locale_dir, languages)
 
 
 @main.command('create-transifexrc')
@@ -477,22 +267,7 @@ def create_transifexrc(transifex_username, transifex_password):
     """
     Create `$HOME/.transifexrc`
     """
-    target = os.path.normpath(os.path.expanduser('~/.transifexrc'))
-
-    if os.path.exists(target):
-        click.echo('{0} already exists, skipped.'.format(target))
-        return
-
-    if not transifex_username or not 'transifex_password':
-        msg = textwrap.dedent("""\
-        You need transifex username/password by command option or environment.
-        command option: --transifex-username, --transifex-password
-        """)
-        raise click.BadParameter(msg, param_hint='transifex_username,transifex_password')
-
-    with open(target, 'wt') as rc:
-        rc.write(TRANSIFEXRC_TEMPLATE % locals())
-    click.echo('Create: {0}'.format(target))
+    transifex.create_transifexrc(transifex_username, transifex_password)
 
 
 @main.command('create-txconfig')
@@ -500,18 +275,7 @@ def create_txconfig():
     """
     Create `./.tx/config`
     """
-    target = os.path.normpath('.tx/config')
-    if os.path.exists(target):
-        click.echo('{0} already exists, skipped.'.format(target))
-        return
-
-    if not os.path.exists('.tx'):
-        os.mkdir('.tx')
-
-    with open(target, 'wt') as f:
-        f.write(TXCONFIG_TEMPLATE)
-
-    click.echo('Create: {0}'.format(target))
+    transifex.create_txconfig()
 
 
 @main.command('update-txconfig-resources')
@@ -522,50 +286,10 @@ def update_txconfig_resources(transifex_project_name, locale_dir, pot_dir):
     """
     Update resource sections of `./.tx/config`.
     """
-    try:
-        import txclib.utils
-    except ImportError:
-        msg = textwrap.dedent("""\
-            Could not import 'txclib.utils'.
-            You need install transifex_client external library.
-            Please install below command if you want to this action:
-
-                $ pip install sphinx-intl[transifex]
-            """)
-        raise click.BadParameter(msg)
-
-    tx_root = get_tx_root()
-    args_tmpl = (
-        '--auto-local', '-r', '%(transifex_project_name)s.%(resource_name)s',
-        '%(locale_dir)s/<lang>/LC_MESSAGES/%(resource_path)s.po',
-        '--source-lang', 'en',
-        '--source-file', '%(pot_dir)s/%(resource_path)s.pot',
-        '--execute'
-    )
-
-    # convert transifex_project_name to internal name
-    transifex_project_name = transifex_project_name.replace(' ', '-')
-    transifex_project_name = re.sub(r'[^\-_\w]', '', transifex_project_name)
-
     if not pot_dir:
         pot_dir = os.path.join(locale_dir, 'pot')
-    for dirpath, dirnames, filenames in os.walk(pot_dir):
-        for filename in filenames:
-            pot_file = os.path.join(dirpath, filename)
-            base, ext = os.path.splitext(pot_file)
-            if ext != ".pot":
-                continue
-            resource_path = relpath(base, pot_dir)
-            pot = polib.pofile(pot_file)
-            if len(pot):
-                resource_name = re.sub(r'[\\/]', '--', resource_path)
-                resource_name = re.sub(r'[^\-_\w]', '_', resource_name)
-                args = [arg % locals() for arg in args_tmpl]
-                txclib.utils.exec_command('set', args, tx_root)
-            else:
-                click.echo('{0} is empty, skipped'.format(pot_file))
 
-    txclib.utils.exec_command('set', ['-t', 'PO'], tx_root)
+    transifex.update_txconfig_resources(transifex_project_name, locale_dir, pot_dir)
 
 
 if __name__ == '__main__':
