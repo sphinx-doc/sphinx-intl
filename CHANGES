@@ -23,6 +23,8 @@ Features
 Bug Fixes
 ---------
 
+* #1: update_txconfig_resources command on Python 3.4/3.5 causes KeyError.
+
 
 0.9.7 (2015/11/07)
 ==================
