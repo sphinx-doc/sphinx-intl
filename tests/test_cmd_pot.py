@@ -14,32 +14,26 @@ from click.testing import CliRunner
 
 from sphinx_intl import commands
 
-from utils import in_tmp
-
 runner = CliRunner()
 
 
-@in_tmp()
 def test_update_pot_notfound(temp):
     r1 = runner.invoke(commands.update, ['-d', 'locale'])
     assert r1.exit_code != 0
     assert 'Please specify pot directory with -p option,' in r1.output
 
 
-@in_tmp()
 def test_update_no_language(temp):
     r1 = runner.invoke(commands.update, ['-d', 'locale', '-p', '_build/locale'])
     assert r1.exit_code != 0
     assert 'No languages are found. Please specify language with -l' in r1.output
 
 
-@in_tmp()
 def test_update_simple(temp):
     r1 = runner.invoke(commands.update, ['-d', 'locale', '-p', '_build/locale', '-l', 'ja'])
     assert r1.exit_code == 0
 
 
-@in_tmp()
 def test_update_difference_detect(temp):
     r1 = runner.invoke(commands.update, ['-d', 'locale', '-p', '_build/locale', '-l', 'ja'])
     assert r1.exit_code == 0
@@ -75,7 +69,6 @@ def test_update_difference_detect(temp):
     assert r4.output.count('Not Changed:') == 1
 
 
-@in_tmp()
 def test_stat(temp):
     r1 = runner.invoke(commands.update, ['-d', 'locale', '-p', '_build/locale', '-l', 'ja'])
     assert r1.exit_code == 0
@@ -85,7 +78,6 @@ def test_stat(temp):
     assert 'README.po: 0 translated, 0 fuzzy, 1 untranslated.' in r2.output
 
 
-@in_tmp()
 def test_stat_with_multiple_languages(temp):
     r1 = runner.invoke(commands.update, ['-d', 'locale', '-p', '_build/locale', '-l', 'ja,de,it'])
     assert r1.exit_code == 0
@@ -96,7 +88,6 @@ def test_stat_with_multiple_languages(temp):
     assert 'README.po: 0 translated, 0 fuzzy, 1 untranslated.' in r2.output
 
 
-@in_tmp()
 def test_build(temp):
     result = runner.invoke(commands.build, ['--locale-dir', 'locale'])
     assert result.exit_code == 0

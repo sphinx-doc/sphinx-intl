@@ -10,15 +10,11 @@
 """
 from sphinx_intl import basic
 
-from utils import in_tmp
 
-
-@in_tmp()
 def test_update_simple(temp):
     basic.update('locale', '_build/locale', ('ja',))
 
 
-@in_tmp()
 def test_update_difference_detect(temp):
     r1 = basic.update('locale', '_build/locale', ('ja',))
     assert r1 == {'create': 1, 'update': 0, 'notchanged': 0}
@@ -40,14 +36,12 @@ def test_update_difference_detect(temp):
     assert r4 == {'create': 0, 'update': 0, 'notchanged': 1}
 
 
-@in_tmp()
 def test_stat(temp):
     r1 = basic.update('locale', '_build/locale', ('ja',))
     r2 = basic.stat('locale', ('ja',))
     assert r2 == {'locale/ja/LC_MESSAGES/README.po': {'translated': 0, 'fuzzy': 0, 'untranslated': 1}}
 
 
-@in_tmp()
 def test_stat_with_multiple_languages(temp):
     r1 = basic.update('locale', '_build/locale', ('ja','de','it'))
     r2 = basic.stat('locale', ('ja','de','it'))
@@ -58,7 +52,6 @@ def test_stat_with_multiple_languages(temp):
     }
 
 
-@in_tmp()
 def test_build(temp):
     basic.build('locale', 'locale', ('ja',))
 

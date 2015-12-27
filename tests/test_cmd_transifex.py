@@ -14,12 +14,10 @@ from textwrap import dedent
 from click.testing import CliRunner
 
 from sphinx_intl import commands
-from utils import in_tmp
 
 runner = CliRunner()
 
 
-@in_tmp()
 def test_create_transifexrc(temp):
     r1 = runner.invoke(commands.main,
                        [
@@ -30,13 +28,11 @@ def test_create_transifexrc(temp):
     assert r1.exit_code == 0
 
 
-@in_tmp()
 def test_create_txconfig(temp):
     r1 = runner.invoke(commands.main, ['create-txconfig'])
     assert r1.exit_code == 0
 
 
-@in_tmp()
 def test_update_txconfig_resources(temp):
     r1 = runner.invoke(commands.main, ['create-txconfig'])
     assert r1.exit_code == 0
@@ -48,7 +44,6 @@ def test_update_txconfig_resources(temp):
     assert r2.exit_code == 0
 
 
-@in_tmp()
 def test_update_txconfig_resources_with_config(temp):
     tx_dir = temp / '.tx'
     tx_dir.makedirs()
@@ -68,7 +63,6 @@ def test_update_txconfig_resources_with_config(temp):
     assert re.search(r'\[ham-project\.README\]', data)
 
 
-@in_tmp()
 def test_update_txconfig_resources_with_pot_dir_argument(temp):
     tx_dir = temp / '.tx'
     tx_dir.makedirs()
@@ -91,7 +85,6 @@ def test_update_txconfig_resources_with_pot_dir_argument(temp):
     assert re.search(r'source_file = _build/locale/README.pot', data)
 
 
-@in_tmp()
 def test_update_txconfig_resources_with_project_name_including_dots(temp):
     tx_dir = temp / '.tx'
     tx_dir.makedirs()
@@ -113,7 +106,6 @@ def test_update_txconfig_resources_with_project_name_including_dots(temp):
     assert re.search(r'\[ham-projectcom\.README\]', data)
 
 
-@in_tmp()
 def test_update_txconfig_resources_with_project_name_including_spaces(temp):
     tx_dir = temp / '.tx'
     tx_dir.makedirs()
@@ -135,7 +127,6 @@ def test_update_txconfig_resources_with_project_name_including_spaces(temp):
     assert re.search(r'\[ham-project-com\.README\]', data)
 
 
-@in_tmp()
 def test_update_txconfig_resources_with_potfile_including_symbols(temp):
     tx_dir = temp / '.tx'
     tx_dir.makedirs()

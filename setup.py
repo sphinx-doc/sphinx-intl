@@ -19,7 +19,7 @@ extras_require = {
         'transifex_client>=0.11'
     ],
     'test': [
-        'nose',
+        'pytest',
     ],
 }
 

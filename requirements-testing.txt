@@ -1,4 +1,4 @@
 tox
-nose
+pytest
 docutils
 flake8

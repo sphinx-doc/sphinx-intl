@@ -12,4 +12,4 @@ env:
 install:
   - pip install -r requirements-testing.txt
 cache: pip
-script: tox -- -d
+script: tox

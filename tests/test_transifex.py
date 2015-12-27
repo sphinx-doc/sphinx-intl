@@ -12,26 +12,21 @@ import re
 from textwrap import dedent
 
 from sphinx_intl import transifex
-from utils import in_tmp
 
 
-@in_tmp()
 def test_create_transifexrc(temp):
     transifex.create_transifexrc('spam-id', 'egg-pw')
 
 
-@in_tmp()
 def test_create_txconfig(temp):
     transifex.create_txconfig()
 
 
-@in_tmp()
 def test_update_txconfig_resources(temp):
     transifex.create_txconfig()
     transifex.update_txconfig_resources('ham-project', 'locale', '_build/locale')
 
 
-@in_tmp()
 def test_update_txconfig_resources_with_config(temp):
     tx_dir = temp / '.tx'
     tx_dir.makedirs()
@@ -49,7 +44,6 @@ def test_update_txconfig_resources_with_config(temp):
     assert re.search(r'source_file = _build/locale/README.pot', data)
 
 
-@in_tmp()
 def test_update_txconfig_resources_with_another_pot_dir(temp):
     tx_dir = temp / '.tx'
     tx_dir.makedirs()
@@ -68,7 +62,6 @@ def test_update_txconfig_resources_with_another_pot_dir(temp):
     assert re.search(r'\[ham-project\.README\]', data)
 
 
-@in_tmp()
 def test_update_txconfig_resources_with_project_name_including_dots(temp):
     tx_dir = temp / '.tx'
     tx_dir.makedirs()
@@ -85,7 +78,6 @@ def test_update_txconfig_resources_with_project_name_including_dots(temp):
     assert re.search(r'\[ham-projectcom\.README\]', data)
 
 
-@in_tmp()
 def test_update_txconfig_resources_with_project_name_including_spaces(temp):
     tx_dir = temp / '.tx'
     tx_dir.makedirs()
@@ -102,7 +94,6 @@ def test_update_txconfig_resources_with_project_name_including_spaces(temp):
     assert re.search(r'\[ham-project-com\.README\]', data)
 
 
-@in_tmp()
 def test_update_txconfig_resources_with_potfile_including_symbols(temp):
     tx_dir = temp / '.tx'
     tx_dir.makedirs()
