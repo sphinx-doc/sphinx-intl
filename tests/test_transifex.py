@@ -11,6 +11,8 @@
 import re
 from textwrap import dedent
 
+import pytest
+
 from sphinx_intl import transifex
 
 
@@ -116,3 +118,16 @@ def test_update_txconfig_resources_with_potfile_including_symbols(temp):
     data = (tx_dir / 'config').text()
     assert re.search(r'\[ham-project-com\.example_document\]', data)
     assert re.search(r'\[ham-project-com\.test_document\]', data)
+
+
+@pytest.mark.parametrize("input,expected", [
+    ('spam/ham', 'spam--ham'),
+    ('spam\\ham', 'spam--ham'),
+    ('ham egg.pot', 'ham_egg_pot'),
+    ('spam-ham/egg.pot', 'spam-ham--egg_pot'),
+    ('glossary', 'glossary_'),
+    ('glossary_', 'glossary_'),
+])
+def test_normalize_resource_name(input, expected):
+    _callSUT = transifex.normalize_resource_name
+    assert _callSUT(input) == expected

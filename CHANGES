@@ -16,6 +16,9 @@ Environments
 Incompatibility
 ---------------
 
+* 'glossary' resource name will be renamed to 'glossary_' on Transifex.
+  Since Aug 2015, Transifex reject 'glossary' resource name because the slug is reserved.
+
 Features
 --------
 

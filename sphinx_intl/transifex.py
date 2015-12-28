@@ -11,7 +11,14 @@ from .pycompat import relpath
 
 
 # ==================================
-# templates
+# settings
+
+# To avoid using invalid resource name, append underscore to such names.
+# As a limitation, append `_` doesn't care about collision to other resources.
+# e.g. 'glossary' and 'glossary_' are pushed as a 'glossary_'.
+IGNORED_RESOURCE_NAMES = (
+    'glossary',  # transifex reject this name
+)
 
 TRANSIFEXRC_TEMPLATE = """\
 [https://www.transifex.com]
@@ -37,6 +44,20 @@ def get_tx_root():
         msg = "'.tx/config' not found. You need 'create-txconfig' first."
         raise click.BadParameter(msg)
     return tx_root
+
+
+def normalize_resource_name(name):
+    # replace path separator with '--'
+    name = re.sub(r'[\\/]', '--', name)
+
+    # replace unusable characters (not: -, _ ascii, digit) with '_'
+    name = re.sub(r'[^\-\w]', '_', name)
+
+    # append `_` for ignored resource names
+    while name in IGNORED_RESOURCE_NAMES:
+        name += '_'
+
+    return name
 
 
 # ==================================
@@ -120,8 +141,7 @@ def update_txconfig_resources(transifex_project_name, locale_dir, pot_dir):
             resource_path = relpath(base, pot_dir)
             pot = polib.pofile(pot_file)
             if len(pot):
-                resource_name = re.sub(r'[\\/]', '--', resource_path)
-                resource_name = re.sub(r'[^\-_\w]', '_', resource_name)
+                resource_name = normalize_resource_name(resource_path)
                 l = locals()
                 args = [arg % l for arg in args_tmpl]
                 txclib.utils.exec_command('set', args, tx_root)
