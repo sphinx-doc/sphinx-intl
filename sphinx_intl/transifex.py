@@ -5,9 +5,9 @@ import re
 import textwrap
 
 import click
-import polib
 
 from .pycompat import relpath
+from .catalog import load_po
 
 
 # ==================================
@@ -139,7 +139,7 @@ def update_txconfig_resources(transifex_project_name, locale_dir, pot_dir):
             if ext != ".pot":
                 continue
             resource_path = relpath(base, pot_dir)
-            pot = polib.pofile(pot_file)
+            pot = load_po(pot_file)
             if len(pot):
                 resource_name = normalize_resource_name(resource_path)
                 l = locals()

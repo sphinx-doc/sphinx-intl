@@ -12,6 +12,7 @@ Environments
 * Drop supporting Python-2.5
 * Use transifex-client>=0.11 for all environments
 * Switch test runner to py.test
+* Switch to babel that is used with Sphinx.
 
 Incompatibility
 ---------------
