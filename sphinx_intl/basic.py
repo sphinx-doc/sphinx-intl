@@ -81,25 +81,18 @@ def build(locale_dir, output_dir, languages):
     :param tuple languages: languages to update po files
     :return: None
     """
-    use_output_dir = locale_dir != output_dir
-
     for lang in languages:
         lang_dir = os.path.join(locale_dir, lang)
         for dirpath, dirnames, filenames in os.walk(lang_dir):
-            if use_output_dir:
-                dirpath_output = os.path.join(
-                    output_dir, os.path.relpath(dirpath, locale_dir))
+            dirpath_output = os.path.join(output_dir, os.path.relpath(dirpath, locale_dir))
 
             for filename in filenames:
-                po_file = os.path.join(dirpath, filename)
-                base, ext = os.path.splitext(po_file)
+                base, ext = os.path.splitext(filename)
                 if ext != ".po":
                     continue
 
-                if use_output_dir:
-                    mo_file = os.path.join(dirpath_output, filename + ".mo")
-                else:
-                    mo_file = base + ".mo"
+                mo_file = os.path.join(dirpath_output, base + ".mo")
+                po_file = os.path.join(dirpath, filename)
 
                 if (os.path.exists(mo_file) and
                    os.path.getmtime(mo_file) > os.path.getmtime(po_file)):

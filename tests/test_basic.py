@@ -8,6 +8,8 @@
     :copyright: Copyright 2015 by Takayuki SHIMIZUKAWA.
     :license: BSD, see LICENSE for details.
 """
+import mock
+
 from sphinx_intl import basic
 
 
@@ -52,6 +54,23 @@ def test_stat_with_multiple_languages(temp):
     }
 
 
-def test_build(temp):
+@mock.patch('sphinx_intl.catalog.write_mo')
+@mock.patch('sphinx_intl.catalog.load_po')
+def test_build(load_po, write_mo, temp):
+    basic.update('locale', '_build/locale', ('ja',))
     basic.build('locale', 'locale', ('ja',))
+    assert load_po.call_args[0][0].startswith('locale')
+    assert load_po.call_args[0][0].endswith('README.po')
+    assert write_mo.call_args[0][0].startswith('locale')
+    assert write_mo.call_args[0][0].endswith('README.mo')
 
+
+@mock.patch('sphinx_intl.catalog.write_mo')
+@mock.patch('sphinx_intl.catalog.load_po')
+def test_build_mo_on_another_location(load_po, write_mo, temp):
+    basic.update('locale', '_build/locale', ('ja',))
+    basic.build('locale', 'mo_dir', ('ja',))
+    assert load_po.call_args[0][0].startswith('locale')
+    assert load_po.call_args[0][0].endswith('README.po')
+    assert write_mo.call_args[0][0].startswith('mo_dir')
+    assert write_mo.call_args[0][0].endswith('README.mo')
