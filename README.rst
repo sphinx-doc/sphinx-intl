@@ -60,7 +60,7 @@ Requirements for basic
 -----------------------
 
 - Python 2.6, 2.7, 3.3, 3.4, 3.5, pypy.
-- external library: setuptools_, six_, polib_, click_
+- external library: setuptools_, six_, babel_, click_
 
 
 Optional features
@@ -164,9 +164,9 @@ See: https://github.com/sphinx-doc/sphinx-intl/blob/master/CHANGES
 
 .. _Sphinx: http://sphinx-doc.org
 .. _transifex: https://transifex.com
-.. _`transifex-client`: https://pypi.python.org/pypi/transifex-client
+.. _transifex-client: https://pypi.python.org/pypi/transifex-client
 .. _setuptools: https://pypi.python.org/pypi/setuptools
 .. _six: https://pypi.python.org/pypi/six
-.. _polib: https://pypi.python.org/pypi/polib
+.. _babel: https://pypi.python.org/pypi/babel
 .. _click: https://pypi.python.org/pypi/click
 
