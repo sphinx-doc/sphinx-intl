@@ -23,6 +23,7 @@ Bug Fixes
 ---------
 
 * On Python-3 environment, 'update' command breaks po files.
+* #4: 'fuzzy' cause crush on 'update' command.
 
 
 0.9.8 (2015/12/28)

@@ -65,38 +65,11 @@ def untranslated_entries(catalog):
     return [m for m in catalog if m.id and not m.string]
 
 
-# http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance
-# 4th version, seems short and fast enough compared to the others.
-def levenshtein(seq1, seq2):
-    oneago = None
-    thisrow = list(range(1, len(seq2) + 1)) + [0]
-    for x in range(len(seq1)):
-        oneago, thisrow = thisrow, [0] * len(seq2) + [x + 1]
-        for y in range(len(seq2)):
-            delcost = oneago[y] + 1
-            addcost = thisrow[y - 1] + 1
-            subcost = oneago[y - 1] + (seq1[x] != seq2[y])
-            thisrow[y] = min(delcost, addcost, subcost)
-    return thisrow[len(seq2) - 1]
-
-
-def update_with_fuzzy(catalog, template):
+def update_with_fuzzy(catalog, catalog_source):
     """update catalog by template catalog with fuzzy flag.
 
     :param catalog: catalog object to be updated
-    :param template: catalog object as a template to update 'catalog'
+    :param catalog_source: catalog object as a template to update 'catalog'
     :return: None
     """
-    catalog.update(template)
-    # update() will place modified content as obsolete
-    # try to use obsolete translations (if any), mark as fuzzy
-    for old in catalog.obsolete.values():
-        if not old.string:
-            continue
-        for new in untranslated_entries(catalog):
-            dist = levenshtein(old.id, new.id)
-            ratio = 1. - (float(dist) / len(new.id))
-            # use old mgstr if msgids are 65% similar or more
-            if dist and ratio > 0.65:
-                new.string = old.string
-                new.fuzzy = True
+    catalog.update(catalog_source)
