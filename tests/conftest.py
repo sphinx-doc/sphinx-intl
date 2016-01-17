@@ -31,3 +31,20 @@ def temp(request, tmpdir):
         os.chdir(cwd)
     request.addfinalizer(fin)
     return temp
+
+
+@pytest.fixture(scope="function")
+def home_in_temp(request, tmpdir):
+    """change HOME environment variable to temporary location
+
+     To avoid real .transifexrc will be rewritten.
+     """
+    home = os.environ.get('HOME')
+    os.environ['HOME'] = tmpdir.strpath
+
+    def fin():
+        del os.environ['HOME']
+        if home:
+            os.environ['HOME'] = home
+    request.addfinalizer(fin)
+    return tmpdir

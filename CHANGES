@@ -20,6 +20,8 @@ Documentation
 Bug Fixes
 ---------
 
+* Unit tests overwrite real .transifexrc file in HOME directory.
+
 
 0.9.9 (2016/01/17)
 ==================

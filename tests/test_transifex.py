@@ -16,20 +16,20 @@ import pytest
 from sphinx_intl import transifex
 
 
-def test_create_transifexrc(temp):
+def test_create_transifexrc(home_in_temp):
     transifex.create_transifexrc('spam-id', 'egg-pw')
 
 
-def test_create_txconfig(temp):
+def test_create_txconfig(home_in_temp, temp):
     transifex.create_txconfig()
 
 
-def test_update_txconfig_resources(temp):
+def test_update_txconfig_resources(home_in_temp, temp):
     transifex.create_txconfig()
     transifex.update_txconfig_resources('ham-project', 'locale', '_build/locale')
 
 
-def test_update_txconfig_resources_with_config(temp):
+def test_update_txconfig_resources_with_config(home_in_temp, temp):
     tx_dir = temp / '.tx'
     tx_dir.makedirs()
     (tx_dir / 'config').write_text(dedent("""\
@@ -46,7 +46,7 @@ def test_update_txconfig_resources_with_config(temp):
     assert re.search(r'source_file = _build/locale/README.pot', data)
 
 
-def test_update_txconfig_resources_with_another_pot_dir(temp):
+def test_update_txconfig_resources_with_another_pot_dir(home_in_temp, temp):
     tx_dir = temp / '.tx'
     tx_dir.makedirs()
     (tx_dir / 'config').write_text(dedent("""\
@@ -64,7 +64,7 @@ def test_update_txconfig_resources_with_another_pot_dir(temp):
     assert re.search(r'\[ham-project\.README\]', data)
 
 
-def test_update_txconfig_resources_with_project_name_including_dots(temp):
+def test_update_txconfig_resources_with_project_name_including_dots(home_in_temp, temp):
     tx_dir = temp / '.tx'
     tx_dir.makedirs()
     (tx_dir / 'config').write_text(dedent("""\
@@ -80,7 +80,7 @@ def test_update_txconfig_resources_with_project_name_including_dots(temp):
     assert re.search(r'\[ham-projectcom\.README\]', data)
 
 
-def test_update_txconfig_resources_with_project_name_including_spaces(temp):
+def test_update_txconfig_resources_with_project_name_including_spaces(home_in_temp, temp):
     tx_dir = temp / '.tx'
     tx_dir.makedirs()
     (tx_dir / 'config').write_text(dedent("""\
@@ -96,7 +96,7 @@ def test_update_txconfig_resources_with_project_name_including_spaces(temp):
     assert re.search(r'\[ham-project-com\.README\]', data)
 
 
-def test_update_txconfig_resources_with_potfile_including_symbols(temp):
+def test_update_txconfig_resources_with_potfile_including_symbols(home_in_temp, temp):
     tx_dir = temp / '.tx'
     tx_dir.makedirs()
     (tx_dir / 'config').write_text(dedent("""\
