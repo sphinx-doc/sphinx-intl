@@ -43,7 +43,7 @@ Environments
 * Drop supporting Python-2.5
 * Use transifex-client>=0.11 for all environments
 * Switch test runner to py.test
-* Switch to babel that is used with Sphinx.
+* BB#11 Switch to babel that is used with Sphinx.
 
 Incompatibility
 ---------------
@@ -68,8 +68,8 @@ Bug Fixes
 Environments
 ------------
 
-* Drop supporting Python-3.1 and 3.2
-* Depends to click for command-line feature.
+* BB#8 Drop supporting Python-3.1 and 3.2
+* BB#10 Depends to click for command-line feature.
 
 0.9.6 (2015/09/22)
 ==================
@@ -77,18 +77,18 @@ Environments
 Features
 --------
 
-* PR#9: Support ``fuzzy`` translations. Thanks to Guilherme Brondani Torri.
-* PR#8: Detects pot_dir automatically if sphinx has generated. Thanks to
+* BB-PR#9: Support ``fuzzy`` translations. Thanks to Guilherme Brondani Torri.
+* BB-PR#8: Detects pot_dir automatically if sphinx has generated. Thanks to
   Takeshi Komiya.
 
 Bug Fixes
 ---------
 
-* PR#6: update_txconfig_resources command raise errors with pot filename
+* BB-PR#6: update_txconfig_resources command raise errors with pot filename
   including symbols and spaces. Thanks to Takeshi Komiya.
-* PR#7: sphinx-intl could not find conf.py in projects separating build
+* BB-PR#7: sphinx-intl could not find conf.py in projects separating build
   and source directories. Thanks to Takeshi Komiya.
-* PR#10: Add __file__ to conf.py's namespace.
+* BB-PR#10: Add __file__ to conf.py's namespace.
 * On Windows environment, now using "transifex<0.9" because "transifex>=0.9" requires
   unnecessary py2exe installation.
 
@@ -104,15 +104,15 @@ Environments
 Features
 --------
 
-* PR#3: Skip building process if mo file is newer than po file. Thanks to
+* BB-PR#3: Skip building process if mo file is newer than po file. Thanks to
   Nozomu Kaneko.
 
 Bug Fixes
 ---------
 
-* PR#2, PR#4: ``update-txconfig-resources`` disregarded ``--pot-dir`` option.
+* BB-PR#2, BB-PR#4: ``update-txconfig-resources`` disregarded ``--pot-dir`` option.
   Thanks to Giacomo Spettoli, Takeshi Komiya.
-* PR#5: ``update-txconfig-resources`` command raise errors when project name
+* BB-PR#5: ``update-txconfig-resources`` command raise errors when project name
   includes spaces and dots. Thanks to Takeshi Komiya.
 
 0.9.4 (2013/12/10)
@@ -126,7 +126,7 @@ Environments
 Features
 --------
 
-* #3: ``update-txconfig-resources`` command now detect project-name from
+* BB#3: ``update-txconfig-resources`` command now detect project-name from
   ``.tx/config`` that already exists.
 
 Bug Fixes
