@@ -22,6 +22,9 @@ Documentation
 Bug Fixes
 ---------
 
+* On Python-3 environment, 'update' command breaks po files.
+
+
 0.9.8 (2015/12/28)
 ==================
 
