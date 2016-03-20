@@ -28,6 +28,7 @@ ENVVAR_PREFIX = 'SPHINXINTL'
 def read_config(path):
     namespace = {
         "__file__": os.path.abspath(path),
+        "tags": dict(),
     }
     olddir = os.getcwd()
     try:
