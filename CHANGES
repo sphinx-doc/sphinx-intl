@@ -7,6 +7,8 @@ CHANGES
 
 Environments
 ------------
+* Drop supporting Python-3.3 and 2.6
+- Add supporting Python-3.6
 
 Incompatibility
 ---------------
