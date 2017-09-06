@@ -69,7 +69,7 @@ option_locale_dir = click.option(
     '-d', '--locale-dir',
     envvar=ENVVAR_PREFIX + '_LOCALE_DIR',
     type=click.Path(exists=False, file_okay=False),
-    default='locale', metavar='<DIR>', show_default=True,
+    default='locales', metavar='<DIR>', show_default=True,
     help='locale directories that allow comma separated string. This option '
          'override locale_dir in conf.py setting if provided. Default is empty '
          'list.')
