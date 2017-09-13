@@ -2,22 +2,13 @@
 CHANGES
 =======
 
-0.9.10 (unreleased)
+0.9.10 (2017/09/13)
 ===================
 
 Environments
 ------------
 * Drop supporting Python-3.3 and 2.6
 - Add supporting Python-3.6
-
-Incompatibility
----------------
-
-Features
---------
-
-Documentation
--------------
 
 Bug Fixes
 ---------
