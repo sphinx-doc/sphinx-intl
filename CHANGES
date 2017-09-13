@@ -23,7 +23,7 @@ Bug Fixes
 ---------
 
 * Unit tests overwrite real .transifexrc file in HOME directory.
-* #7: Added empty dict variable `tags` for conf.py. Thanks to Dongping Xie.
+* #7, #8: Added `tags` variable for conf.py. Thanks to Dongping Xie.
 * #15: default value of ``locale_dirs`` must be ``['locales']`` instead of
   ``['locale']``. Thanks to cocoatomo.
 

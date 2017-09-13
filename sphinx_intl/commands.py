@@ -14,6 +14,7 @@ import os
 from glob import glob
 
 import click
+from sphinx.util.tags import Tags
 
 from . import basic
 from . import transifex
@@ -28,7 +29,7 @@ ENVVAR_PREFIX = 'SPHINXINTL'
 def read_config(path):
     namespace = {
         "__file__": os.path.abspath(path),
-        "tags": dict(),
+        "tags": Tags(),
     }
     olddir = os.getcwd()
     try:
