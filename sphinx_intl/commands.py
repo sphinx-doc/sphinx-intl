@@ -26,11 +26,18 @@ ENVVAR_PREFIX = 'SPHINXINTL'
 # ==================================
 # utility functions
 
-def read_config(path):
+def read_config(path, passed_tags):
+
+    tags = Tags()
+    passed_tags = sum(passed_tags, ())
+    for tag in passed_tags:
+        tags.add(tag)
+
     namespace = {
         "__file__": os.path.abspath(path),
-        "tags": Tags(),
+        "tags": tags,
     }
+
     olddir = os.getcwd()
     try:
         if not os.path.isfile(path):
@@ -66,6 +73,17 @@ class LanguagesType(click.ParamType):
 LANGUAGES = LanguagesType()
 
 
+class TagsType(click.ParamType):
+    name = 'tags'
+    envvar_list_splitter = ','
+
+    def convert(self, value, param, ctx):
+        tags = value.split(',')
+        return tuple(tags)
+
+TAGS = TagsType()
+
+
 option_locale_dir = click.option(
     '-d', '--locale-dir',
     envvar=ENVVAR_PREFIX + '_LOCALE_DIR',
@@ -90,6 +108,13 @@ option_output_dir = click.option(
     metavar='<DIR>', show_default=True,
     help="mo files directory where files are written. "
          "Default is to match the '--locale-dir' path.")
+
+option_tag = click.option(
+    '-t', '--tag',
+    envvar=ENVVAR_PREFIX + '_TAG',
+    type=TAGS, default=(), metavar='<TAG>', show_default=True,
+    multiple=True,
+    help="Pass tags to conf.py, as same as passed to sphinx-build -t option.")
 
 option_language = click.option(
     '-l', '--language',
@@ -126,8 +151,9 @@ option_transifex_project_name = click.option(
     type=click.Path(exists=True, file_okay=True, dir_okay=False),
     default=None, metavar='<FILE>',
     help='Sphinx conf.py file to read a locale directory setting.')
+@option_tag
 @click.pass_context
-def main(ctx, config):
+def main(ctx, config, tag):
     """
     Environment Variables:
     All command-line options can be set with environment variables using the
@@ -153,7 +179,7 @@ def main(ctx, config):
     # for locale_dir
     ctx.locale_dir = None
     if ctx.config:
-        cfg = read_config(ctx.config)
+        cfg = read_config(ctx.config, tag)
         if 'locale_dirs' in cfg:
             ctx.locale_dir = os.path.join(
                 os.path.dirname(ctx.config), cfg['locale_dirs'][0])
