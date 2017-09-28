@@ -81,6 +81,7 @@ class TagsType(click.ParamType):
         tags = value.split(',')
         return tuple(tags)
 
+
 TAGS = TagsType()
 
 
