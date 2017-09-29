@@ -13,6 +13,8 @@ Incompatibility
 
 Features
 --------
+* #17,#18: Adding --tag -t option, to pass tags from arguments to conf.py. Thanks  to
+  Claudio Alarcon-Reyes.
 
 Documentation
 -------------
