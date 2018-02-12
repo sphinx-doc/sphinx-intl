@@ -108,6 +108,7 @@ def update_txconfig_resources(transifex_project_name, locale_dir, pot_dir):
     Update resource sections of `./.tx/config`.
     """
     try:
+        import txclib
         import txclib.utils
     except ImportError:
         msg = textwrap.dedent("""\
@@ -120,13 +121,26 @@ def update_txconfig_resources(transifex_project_name, locale_dir, pot_dir):
         raise click.BadParameter(msg)
 
     tx_root = get_tx_root()
-    args_tmpl = (
-        '--auto-local', '-r', '%(transifex_project_name)s.%(resource_name)s',
-        '%(locale_dir)s/<lang>/LC_MESSAGES/%(resource_path)s.po',
-        '--source-lang', 'en',
-        '--source-file', '%(pot_dir)s/%(resource_path)s.pot',
-        '--execute'
-    )
+
+    tx_version = getattr(txclib, '__version__', '0.0')
+    if tx_version < '0.13':
+        args_tmpl = (
+            '--auto-local', '-r', '%(transifex_project_name)s.%(resource_name)s',
+            '%(locale_dir)s/<lang>/LC_MESSAGES/%(resource_path)s.po',
+            '--source-lang', 'en',
+            '--source-file', '%(pot_dir)s/%(resource_path)s.pot',
+            '--execute'
+        )
+    else:
+        args_tmpl = (
+            'mapping',
+            '-r', '%(transifex_project_name)s.%(resource_name)s',
+            '-t', 'PO',
+            '-s', 'en',
+            '-f', '%(pot_dir)s/%(resource_path)s.pot',
+            '--execute',
+            '%(locale_dir)s/<lang>/LC_MESSAGES/%(resource_path)s.po',
+        )
 
     # convert transifex_project_name to internal name
     transifex_project_name = transifex_project_name.replace(' ', '-')
@@ -144,8 +158,7 @@ def update_txconfig_resources(transifex_project_name, locale_dir, pot_dir):
                 resource_name = normalize_resource_name(resource_path)
                 l = locals()
                 args = [arg % l for arg in args_tmpl]
+                # print('set', args, tx_root)
                 txclib.utils.exec_command('set', args, tx_root)
             else:
                 click.echo('{0} is empty, skipped'.format(pot_file))
-
-    txclib.utils.exec_command('set', ['-t', 'PO'], tx_root)
