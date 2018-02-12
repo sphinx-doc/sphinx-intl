@@ -156,8 +156,8 @@ def update_txconfig_resources(transifex_project_name, locale_dir, pot_dir):
             pot = load_po(pot_file)
             if len(pot):
                 resource_name = normalize_resource_name(resource_path)
-                l = locals()
-                args = [arg % l for arg in args_tmpl]
+                lv = locals()
+                args = [arg % lv for arg in args_tmpl]
                 # print('set', args, tx_root)
                 txclib.utils.exec_command('set', args, tx_root)
             else:
