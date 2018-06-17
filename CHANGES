@@ -17,6 +17,8 @@ Features
 Documentation
 -------------
 
+- #22: ```_build/locale`` (for old sphinx) -> ``_build/gettext`` (for current sphinx)
+
 Bug Fixes
 ---------
 
