@@ -1,6 +1,6 @@
 # Type annotations for commands.py
 
-from typing import Text, Any, Optional, Mapping, Tuple, List, Sequence, Callable, Iterable, Dict
+from typing import Text, Any, Mapping, Tuple, List, Sequence, Callable
 
 
 import click
@@ -55,29 +55,6 @@ option_transifex_username: Callable
 option_transifex_password: Callable
 option_transifex_project_name: Callable
 CONTEXT_SETTINGS: Mapping[Text, Sequence[Text]]
-
-
-class Tags(object):
-    tags: Dict[Text, bool] = ...
-    __contains__: Callable[[Text], bool]
-
-    def __init__(self,
-                 tags: Optional[List[Text]] = ...
-                 ) -> None: ...
-
-    def __iter__(self) -> Iterable[Mapping[Text, bool]]: ...
-
-    def has(self,
-            tag:Text
-            ) -> bool: ...
-
-    def add(self,
-            tag:Text
-            ) -> None: ...
-
-    def remove(self,
-            tag:Text
-            ) -> None: ...
 
 
 class LanguagesType(click.ParamType):
