@@ -6,7 +6,6 @@ from typing import Text, Any, Mapping, Tuple, List, Sequence, Callable
 import click
 
 ENVVAR_PREFIX: Text
-TAGS: Tags
 
 
 def main(ctx: Any,
