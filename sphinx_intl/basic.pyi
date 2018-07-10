@@ -1,6 +1,6 @@
 # Type annotations for basic.py
 
-from typing import Text, Any, Optional, Mapping, Tuple, List, Sequence
+from typing import Text, Mapping, Tuple, List, Sequence
 
 
 def get_lang_dirs(path: Text) -> Tuple[Tuple[List[Text]]]: ...
