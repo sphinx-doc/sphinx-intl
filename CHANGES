@@ -7,6 +7,11 @@ CHANGES
 
 Environments
 ------------
+- Drop supporting Python-3.4
+- Add supporting Python-3.7.
+
+  #25: Python-3.7 introduce ``__dir__`` module function by :pep:`562`, so the
+  attribute must not override for another purpose. Thanks to Julien Enselme.
 
 Incompatibility
 ---------------
