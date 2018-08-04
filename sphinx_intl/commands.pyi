@@ -1,6 +1,6 @@
 # Type annotations for commands.py
 
-from typing import Text, Any, Mapping, Tuple, List, Sequence, Callable
+from typing import Text, Any, Mapping, Tuple, List, Sequence, Callable, Union
 
 
 import click
@@ -57,8 +57,8 @@ CONTEXT_SETTINGS: Mapping[Text, Sequence[Text]]
 
 
 class LanguagesType(click.ParamType):
-    name: Text= ...
-    envvar_list_splitter: Text= ...
+    name: Union[Text, unicode]= ...
+    envvar_list_splitter: Union[Text, unicode]= ...
     def convert(self,
                 value: Text,
                 param: Any,
