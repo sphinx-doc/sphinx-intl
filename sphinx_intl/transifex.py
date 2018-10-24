@@ -15,9 +15,12 @@ from .catalog import load_po
 
 # To avoid using invalid resource name, append underscore to such names.
 # As a limitation, append `_` doesn't care about collision to other resources.
-# e.g. 'glossary' and 'glossary_' are pushed as a 'glossary_'.
+# e.g. 'glossary' and 'glossary_' are pushed as a 'glossary_'. The following
+# resource names are reserved slugs, Transifex will reply with an error on these
+# resource names.
 IGNORED_RESOURCE_NAMES = (
-    'glossary',  # transifex reject this name
+    'glossary',
+    'settings',
 )
 
 TRANSIFEXRC_TEMPLATE = """\

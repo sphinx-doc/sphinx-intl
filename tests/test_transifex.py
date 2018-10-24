@@ -127,6 +127,7 @@ def test_update_txconfig_resources_with_potfile_including_symbols(home_in_temp, 
     ('spam-ham/egg.pot', 'spam-ham--egg_pot'),
     ('glossary', 'glossary_'),
     ('glossary_', 'glossary_'),
+    ('settings', 'settings_'),
 ])
 def test_normalize_resource_name(input, expected):
     _callSUT = transifex.normalize_resource_name
