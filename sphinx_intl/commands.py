@@ -129,7 +129,8 @@ option_line_width = click.option(
     envvar=ENVVAR_PREFIX + '_LINE_WIDTH',
     type=int, default=76, metavar='<WIDTH>', show_default=True,
     multiple=False,
-    help='The maximum line width for the po files, 0 or a negative number disable line wrapping')
+    help='The maximum line width for the po files, 0 or a negative number '
+         'disable line wrapping')
 
 option_transifex_username = click.option(
     '--transifex-username',
