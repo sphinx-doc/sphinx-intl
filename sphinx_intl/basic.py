@@ -22,13 +22,14 @@ def get_lang_dirs(path):
 # ==================================
 # commands
 
-def update(locale_dir, pot_dir, languages):
+def update(locale_dir, pot_dir, languages, line_width=76):
     """
     Update specified language's po files from pot.
 
     :param unicode locale_dir: path for locale directory
     :param unicode pot_dir: path for pot directory
     :param tuple languages: languages to update po files
+    :param number line_width: maximum line wdith of po files
     :return: {'create': 0, 'update': 0, 'notchanged': 0}
     :rtype: dict
     """
@@ -60,14 +61,14 @@ def update(locale_dir, pot_dir, languages):
                         status['update'] += 1
                         click.echo('Update: {0} +{1}, -{2}'.format(
                             po_file, len(added), len(deleted)))
-                        c.dump_po(po_file, cat)
+                        c.dump_po(po_file, cat, line_width)
                     else:
                         status['notchanged'] += 1
                         click.echo('Not Changed: {0}'.format(po_file))
                 else:  # new po file
                     status['create'] += 1
                     click.echo('Create: {0}'.format(po_file))
-                    c.dump_po(po_file, cat_pot)
+                    c.dump_po(po_file, cat_pot, line_width)
 
     return status
 
