@@ -25,5 +25,8 @@ pygments_style = 'sphinx'
 # -- Options for HTML output -------------------------------------------------
 
 html_theme = 'sphinx_rtd_theme'
-# html_theme_options = {}
 
+# -- Options for sphinx-intl example
+
+locale_dirs = ['locale/']   # po files will be created in this directory
+gettext_compact = False     # optional: avoid file concatenation in sub directories.

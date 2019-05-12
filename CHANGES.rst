@@ -20,6 +20,7 @@ Features
 Documentation
 -------------
 * #6: http://sphinx-intl.rtfd.io/
+* #23: Add working example for generating pot/po files
 
 Bug Fixes
 ---------
