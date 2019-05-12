@@ -1,0 +1,4 @@
+-e.[transifex,test]
+-rrequirements-testing.txt
+twine
+wheel
