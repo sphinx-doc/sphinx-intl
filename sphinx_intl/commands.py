@@ -124,6 +124,14 @@ option_language = click.option(
     multiple=True,
     help="Target language to update po files. Default is ALL.")
 
+option_line_width = click.option(
+    '-w', '--line-width',
+    envvar=ENVVAR_PREFIX + '_LINE_WIDTH',
+    type=int, default=76, metavar='<WIDTH>', show_default=True,
+    multiple=False,
+    help='The maximum line width for the po files, 0 or a negative number '
+         'disable line wrapping')
+
 option_transifex_username = click.option(
     '--transifex-username',
     envvar=ENVVAR_PREFIX + '_TRANSIFEX_USERNAME',
@@ -227,7 +235,8 @@ def main(ctx, config, tag):
 @option_locale_dir
 @option_pot_dir
 @option_language
-def update(locale_dir, pot_dir, language):
+@option_line_width
+def update(locale_dir, pot_dir, language, line_width):
     """
     Update specified language's po files from pot.
 
@@ -253,7 +262,7 @@ def update(locale_dir, pot_dir, language):
                % locals())
         raise click.BadParameter(msg, param_hint='language')
 
-    basic.update(locale_dir, pot_dir, languages)
+    basic.update(locale_dir, pot_dir, languages, line_width)
 
 
 @main.command()
