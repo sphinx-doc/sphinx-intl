@@ -59,7 +59,7 @@ Basic Features
 Requirements for basic
 -----------------------
 
-- Python 3.6, 3.5, 3.4, 2.7, pypy.
+- Python 3.7, 3.6, 3.5, 2.7, pypy.
 - external library: setuptools_, six_, babel_, click_
 
 
