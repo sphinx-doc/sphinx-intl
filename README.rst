@@ -45,4 +45,4 @@ Licensed under the BSD license.
 CHANGES
 =======
 
-See: https://github.com/sphinx-doc/sphinx-intl/blob/master/CHANGES
+See: https://sphinx-intl.readthedocs.io/en/master/changes.html
