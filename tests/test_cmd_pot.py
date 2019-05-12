@@ -8,8 +8,6 @@
     :copyright: Copyright 2015 by Takayuki SHIMIZUKAWA.
     :license: BSD, see LICENSE for details.
 """
-from __future__ import with_statement
-
 from click.testing import CliRunner
 
 from sphinx_intl import commands
