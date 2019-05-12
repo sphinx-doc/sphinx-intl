@@ -19,6 +19,7 @@ Features
 
 Documentation
 -------------
+* #6: http://sphinx-intl.rtfd.io/
 
 Bug Fixes
 ---------
