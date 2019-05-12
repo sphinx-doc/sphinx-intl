@@ -5,7 +5,7 @@
 
     Test functions that implements pot related features.
 
-    :copyright: Copyright 2015 by Takayuki SHIMIZUKAWA.
+    :copyright: Copyright 2019 by Takayuki SHIMIZUKAWA.
     :license: BSD, see LICENSE for details.
 """
 import mock

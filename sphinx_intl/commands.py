@@ -4,7 +4,7 @@
     ~~~~~~~~~~~
     Sphinx utility that make it easy to translate and to apply translation.
 
-    :copyright: Copyright 2013 by Takayuki SHIMIZUKAWA.
+    :copyright: Copyright 2019 by Takayuki SHIMIZUKAWA.
     :license: BSD, see LICENSE for details.
 """
 import re
