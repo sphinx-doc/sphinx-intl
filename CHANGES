@@ -22,6 +22,9 @@ Incompatibility
 Features
 --------
 
+* #28,#29: Add option `'-w', '--line-width'` for the maximum line width of PO files.
+  Thanks to Armand Ciejak.
+
 Documentation
 -------------
 
