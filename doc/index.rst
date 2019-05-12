@@ -51,6 +51,9 @@ Contents
    basic
    refs
    dev
-   changes
    authors
 
+.. toctree::
+   :maxdepth: 1
+
+   changes
