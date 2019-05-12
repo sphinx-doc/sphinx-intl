@@ -13,24 +13,27 @@ Basic Features
 
 Optional features
 ==================
-These features need `transifex-client`_ library.
+These features depends to `transifex-client`_ library.
+Please refer Installation_ section to install it.
 
-* create .transifexrc file from environment variable, without interactive
+* create ``.transifexrc`` file from environment variable, without interactive
   input.
-* create .tx/config file without interactive input.
-* update .tx/config file from locale/pot files automatically.
+* create ``.tx/config`` file without interactive input.
+* update ``.tx/config`` file from locale/pot files automatically.
 * build mo files from po files in the locale directory.
 
 You need to use `tx` command for below features:
 
-* `tx push -s` : push pot (translation catalogs) to transifex.
-* `tx pull -l ja` : pull po (translated catalogs) from transifex.
+* ``tx push -s`` : push pot (translation catalogs) to transifex.
+* ``tx pull -l ja`` : pull po (translated catalogs) from transifex.
+
+.. _transifex-client: https://pypi.python.org/pypi/transifex-client
 
 
 Installation
 =============
 
-Recommend strongly: use virtualenv for this procedure::
+Recommend strongly: use virtualenv/venv for this procedure::
 
    $ pip install sphinx-intl
 

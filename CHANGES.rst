@@ -38,7 +38,7 @@ Environments
 Incompatibility
 ---------------
 
-* #27: 'settings' resource name will be renamed to 'settings_' on Transifex.
+* #27: `settings` resource name will be renamed to `settings_` on Transifex.
   Thanks to Anthony.
 
 Features
@@ -86,7 +86,7 @@ Bug Fixes
 Environments
 ------------
 * Drop supporting Python-3.3 and 2.6
-- Add supporting Python-3.6
+* Add supporting Python-3.6
 
 Bug Fixes
 ---------
@@ -122,7 +122,7 @@ Environments
 Incompatibility
 ---------------
 
-* 'glossary' resource name will be renamed to 'glossary_' on Transifex.
+* `glossary` resource name will be renamed to `glossary_` on Transifex.
   Since Aug 2015, Transifex reject 'glossary' resource name because the slug is reserved.
 
 Features
