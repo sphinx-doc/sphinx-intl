@@ -2,6 +2,27 @@
 CHANGES
 =======
 
+1.0.0 (2019/05/12)
+===================
+
+Environments
+------------
+* Adopt to semver_
+
+.. _semver: https://semver.org/spec/v2.0.0.html
+
+Incompatibility
+---------------
+
+Features
+--------
+
+Documentation
+-------------
+
+Bug Fixes
+---------
+
 0.9.12 (2019/05/12)
 ===================
 
