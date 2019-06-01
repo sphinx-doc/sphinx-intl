@@ -4,18 +4,14 @@ Python compatibility functions.
 import sys
 import os
 import warnings
-
-if False:
-    from typing import Any, Callable  # NOQA
-
+from typing import Any, Callable
 
 # ------------------------------------------------------------------------------
 # Python 2/3 compatibility
 fs_encoding = sys.getfilesystemencoding() or sys.getdefaultencoding()
 
 
-def relpath(path, start=os.curdir):
-    # type: (str, str) -> str
+def relpath(path: str, start: str = os.curdir) -> str:
     """Return a relative version of a path"""
     try:
         return os.path.relpath(path, start)
@@ -25,8 +21,7 @@ def relpath(path, start=os.curdir):
 
 # convert_with_2to3():
 # support for running 2to3 over config files
-def convert_with_2to3(filepath):
-    # type: (str) -> str
+def convert_with_2to3(filepath: str) -> str:
     from lib2to3.refactor import RefactoringTool, get_fixers_from_package
     from lib2to3.pgen2.parse import ParseError
     fixers = get_fixers_from_package('lib2to3.fixes')
@@ -42,8 +37,7 @@ def convert_with_2to3(filepath):
     return str(tree)
 
 
-def execfile_(filepath, _globals, open=open):
-    # type: (str, Any, Callable) -> None
+def execfile_(filepath: str, _globals: Any, open: Callable = open) -> None:
     with open(filepath, 'rb') as f:
         source = f.read()
 
