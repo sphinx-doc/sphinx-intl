@@ -2,6 +2,25 @@
 CHANGES
 =======
 
+2.0.0 (unreleased)
+==================
+
+Environments
+------------
+- Drop supporting Python-2.7
+
+Incompatibility
+---------------
+
+Features
+--------
+
+Documentation
+-------------
+
+Bug Fixes
+---------
+
 1.0.0 (2019/05/12)
 ===================
 
