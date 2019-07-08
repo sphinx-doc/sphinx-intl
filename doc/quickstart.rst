@@ -57,7 +57,7 @@ This section describe to translate with Sphinx_ and `sphinx-intl` command.
 
    On Windows::
 
-      $ set SPHINXOPTS="-Dlanguage='ja'"
+      $ set SPHINXOPTS=-Dlanguage=ja
       $ make html
 
 That's all!
@@ -90,7 +90,6 @@ QuickStart console log
 
    (.venv) C:/sphinx-intl/doc> make gettext
    Running Sphinx v2.0.1
-   loading translations ['ja']... not available for built-in messages
    making output directory... done
    building [gettext]: targets for 0 template files
    building [gettext]: targets for 7 source files that are out of date
@@ -199,13 +198,14 @@ QuickStart console log
    (.venv) C:/sphinx-intl/doc> # Edit po files for each languages
    (.venv) C:/sphinx-intl/doc> # ================================
 
-   (.venv) C:/sphinx-intl/doc> set SPHINXOPTS="-Dlanguage='ja'"
+   (.venv) C:/sphinx-intl/doc> set SPHINXOPTS=-Dlanguage=ja
 
    (.venv) C:/sphinx-intl/doc> make html
    Running Sphinx v2.0.1
-   loading translations ['ja']... not available for built-in messages
+   loading translations [ja]... done
    making output directory... done
-   building [mo]: targets for 0 po files that are out of date
+   building [mo]: targets for 7 po files that are out of date
+   writing output... [100%] locale/ja/LC_MESSAGES/refs.mo
    building [html]: targets for 7 source files that are out of date
    updating environment: 7 added, 0 changed, 0 removed
    reading sources... [100%] refs
@@ -221,7 +221,7 @@ QuickStart console log
 
    copying static files... done
    copying extra files... done
-   dumping search index in English (code: en) ... done
+   dumping search index in Japanese (code: ja) ... done
    dumping object inventory... done
    build succeeded.
 
