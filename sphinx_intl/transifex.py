@@ -150,7 +150,8 @@ def update_txconfig_resources(transifex_project_name, locale_dir, pot_dir):
     transifex_project_name = re.sub(r'[^\-_\w]', '', transifex_project_name)
 
     for dirpath, dirnames, filenames in os.walk(pot_dir):
-        for filename in filenames:
+        dirnames.sort()
+        for filename in sorted(filenames):
             pot_file = os.path.join(dirpath, filename)
             base, ext = os.path.splitext(pot_file)
             if ext != ".pot":
