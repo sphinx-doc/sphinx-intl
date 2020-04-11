@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-2.1.0 (unreleased)
+2.0.1 (2020/04/11)
 ==================
 
 Environments
@@ -19,6 +19,7 @@ Documentation
 
 Bug Fixes
 ---------
+- #38: transifex: Sort dirs and files alphabetically
 
 2.0.0 (2019/06/01)
 ==================
