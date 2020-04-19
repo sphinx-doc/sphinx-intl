@@ -5,7 +5,7 @@ Quick Start
 Installation
 ============
 
-Please install sphinx-intl with using pip (8.1.1 or later).
+Please install sphinx-intl using pip (8.1.1 or later).
 
 .. code-block:: bash
 
@@ -15,7 +15,7 @@ Please install sphinx-intl with using pip (8.1.1 or later).
 QuickStart for sphinx translation
 ===================================
 
-This section describe to translate with Sphinx_ and `sphinx-intl` command.
+This section describe how to translate with Sphinx_ and `sphinx-intl` command.
 
 1. Create your document by using Sphinx.
 
@@ -35,14 +35,14 @@ This section describe to translate with Sphinx_ and `sphinx-intl` command.
 
       $ make gettext
 
-   This invoke the sphinx gettext builder that generates ``*.pot`` files under
+   This invokes the sphinx gettext builder that generates ``*.pot`` files under
    ``_build/gettext`` directory.
 
 4. Setup/Update your po files under ``locale_dir``::
 
       $ sphinx-intl update -p _build/gettext -l de -l ja
 
-   After this, you got these directories that contain po files:
+   After this, you get these directories that contain po files:
 
    * `./locale/de/LC_MESSAGES/`
    * `./locale/ja/LC_MESSAGES/`
@@ -62,7 +62,7 @@ This section describe to translate with Sphinx_ and `sphinx-intl` command.
 
 That's all!
 
-For more information, please refer :doc:`refs`.
+For more information, please refer to :doc:`refs`.
 
 .. _Sphinx: http://sphinx-doc.org
 

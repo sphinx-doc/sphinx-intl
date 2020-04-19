@@ -246,7 +246,7 @@ def update(locale_dir, pot_dir, language, line_width):
     if not pot_dir:
         pot_dir = os.path.join(locale_dir, 'pot')
     if not os.path.exists(pot_dir):
-        msg = ("%(pot_dir)r is not exist. Please specify pot directory with "
+        msg = ("%(pot_dir)r does not exist. Please specify pot directory with "
                "-p option, or preparing your pot files in %(pot_dir)r."
                % locals())
         raise click.BadParameter(msg, param_hint='pot_dir')
