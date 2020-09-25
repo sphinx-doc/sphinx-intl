@@ -269,7 +269,7 @@ def update(locale_dir, pot_dir, language, line_width):
 @option_language
 def build(locale_dir, output_dir, language):
     """
-    Update specified language's po files from pot.
+    Build specified language's po files into mo.
     """
     if not language:
         language = get_lang_dirs(locale_dir)
