@@ -75,7 +75,7 @@ def update(locale_dir, pot_dir, languages, line_width=76):
 
 def build(locale_dir, output_dir, languages):
     """
-    Update specified language's po files from pot.
+    Build specified language's po files into mo.
 
     :param unicode locale_dir: path for locale directory
     :param unicode output_dir: path for mo output directory
