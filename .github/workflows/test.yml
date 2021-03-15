@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.5, 3.6, 3.7]
+        python-version: [3.5, 3.6, 3.7, 3.8, 3.9, 3.10-dev]
       max-parallel: 1
 
     steps:
@@ -31,6 +31,13 @@ jobs:
 
       - name: Setup python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
+        if: "!endsWith(matrix.python-version, '-dev')"
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Setup python ${{ matrix.python-version }} (via deadsnakes)
+        uses: deadsnakes/action@v2.1.1
+        if: "endsWith(matrix.python-version, '-dev')"
         with:
           python-version: ${{ matrix.python-version }}
 
