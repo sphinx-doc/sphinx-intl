@@ -53,5 +53,5 @@ def execfile_(filepath: str, _globals: Any, open: Callable = open) -> None:
         warnings.warn('Support for evaluating Python 2 syntax is deprecated '
                       'and will be removed in sphinx-intl 4.0. '
                       'Convert %s to Python 3 syntax.',
-                      filepath)
+                      source=filepath)
     exec(code, _globals)
