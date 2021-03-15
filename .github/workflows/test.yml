@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        env: [flake8]
+        env: [flake8, mypy]
 
     steps:
       - name: Checkout code
