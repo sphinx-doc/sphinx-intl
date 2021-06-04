@@ -68,6 +68,7 @@ def update(locale_dir, pot_dir, languages, line_width=76):
                 else:  # new po file
                     status['create'] += 1
                     click.echo('Create: {0}'.format(po_file))
+                    cat_pot.locale = lang
                     c.dump_po(po_file, cat_pot, line_width)
 
     return status
