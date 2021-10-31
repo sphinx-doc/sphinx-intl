@@ -5,6 +5,7 @@ import re
 import textwrap
 
 import click
+from sphinx.util.osutil import cd
 
 from .pycompat import relpath
 from .catalog import load_po
@@ -159,10 +160,11 @@ def update_txconfig_resources(transifex_project_name, locale_dir, pot_dir):
             resource_path = relpath(base, pot_dir)
             pot = load_po(pot_file)
             if len(pot):
-                resource_name = normalize_resource_name(resource_path)
-                lv = locals()
-                args = [arg % lv for arg in args_tmpl]
-                # print('set', args, tx_root)
-                txclib.utils.exec_command('set', args, tx_root)
+                with cd("."):  # Change the current working directory after tx processing
+                    resource_name = normalize_resource_name(resource_path)
+                    lv = locals()
+                    args = [arg % lv for arg in args_tmpl]
+                    # print('set', args, tx_root)
+                    txclib.utils.exec_command('set', args, tx_root)
             else:
                 click.echo('{0} is empty, skipped'.format(pot_file))
