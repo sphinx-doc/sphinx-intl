@@ -19,6 +19,7 @@ Documentation
 
 Bug Fixes
 ---------
+- #55: FileNotFoundError on update-txconfig-resources in the subdirectory
 
 2.0.1 (2020/04/11)
 ==================
