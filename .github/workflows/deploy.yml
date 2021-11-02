@@ -28,6 +28,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r doc/requirements.txt
+          pip install sphinx-intl
       
       # 克隆
       - name: Clone
