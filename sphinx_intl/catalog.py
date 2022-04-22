@@ -23,7 +23,7 @@ def load_po(filename):
         return pofile.read_po(f, charset=charset)
 
 
-def dump_po(filename, catalog, line_width=76):
+def dump_po(filename, catalog, line_width=76, sort_output=False, sort_by_message_location=False):
     """write po/pot file from catalog object
 
     :param unicode filename: path to po file
@@ -37,7 +37,7 @@ def dump_po(filename, catalog, line_width=76):
 
     # Because babel automatically encode strings, file should be open as binary mode.
     with io.open(filename, 'wb') as f:
-        pofile.write_po(f, catalog, line_width)
+        pofile.write_po(f, catalog, line_width, sort_output=sort_output, sort_by_file=sort_by_message_location)
 
 
 def write_mo(filename, catalog):
