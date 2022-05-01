@@ -130,17 +130,17 @@ option_line_width = click.option(
     help='The maximum line width for the po files, 0 or a negative number '
          'disable line wrapping')
 
-option_transifex_username = click.option(
-    '--transifex-username',
-    envvar=ENVVAR_PREFIX + '_TRANSIFEX_USERNAME',
-    type=str, metavar='<USERNAME>', show_default=True,
-    help="Your transifex username. Default is None.")
+option_transifex_token = click.option(
+    '--transifex-token',
+    envvar=ENVVAR_PREFIX + '_TRANSIFEX_TOKEN',
+    type=str, metavar='<TOKEN>', show_default=True,
+    help="Your transifex token. Default is None.")
 
-option_transifex_password = click.option(
-    '--transifex-password',
-    envvar=ENVVAR_PREFIX + '_TRANSIFEX_PASSWORD',
-    type=str, metavar='<PASSWORD>', show_default=True,
-    help="Your transifex password. Default is None.")
+option_transifex_organization_name = click.option(
+    '--transifex-organization-name',
+    envvar=ENVVAR_PREFIX + '_TRANSIFEX_ORGANIZATION_NAME',
+    type=str, metavar='<ORGANIZATION-NAME>', show_default=True,
+    help="Your transifex organization name. default is None")
 
 option_transifex_project_name = click.option(
     '--transifex-project-name',
@@ -297,13 +297,12 @@ def stat(locale_dir, language):
 
 
 @main.command('create-transifexrc')
-@option_transifex_username
-@option_transifex_password
-def create_transifexrc(transifex_username, transifex_password):
+@option_transifex_token
+def create_transifexrc(transifex_token):
     """
     Create `$HOME/.transifexrc`
     """
-    transifex.create_transifexrc(transifex_username, transifex_password)
+    transifex.create_transifexrc(transifex_token)
 
 
 @main.command('create-txconfig')
@@ -315,17 +314,18 @@ def create_txconfig():
 
 
 @main.command('update-txconfig-resources')
+@option_transifex_organization_name
 @option_transifex_project_name
 @option_locale_dir
 @option_pot_dir
-def update_txconfig_resources(transifex_project_name, locale_dir, pot_dir):
+def update_txconfig_resources(transifex_organization_name, transifex_project_name, locale_dir, pot_dir):
     """
     Update resource sections of `./.tx/config`.
     """
     if not pot_dir:
         pot_dir = os.path.join(locale_dir, 'pot')
 
-    transifex.update_txconfig_resources(transifex_project_name, locale_dir, pot_dir)
+    transifex.update_txconfig_resources(transifex_organization_name, transifex_project_name, locale_dir, pot_dir)
 
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
--e.[transifex,test]
+-e.[test]
 -rrequirements-testing.txt
 twine
 wheel
