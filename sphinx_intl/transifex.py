@@ -69,7 +69,7 @@ def check_transifex_cli_installed():
             """)
         raise click.BadParameter(msg)
 
-    version_msg = subprocess.check_output("tx --version", shell=True)
+    version_msg = subprocess.check_output("tx --version", shell=True).decode('utf-8')
     version = tuple(int(x) for x in version_msg.split("=")[-1].strip().split("."))
 
     if not version_msg.startswith("TX Client"):
@@ -167,20 +167,25 @@ def update_txconfig_resources(transifex_organization_name, transifex_project_nam
         'add',
         '--organization', '%(transifex_organization_name)s',
         '--project', '%(transifex_project_name)s',
-        '--resource', '%(resource_path)s',
-        '--file-filter', '%(locale_dir)s/<lang>/LC_MESSAGES/%(resource_path)s.po',
+        '--resource', '%(resource_name)s',
+        '--file-filter', '%(locale_dir)s/<lang>/LC_MESSAGES/%(resource_name)s.po',
         '--type', 'PO',
         '%(pot_dir)s/%(resource_path)s.pot',
     )
 
+    # convert transifex_project_name to internal name
+    transifex_project_name = transifex_project_name.replace(' ', '-')
+    transifex_project_name = re.sub(r'[^\-_\w]', '', transifex_project_name)
+
     pot_dir = Path(pot_dir)
     for pot_path in sorted(pot_dir.glob('**/*.pot')):
-        resource_path = normalize_resource_name(str(pot_path.relative_to(pot_dir)))
+        resource_path = str(pot_path.relative_to(pot_dir).with_suffix(''))
+        resource_name = normalize_resource_name(resource_path)
         pot = load_po(str(pot_path))
         if len(pot):
             lv = locals()
             cmd = [arg % lv for arg in cmd_tmpl]
-            subprocess.run(cmd, shell=True)
+            subprocess.check_output(cmd, shell=False)
         else:
             click.echo('{0} is empty, skipped'.format(pot_path))
 

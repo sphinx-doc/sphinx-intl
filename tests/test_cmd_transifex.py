@@ -22,8 +22,7 @@ def test_create_transifexrc(home_in_temp):
     r1 = runner.invoke(commands.main,
                        [
                            'create-transifexrc',
-                           '--transifex-username', 'spam-id',
-                           '--transifex-password', 'egg-pw',
+                           '--transifex-token', 'green-token',
                        ])
     assert r1.exit_code == 0
 
@@ -36,12 +35,21 @@ def test_create_txconfig(home_in_temp, temp):
 def test_update_txconfig_resources(home_in_temp, temp):
     r1 = runner.invoke(commands.main, ['create-txconfig'])
     assert r1.exit_code == 0
-    r2 = runner.invoke(commands.update_txconfig_resources,
+
+    r2 = runner.invoke(commands.main,
                        [
+                           'create-transifexrc',
+                           '--transifex-token', 'green-token',
+                       ])
+    assert r2.exit_code == 0
+
+    r3 = runner.invoke(commands.update_txconfig_resources,
+                       [
+                           '--transifex-organization-name', 'eggs-org',
                            '--transifex-project-name', 'ham-project',
                            '-d', 'locale',
                        ])
-    assert r2.exit_code == 0
+    assert r3.exit_code == 0
 
 
 def test_update_txconfig_resources_with_config(home_in_temp, temp):
@@ -51,16 +59,20 @@ def test_update_txconfig_resources_with_config(home_in_temp, temp):
     [main]
     host = https://www.transifex.com
 
-    [ham-project.domain1]
     """))
 
     (temp / '_build' / 'locale').copytree(temp / 'locale' / 'pot')
 
-    r1 = runner.invoke(commands.main, ['update-txconfig-resources', '-d', 'locale'])
+    r1 = runner.invoke(commands.update_txconfig_resources,
+                       [
+                           '--transifex-organization-name', 'eggs-org',
+                           '--transifex-project-name', 'ham-project',
+                           '-d', 'locale',
+                       ])
     assert r1.exit_code == 0
 
     data = (tx_dir / 'config').text()
-    assert re.search(r'\[ham-project\.README\]', data)
+    assert re.search(r'\[o:eggs-org:p:ham-project:r:README\]', data)
 
 
 def test_update_txconfig_resources_with_pot_dir_argument(home_in_temp, temp):
@@ -70,19 +82,20 @@ def test_update_txconfig_resources_with_pot_dir_argument(home_in_temp, temp):
     [main]
     host = https://www.transifex.com
 
-    [ham-project.domain1]
     """))
 
     r1 = runner.invoke(commands.main,
                        ['update-txconfig-resources',
+                        '--transifex-organization-name', 'eggs-org',
+                        '--transifex-project-name', 'ham-project',
                         '-d', 'locale',
                         '-p', '_build/locale',
                         ])
     assert r1.exit_code == 0
 
     data = (tx_dir / 'config').text().replace('\\', '/')
-    assert re.search(r'\[ham-project\.README\]', data)
-    assert re.search(r'source_file = _build/locale/README.pot', data)
+    assert re.search(r'\[o:eggs-org:p:ham-project:r:README\]', data)
+    assert re.search(r'source_file\W*=\W*_build/locale/README.pot', data)
 
 
 def test_update_txconfig_resources_with_project_name_including_dots(home_in_temp, temp):
@@ -97,13 +110,14 @@ def test_update_txconfig_resources_with_project_name_including_dots(home_in_temp
 
     r1 = runner.invoke(commands.main,
                        ['update-txconfig-resources',
-                        '-d', 'locale',
+                        '--transifex-organization-name', 'eggs-org',
                         '--transifex-project-name', 'ham-project.com',
+                        '-d', 'locale',
                         ])
     assert r1.exit_code == 0
 
     data = (tx_dir / 'config').text()
-    assert re.search(r'\[ham-projectcom\.README\]', data)
+    assert re.search(r'\[o:eggs-org:p:ham-projectcom:r:README\]', data)
 
 
 def test_update_txconfig_resources_with_project_name_including_spaces(home_in_temp, temp):
@@ -119,12 +133,13 @@ def test_update_txconfig_resources_with_project_name_including_spaces(home_in_te
     r1 = runner.invoke(commands.main,
                        ['update-txconfig-resources',
                         '-d', 'locale',
+                        '--transifex-organization-name', 'eggs-org',
                         '--transifex-project-name', 'ham project com',
                         ])
     assert r1.exit_code == 0
 
     data = (tx_dir / 'config').text()
-    assert re.search(r'\[ham-project-com\.README\]', data)
+    assert re.search(r'\[o:eggs-org:p:ham-project-com:r:README\]', data)
 
 
 def test_update_txconfig_resources_with_potfile_including_symbols(home_in_temp, temp):
@@ -147,10 +162,11 @@ def test_update_txconfig_resources_with_potfile_including_symbols(home_in_temp, 
     r1 = runner.invoke(commands.main,
                        ['update-txconfig-resources',
                         '-d', 'locale',
+                        '--transifex-organization-name', 'eggs-org',
                         '--transifex-project-name', 'ham project com',
                         ])
     assert r1.exit_code == 0
 
     data = (tx_dir / 'config').text()
-    assert re.search(r'\[ham-project-com\.example_document\]', data)
-    assert re.search(r'\[ham-project-com\.test_document\]', data)
+    assert re.search(r'\[o:eggs-org:p:ham-project-com:r:example_document\]', data)
+    assert re.search(r'\[o:eggs-org:p:ham-project-com:r:test_document\]', data)

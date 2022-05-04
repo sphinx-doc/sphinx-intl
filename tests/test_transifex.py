@@ -17,7 +17,7 @@ from sphinx_intl import transifex
 
 
 def test_create_transifexrc(home_in_temp):
-    transifex.create_transifexrc('spam-id', 'egg-pw')
+    transifex.create_transifexrc('spam-token')
 
 
 def test_create_txconfig(home_in_temp, temp):
@@ -26,7 +26,7 @@ def test_create_txconfig(home_in_temp, temp):
 
 def test_update_txconfig_resources(home_in_temp, temp):
     transifex.create_txconfig()
-    transifex.update_txconfig_resources('ham-project', 'locale', '_build/locale')
+    transifex.update_txconfig_resources('eggs-org', 'ham-project', 'locale', '_build/locale')
 
 
 def test_update_txconfig_resources_with_config(home_in_temp, temp):
@@ -36,14 +36,13 @@ def test_update_txconfig_resources_with_config(home_in_temp, temp):
     [main]
     host = https://www.transifex.com
 
-    [ham-project.domain1]
     """))
 
-    transifex.update_txconfig_resources('ham-project', 'locale', '_build/locale')
+    transifex.update_txconfig_resources('eggs-org', 'ham-project', 'locale', '_build/locale')
 
     data = (tx_dir / 'config').text().replace('\\', '/')
-    assert re.search(r'\[ham-project\.README\]', data)
-    assert re.search(r'source_file = _build/locale/README.pot', data)
+    assert re.search(r'\[o:eggs-org:p:ham-project:r:README\]', data)
+    assert re.search(r'source_file\W*=\W*_build/locale/README.pot', data)
 
 
 def test_update_txconfig_resources_with_another_pot_dir(home_in_temp, temp):
@@ -58,10 +57,11 @@ def test_update_txconfig_resources_with_another_pot_dir(home_in_temp, temp):
 
     (temp / '_build' / 'locale').copytree(temp / 'locale' / 'pot')
 
-    transifex.update_txconfig_resources('ham-project', 'locale', 'locale/pot')
+    transifex.update_txconfig_resources('eggs-org', 'ham-project', 'locale', 'locale/pot')
 
     data = (tx_dir / 'config').text()
-    assert re.search(r'\[ham-project\.README\]', data)
+    assert re.search(r'\[o:eggs-org:p:ham-project:r:README\]', data)
+
 
 
 def test_update_txconfig_resources_with_project_name_including_dots(home_in_temp, temp):
@@ -74,10 +74,10 @@ def test_update_txconfig_resources_with_project_name_including_dots(home_in_temp
 
     (temp / '_build' / 'locale').copytree(temp / 'locale' / 'pot')
 
-    transifex.update_txconfig_resources('ham-project.com', 'locale', '_build/locale')
+    transifex.update_txconfig_resources('eggs-org', 'ham-project.com', 'locale', '_build/locale')
 
     data = (tx_dir / 'config').text()
-    assert re.search(r'\[ham-projectcom\.README\]', data)
+    assert re.search(r'\[o:eggs-org:p:ham-projectcom:r:README\]', data)
 
 
 def test_update_txconfig_resources_with_project_name_including_spaces(home_in_temp, temp):
@@ -90,10 +90,10 @@ def test_update_txconfig_resources_with_project_name_including_spaces(home_in_te
 
     (temp / '_build' / 'locale').copytree(temp / 'locale' / 'pot')
 
-    transifex.update_txconfig_resources('ham project com', 'locale', '_build/locale')
+    transifex.update_txconfig_resources('eggs-org', 'ham project com', 'locale', '_build/locale')
 
     data = (tx_dir / 'config').text()
-    assert re.search(r'\[ham-project-com\.README\]', data)
+    assert re.search(r'\[o:eggs-org:p:ham-project-com:r:README\]', data)
 
 
 def test_update_txconfig_resources_with_potfile_including_symbols(home_in_temp, temp):
@@ -113,11 +113,11 @@ def test_update_txconfig_resources_with_potfile_including_symbols(home_in_temp, 
     # copy README.pot to 'test.document.pot'
     (temp / '_build' / 'locale' / 'test.document.pot').write_text(readme)
 
-    transifex.update_txconfig_resources('ham project com', 'locale', '_build/locale')
+    transifex.update_txconfig_resources('eggs-org', 'ham project com', 'locale', '_build/locale')
 
     data = (tx_dir / 'config').text()
-    assert re.search(r'\[ham-project-com\.example_document\]', data)
-    assert re.search(r'\[ham-project-com\.test_document\]', data)
+    assert re.search(r'\[o:eggs-org:p:ham-project-com:r:example_document\]', data)
+    assert re.search(r'\[o:eggs-org:p:ham-project-com:r:test_document\]', data)
 
 
 @pytest.mark.parametrize("input,expected", [

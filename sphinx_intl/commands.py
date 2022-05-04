@@ -133,20 +133,20 @@ option_line_width = click.option(
 option_transifex_token = click.option(
     '--transifex-token',
     envvar=ENVVAR_PREFIX + '_TRANSIFEX_TOKEN',
-    type=str, metavar='<TOKEN>', show_default=True,
-    help="Your transifex token. Default is None.")
+    type=str, metavar='<TOKEN>', required=True,
+    help="Your transifex token.")
 
 option_transifex_organization_name = click.option(
     '--transifex-organization-name',
     envvar=ENVVAR_PREFIX + '_TRANSIFEX_ORGANIZATION_NAME',
-    type=str, metavar='<ORGANIZATION-NAME>', show_default=True,
-    help="Your transifex organization name. default is None")
+    type=str, metavar='<ORGANIZATION-NAME>', required=True,
+    help="Your transifex organization name.")
 
 option_transifex_project_name = click.option(
     '--transifex-project-name',
     envvar=ENVVAR_PREFIX + '_TRANSIFEX_PROJECT_NAME',
-    type=str, metavar='<PROJECT-NAME>', show_default=True,
-    help="Your transifex project name. default is None")
+    type=str, metavar='<PROJECT-NAME>', required=True,
+    help="Your transifex project name.")
 
 
 # ==================================
