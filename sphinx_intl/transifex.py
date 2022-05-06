@@ -8,16 +8,14 @@ from pathlib import Path
 from shutil import which
 
 import click
-from sphinx.util.osutil import cd
 
-from .pycompat import relpath
 from .catalog import load_po
 
 
 # ==================================
 # settings
 
-MINIMUM_VERSION = (1, 1, 0)
+TRANSIFEX_CLI_MINIMUM_VERSION = (1, 1, 0)
 
 # To avoid using invalid resource name, append underscore to such names.
 # As a limitation, append `_` doesn't care about collision to other resources.
@@ -69,8 +67,7 @@ def check_transifex_cli_installed():
             """)
         raise click.BadParameter(msg)
 
-    version_msg = subprocess.check_output("tx --version", shell=True).decode('utf-8')
-    version = tuple(int(x) for x in version_msg.split("=")[-1].strip().split("."))
+    version_msg = subprocess.check_output("tx --version", shell=True, encoding="utf-8")
 
     if not version_msg.startswith("TX Client"):
         msg = textwrap.dedent("""\
@@ -83,32 +80,18 @@ def check_transifex_cli_installed():
             """)
         raise click.BadParameter(msg)
 
-    if not version >= MINIMUM_VERSION:
+    version = tuple(int(x) for x in version_msg.split("=")[-1].strip().split("."))
+
+    if not version >= TRANSIFEX_CLI_MINIMUM_VERSION:
         msg = textwrap.dedent(f"""\
         An unsupported version of the Transifex CLI was found.
-        Version {MINIMUM_VERSION} or greater is required.
+        Version {TRANSIFEX_CLI_MINIMUM_VERSION} or greater is required.
         Please run the below command if you want to use this action:
 
             $ tx update
 
         """)
         raise click.BadParameter(msg)      
-
- 
-def get_tx_root():
-    check_transifex_cli_installed()
-    curr_dir = Path.cwd().resolve()
-
-    while True:
-        tx_root = curr_dir / ".tx"
-        if tx_root.is_dir():
-            return str(tx_root)
-
-        if curr_dir == curr_dir.root:
-            msg = "'.tx/config' not found. You need 'create-txconfig' first."
-            raise click.BadParameter(msg)           
-
-        curr_dir = curr_dir.parent
 
 
 # ==================================
@@ -159,8 +142,6 @@ def update_txconfig_resources(transifex_organization_name, transifex_project_nam
     Update resource sections of `./.tx/config`.
     """
     check_transifex_cli_installed()
-
-    tx_root = get_tx_root()
 
     cmd_tmpl = (
         'tx',
