@@ -8,6 +8,7 @@ from pathlib import Path
 from shutil import which
 
 import click
+from sphinx.util import status_iterator
 
 from .catalog import load_po
 
@@ -149,7 +150,7 @@ def update_txconfig_resources(transifex_organization_name, transifex_project_nam
         '--organization', '%(transifex_organization_name)s',
         '--project', '%(transifex_project_name)s',
         '--resource', '%(resource_name)s',
-        '--file-filter', '%(locale_dir)s/<lang>/LC_MESSAGES/%(resource_name)s.po',
+        '--file-filter', '%(locale_dir)s/<lang>/LC_MESSAGES/%(resource_path)s.po',
         '--type', 'PO',
         '%(pot_dir)s/%(resource_path)s.pot',
     )
@@ -159,7 +160,14 @@ def update_txconfig_resources(transifex_organization_name, transifex_project_nam
     transifex_project_name = re.sub(r'[^\-_\w]', '', transifex_project_name)
 
     pot_dir = Path(pot_dir)
-    for pot_path in sorted(pot_dir.glob('**/*.pot')):
+    pot_paths = sorted(pot_dir.glob('**/*.pot'))
+    for pot_path in status_iterator(
+        pot_paths,
+        "adding pots...",
+        "green",
+        len(pot_paths),
+        stringify_func=lambda p: str(p)
+    ):
         resource_path = str(pot_path.relative_to(pot_dir).with_suffix(''))
         resource_name = normalize_resource_name(resource_path)
         pot = load_po(str(pot_path))
