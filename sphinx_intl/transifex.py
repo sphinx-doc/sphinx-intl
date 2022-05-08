@@ -8,7 +8,6 @@ from pathlib import Path
 from shutil import which
 
 import click
-from sphinx.util import status_iterator
 
 from .catalog import load_po
 
@@ -161,20 +160,21 @@ def update_txconfig_resources(transifex_organization_name, transifex_project_nam
 
     pot_dir = Path(pot_dir)
     pot_paths = sorted(pot_dir.glob('**/*.pot'))
-    for pot_path in status_iterator(
+    with click.progressbar(
         pot_paths,
-        "adding pots...",
-        "green",
-        len(pot_paths),
-        stringify_func=lambda p: str(p)
-    ):
-        resource_path = str(pot_path.relative_to(pot_dir).with_suffix(''))
-        resource_name = normalize_resource_name(resource_path)
-        pot = load_po(str(pot_path))
-        if len(pot):
-            lv = locals()
-            cmd = [arg % lv for arg in cmd_tmpl]
-            subprocess.check_output(cmd, shell=False)
-        else:
-            click.echo('{0} is empty, skipped'.format(pot_path))
+        length = len(pot_paths),
+        color="green",
+        label="adding pots",
+        item_show_func=lambda p: str(p),
+    ) as progress_bar:
+        for pot_path in progress_bar:
+            resource_path = str(pot_path.relative_to(pot_dir).with_suffix(''))
+            resource_name = normalize_resource_name(resource_path)
+            pot = load_po(str(pot_path))
+            if len(pot):
+                lv = locals()
+                cmd = [arg % lv for arg in cmd_tmpl]
+                subprocess.check_output(cmd, shell=False)
+            else:
+                click.echo('{0} is empty, skipped'.format(pot_path))
 
