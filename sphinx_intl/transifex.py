@@ -164,7 +164,7 @@ def update_txconfig_resources(transifex_organization_name, transifex_project_nam
         pot_paths,
         length = len(pot_paths),
         color="green",
-        label="adding pots",
+        label="adding pots...",
         item_show_func=lambda p: str(p),
     ) as progress_bar:
         for pot_path in progress_bar:
