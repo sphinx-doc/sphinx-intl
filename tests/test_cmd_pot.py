@@ -8,6 +8,9 @@
     :copyright: Copyright 2019 by Takayuki SHIMIZUKAWA.
     :license: BSD, see LICENSE for details.
 """
+
+import os
+
 from click.testing import CliRunner
 
 from sphinx_intl import commands
@@ -65,6 +68,38 @@ def test_update_difference_detect(temp):
     assert r4.output.count('Create:') == 0
     assert r4.output.count('Update:') == 0
     assert r4.output.count('Not Changed:') == 1
+
+
+def test_update_line_width(temp):
+    with open('_build/locale/README.pot', 'r') as f:
+        template = f.read()
+
+    with open('_build/locale/README.pot', 'w') as f:
+        f.write(template)
+        f.write('\nmsgid "foorbar identifier1"\nmsgstr ""\n')
+
+    po_dir = os.path.join('locale', 'ja', 'LC_MESSAGES')
+    po_file = os.path.join(po_dir, 'README.po')
+
+    r1 = runner.invoke(commands.update, ['-d', 'locale', '-p', '_build/locale', '-l', 'ja'])
+    assert r1.exit_code == 0
+
+    with open(po_file, 'r') as f:
+        contents = f.read()
+        assert '"foorbar identifier1"\n' in contents
+
+    # change the identifier to trigger an update and impose a lower line-width count
+    with open('_build/locale/README.pot', 'w') as f:
+        f.write(template)
+        f.write('\nmsgid "foorbar identifier2"\nmsgstr ""\n')
+
+    r2 = runner.invoke(commands.update, ['-d', 'locale', '-p', '_build/locale', '-w', '1'])
+    assert r2.exit_code == 0
+
+    with open(po_file, 'r') as f:
+        contents = f.read()
+        assert '"foorbar"\n' in contents
+        assert '"identifier2"\n' in contents
 
 
 def test_stat(temp):
