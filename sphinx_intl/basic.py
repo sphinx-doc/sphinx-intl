@@ -29,7 +29,7 @@ def update(locale_dir, pot_dir, languages, line_width=76):
     :param unicode locale_dir: path for locale directory
     :param unicode pot_dir: path for pot directory
     :param tuple languages: languages to update po files
-    :param number line_width: maximum line wdith of po files
+    :param number line_width: maximum line width of po files
     :return: {'create': 0, 'update': 0, 'notchanged': 0}
     :rtype: dict
     """
