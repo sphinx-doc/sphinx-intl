@@ -22,7 +22,7 @@ def get_lang_dirs(path):
 # ==================================
 # commands
 
-def update(locale_dir, pot_dir, languages, line_width=76):
+def update(locale_dir, pot_dir, languages, line_width=76, ignore_obsolete=False):
     """
     Update specified language's po files from pot.
 
@@ -30,6 +30,7 @@ def update(locale_dir, pot_dir, languages, line_width=76):
     :param unicode pot_dir: path for pot directory
     :param tuple languages: languages to update po files
     :param number line_width: maximum line width of po files
+    :param bool ignore_obsolete: ignore obsolete entries in po files
     :return: {'create': 0, 'update': 0, 'notchanged': 0}
     :rtype: dict
     """
@@ -61,7 +62,8 @@ def update(locale_dir, pot_dir, languages, line_width=76):
                         status['update'] += 1
                         click.echo('Update: {0} +{1}, -{2}'.format(
                             po_file, len(added), len(deleted)))
-                        c.dump_po(po_file, cat, width=line_width)
+                        c.dump_po(po_file, cat, width=line_width,
+                                  ignore_obsolete=ignore_obsolete)
                     else:
                         status['notchanged'] += 1
                         click.echo('Not Changed: {0}'.format(po_file))
@@ -69,7 +71,8 @@ def update(locale_dir, pot_dir, languages, line_width=76):
                     status['create'] += 1
                     click.echo('Create: {0}'.format(po_file))
                     cat_pot.locale = lang
-                    c.dump_po(po_file, cat_pot, width=line_width)
+                    c.dump_po(po_file, cat_pot, width=line_width,
+                              ignore_obsolete=ignore_obsolete)
 
     return status
 
