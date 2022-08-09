@@ -15,7 +15,7 @@ from .catalog import load_po
 # ==================================
 # settings
 
-TRANSIFEX_CLI_MINIMUM_VERSION = (1, 1, 0)
+TRANSIFEX_CLI_MINIMUM_VERSION = (1, 2, 1)
 
 # To avoid using invalid resource name, append underscore to such names.
 # As a limitation, append `_` doesn't care about collision to other resources.
