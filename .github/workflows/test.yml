@@ -5,6 +5,7 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         python-version: [3.5, 3.6, 3.7, 3.8, 3.9, 3.10-dev]
       max-parallel: 1
@@ -54,6 +55,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         env: [flake8, mypy]
 
