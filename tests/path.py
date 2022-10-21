@@ -134,7 +134,7 @@ class path(text_type):
         """
         Returns the text in the file.
         """
-        f = open(self, mode='U', **kwargs)
+        f = open(self, mode='r', **kwargs)
         try:
             return f.read()
         finally:

@@ -12,9 +12,6 @@ install_requires = [
 ]
 
 extras_require = {
-    'transifex': [
-        'transifex_client>=0.11'
-    ],
     'test': [
         'pytest',
         'mock',
