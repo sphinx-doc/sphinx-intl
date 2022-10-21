@@ -83,14 +83,14 @@ def check_transifex_cli_installed():
     version = tuple(int(x) for x in version_msg.split("=")[-1].strip().split("."))
 
     if not version >= TRANSIFEX_CLI_MINIMUM_VERSION:
-        msg = textwrap.dedent(f"""\
+        msg = textwrap.dedent("""\
         An unsupported version of the Transifex CLI was found.
-        Version {TRANSIFEX_CLI_MINIMUM_VERSION} or greater is required.
+        Version {} or greater is required.
         Please run the below command if you want to use this action:
 
             $ tx update
 
-        """)
+        """.format(TRANSIFEX_CLI_MINIMUM_VERSION))
         raise click.BadParameter(msg)      
 
 
