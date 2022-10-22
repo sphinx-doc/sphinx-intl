@@ -318,14 +318,16 @@ def create_txconfig():
 @option_transifex_project_name
 @option_locale_dir
 @option_pot_dir
-def update_txconfig_resources(transifex_organization_name, transifex_project_name, locale_dir, pot_dir):
+def update_txconfig_resources(transifex_organization_name, transifex_project_name,
+                              locale_dir, pot_dir):
     """
     Update resource sections of `./.tx/config`.
     """
     if not pot_dir:
         pot_dir = os.path.join(locale_dir, 'pot')
 
-    transifex.update_txconfig_resources(transifex_organization_name, transifex_project_name, locale_dir, pot_dir)
+    transifex.update_txconfig_resources(transifex_organization_name, transifex_project_name,
+                                        locale_dir, pot_dir)
 
 
 if __name__ == '__main__':
