@@ -5,8 +5,9 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        python-version: [3.5, 3.6, 3.7, 3.8, 3.9, 3.10-dev]
+        python-version: [3.5, 3.6, 3.7, 3.8, 3.9, '3.10']
       max-parallel: 1
 
     steps:
@@ -16,12 +17,12 @@ jobs:
         run: echo $GITHUB_CONTEXT
 
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 1
 
       - name: pycache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: pycache
         with:
           path: ~/.cache/pip
@@ -30,7 +31,7 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Setup python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         if: "!endsWith(matrix.python-version, '-dev')"
         with:
           python-version: ${{ matrix.python-version }}
@@ -46,6 +47,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install tox tox-gh-actions
 
+      - name: Install Transifex CLI
+        run: |
+          curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
+          mv tx /usr/local/bin/tx
+
       - name: Run tox
         run: |
           python -V
@@ -54,17 +60,18 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         env: [flake8, mypy]
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 1
 
       - name: Setup python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: 3.8
 
