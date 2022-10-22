@@ -55,14 +55,17 @@ def normalize_resource_name(name):
 
     return name
 
+
 def check_transifex_cli_installed():
+    tx_cli_url = 'https://raw.githubusercontent.com/transifex/cli/master/install.sh'
     if not which("tx"):
-        msg = textwrap.dedent("""\
+        msg = textwrap.dedent(f"""\
             Could not run "tx".
             You need to install the Transifex CLI external library.
-            Please install the below command and restart your terminal if you want to use this action:
+            Please install the below command and restart your terminal \
+            if you want to use this action:
 
-                $ curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
+                $ curl -o- {tx_cli_url} | bash
 
             """)
         raise click.BadParameter(msg)
@@ -70,12 +73,13 @@ def check_transifex_cli_installed():
     version_msg = subprocess.check_output("tx --version", shell=True, encoding="utf-8")
 
     if not version_msg.startswith("TX Client"):
-        msg = textwrap.dedent("""\
+        msg = textwrap.dedent(f"""\
             The old transifex_client library was found.
             You need to install the Transifex CLI external library.
-            Please install the below command and restart your terminal if you want to use this action:
+            Please install the below command and restart your terminal \
+            if you want to use this action:
 
-                $ curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
+                $ curl -o- {txcli_url} | bash
 
             """)
         raise click.BadParameter(msg)
@@ -91,7 +95,7 @@ def check_transifex_cli_installed():
             $ tx update
 
         """)
-        raise click.BadParameter(msg)      
+        raise click.BadParameter(msg)
 
 
 # ==================================
@@ -137,7 +141,8 @@ def create_txconfig():
     click.echo('Create: {0}'.format(target))
 
 
-def update_txconfig_resources(transifex_organization_name, transifex_project_name, locale_dir, pot_dir):
+def update_txconfig_resources(transifex_organization_name, transifex_project_name,
+                              locale_dir, pot_dir):
     """
     Update resource sections of `./.tx/config`.
     """
@@ -162,7 +167,7 @@ def update_txconfig_resources(transifex_organization_name, transifex_project_nam
     pot_paths = sorted(pot_dir.glob('**/*.pot'))
     with click.progressbar(
         pot_paths,
-        length = len(pot_paths),
+        length=len(pot_paths),
         color="green",
         label="adding pots...",
         item_show_func=lambda p: str(p),
@@ -177,4 +182,3 @@ def update_txconfig_resources(transifex_organization_name, transifex_project_nam
                 subprocess.check_output(cmd, shell=False)
             else:
                 click.echo('{0} is empty, skipped'.format(pot_path))
-
