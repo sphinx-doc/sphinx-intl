@@ -79,7 +79,7 @@ def check_transifex_cli_installed():
             Please install the below command and restart your terminal \
             if you want to use this action:
 
-                $ curl -o- {txcli_url} | bash
+                $ curl -o- {tx_cli_url} | bash
 
             """)
         raise click.BadParameter(msg)
