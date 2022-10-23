@@ -16,10 +16,14 @@ Setup development environment
 =============================
 
 * Requires supported Python version
-* do setup under sphinx-intl.git repository root as::
+* Do setup under sphinx-intl.git repository root as::
 
     $ pip install -U pip setuptools wheel setuptools_scm
     $ pip install -r requirements-testing.txt
+
+* Install Transifex CLI tool (refer to `Installation instructions <https://github.com/transifex/cli#installation>`_)::
+
+    $ curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
 
 Testing
 =======
@@ -28,8 +32,7 @@ Tests with supported python version that are in:
 
 * ``setup.py``
 * ``tox.ini``
-* ``.travis.yml``
-
+* ``.github/workflow/test.yml``
 
 Run test
 --------
@@ -43,9 +46,9 @@ tox have several sections for testing.
 CI (Continuous Integration)
 ----------------------------
 
-All tests will be run on Travis CI service.
+All tests will be run on GitHub Actions.
 
-* https://travis-ci.org/sphinx-doc/sphinx-intl
+* https://github.com/sphinx-doc/sphinx-intl/tree/master/.github/workflows/
 
 Releasing
 =========
@@ -55,7 +58,7 @@ New package version
 
 The sphinx-intl package will be uploaded to PyPI: https://pypi.org/project/sphinx-intl/.
 
-Here is a release procefure for releasing.
+Here is a release procedure:
 
 .. include:: ../checklist.rst
 
