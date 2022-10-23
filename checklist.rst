@@ -2,7 +2,7 @@
 
 Procedure:
 
-1. check travis-ci testing result: https://travis-ci.org/sphinx-doc/sphinx-intl
+1. check GitHub Actions test results: https://github.com/sphinx-doc/sphinx-intl/actions
 2. update release version/date in ``CHANGES.rst``
 3. ``python setup.py release sdist bdist_egg``
 4. ``twine upload dist/<target-package-file>``
