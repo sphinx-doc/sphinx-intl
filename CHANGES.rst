@@ -23,8 +23,7 @@ Bug Fixes
 ---------
 - #53: Set locale of created po files
 - #55: FileNotFoundError on update-txconfig-resources in the subdirectory
-- #72: Enable build of 3.11 and 3.12
-- #73: Fix issues reported by flake8
+- #72: Declare support for Python 3.11 and Python 3.12
 
 2.0.1 (2020/04/11)
 ==================

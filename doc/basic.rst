@@ -13,7 +13,7 @@ Basic Features
 
 Optional features
 ==================
-These features depends on `transifex-client`_ tool.
+These features depends on the `transifex-client`_ tool.
 Please refer Installation_ section to install it.
 
 * create ``.transifexrc`` file from environment variable, without interactive

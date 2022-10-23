@@ -58,7 +58,7 @@ New package version
 
 The sphinx-intl package will be uploaded to PyPI: https://pypi.org/project/sphinx-intl/.
 
-Here is a release procedure for releasing.
+Here is a release procedure:
 
 .. include:: ../checklist.rst
 
