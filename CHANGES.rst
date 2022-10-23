@@ -7,19 +7,24 @@ CHANGES
 
 Environments
 ------------
+- #71: Drop Python 3.5 support
 
 Incompatibility
 ---------------
 
 Features
 --------
+- #62: Migrate from transifex-client to transifex cli
 
 Documentation
 -------------
 
 Bug Fixes
 ---------
+- #53: Set locale of created po files
 - #55: FileNotFoundError on update-txconfig-resources in the subdirectory
+- #72: Enable build of 3.11 and 3.12
+- #73: Fix issues reported by flake8
 
 2.0.1 (2020/04/11)
 ==================
