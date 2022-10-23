@@ -23,9 +23,9 @@ Optional: support the Transifex service for translation with Sphinx_ .
    :alt: License
    :target: https://github.com/sphinx-doc/sphinx-intl/blob/master/LICENSE
 
-.. image:: https://img.shields.io/travis/sphinx-doc/sphinx-intl/master.svg
-   :alt: Travis (.org) branch
-   :target: https://travis-ci.org/sphinx-doc/sphinx-intl
+.. image:: https://github.com/sphinx-doc/sphinx-intl/actions/workflows/test.yml/badge.svg?branch=master
+   :alt: GitHub Actions CI status
+   :target: https://github.com/sphinx-doc/sphinx-intl/actions/workflows/test.yml
 
 .. image:: https://img.shields.io/github/stars/sphinx-doc/sphinx-intl.svg?style=social&label=Stars
    :alt: GitHub stars
