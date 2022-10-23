@@ -8,6 +8,7 @@ CHANGES
 Environments
 ------------
 - #71: Drop Python 3.5 support
+- #72: Declare support for Python 3.11 and Python 3.12
 
 Incompatibility
 ---------------
@@ -23,7 +24,6 @@ Bug Fixes
 ---------
 - #53: Set locale of created po files
 - #55: FileNotFoundError on update-txconfig-resources in the subdirectory
-- #72: Declare support for Python 3.11 and Python 3.12
 
 2.0.1 (2020/04/11)
 ==================
