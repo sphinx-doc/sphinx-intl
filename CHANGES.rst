@@ -8,7 +8,7 @@ CHANGES
 Environments
 ------------
 - #71: Drop Python 3.5 support
-- #72: Declare support for Python 3.11 and Python 3.12
+- #72 and #77: Declare support for Python 3.11 and Python 3.12
 
 Incompatibility
 ---------------
