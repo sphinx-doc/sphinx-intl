@@ -18,6 +18,7 @@ Optional: support the Transifex service for translation with Sphinx_ .
 
 .. image:: https://img.shields.io/pypi/pyversions/sphinx-intl.svg
    :alt: PyPI - Python Version
+   :target: http://pypi.org/p/sphinx-intl
 
 .. image:: https://img.shields.io/github/license/sphinx-doc/sphinx-intl.svg
    :alt: License
