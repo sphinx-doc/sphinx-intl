@@ -2,28 +2,33 @@
 CHANGES
 =======
 
-2.1.0 (unreleased)
+2.1.0 (2023/02/05)
 ==================
 
 Environments
 ------------
-- #71: Drop Python 3.5 support
-- #72 and #77: Declare support for Python 3.11 and Python 3.12
+- #71: Drop Python 3.5 support. Thanks to @rffontenelle.
+- #81: Drop Python 3.6 support.
+- #72 and #77: Support for Python 3.11 and Python 3.12.  Thanks to @rffontenelle.
 
 Incompatibility
 ---------------
 
 Features
 --------
-- #62: Migrate from transifex-client to transifex cli
+- #62: Migrate from transifex-client to transifex cli. Thanks to @TheTripleV.
 
 Documentation
 -------------
 
+- #74 Update documentation. Thanks to @rffontenelle.
+  - Update CI status badge in README and doc/index.rst, as CI changed from Travis to GitHub Actions.
+  - Replace info regarding old Python transifex-client library with the new implementation of Transifex CLI tool.
+
 Bug Fixes
 ---------
-- #53: Set locale of created po files
-- #55: FileNotFoundError on update-txconfig-resources in the subdirectory
+- #53: Set locale of created po files. Thanks to @igo95862.
+- #55: FileNotFoundError on update-txconfig-resources in the subdirectory. Thanks to @tkoyama010.
 
 2.0.1 (2020/04/11)
 ==================
@@ -129,7 +134,7 @@ Incompatibility
 
 Features
 --------
-* #17,#18: Adding --tag -t option, to pass tags from arguments to conf.py. 
+* #17,#18: Adding --tag -t option, to pass tags from arguments to conf.py.
 
 
 to
