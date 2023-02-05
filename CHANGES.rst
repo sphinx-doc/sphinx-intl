@@ -2,6 +2,24 @@
 CHANGES
 =======
 
+2.2.0 (unreleased)
+==================
+
+Environments
+------------
+
+Incompatibility
+---------------
+
+Features
+--------
+
+Documentation
+-------------
+
+Bug Fixes
+---------
+
 2.1.0 (2023/02/05)
 ==================
 
