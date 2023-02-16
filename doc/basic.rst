@@ -38,5 +38,5 @@ It is strongly recommended to use virtualenv/venv for this procedure::
    $ pip install sphinx-intl
 
 If you want to use `Optional Features`_, you need install Transifex CLI tool.
-Please refer to `Installation instructions <https://github.com/transifex/cli#installation>`.
+Please refer to `Installation instructions <https://github.com/transifex/cli#installation>`_.
 
