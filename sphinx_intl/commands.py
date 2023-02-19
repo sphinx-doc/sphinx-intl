@@ -9,6 +9,7 @@
 """
 import re
 import os
+import warnings
 from glob import glob
 
 import click
@@ -134,7 +135,7 @@ option_transifex_token = click.option(
     '--transifex-token',
     envvar=ENVVAR_PREFIX + '_TRANSIFEX_TOKEN',
     type=str, metavar='<TOKEN>', required=True,
-    help="Your transifex token.")
+    help="Your transifex token. (DEPRECATED)")
 
 option_transifex_organization_name = click.option(
     '--transifex-organization-name',
@@ -300,8 +301,16 @@ def stat(locale_dir, language):
 @option_transifex_token
 def create_transifexrc(transifex_token):
     """
-    Create `$HOME/.transifexrc`
+    Create `$HOME/.transifexrc`  (deprecated)
     """
+    warnings.filterwarnings("default", category=DeprecationWarning)
+    warnings.warn(
+        (
+            "create-transifexrc command and SPHINXINTL_TRANSIFEX_TOKEN "
+            "will be deprecated. Please use TX_TOKEN environment variable instead."
+        ),
+        category=DeprecationWarning,
+    )
     transifex.create_transifexrc(transifex_token)
 
 

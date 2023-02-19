@@ -29,7 +29,7 @@ IGNORED_RESOURCE_NAMES = (
 
 TRANSIFEXRC_TEMPLATE = """\
 [https://www.transifex.com]
-rest_hostname = https://www.transifex.com
+rest_hostname = https://rest.api.transifex.com
 token = %(transifex_token)s
 """
 
