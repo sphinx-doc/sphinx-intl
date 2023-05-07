@@ -12,23 +12,11 @@ import sys
 import shutil
 from codecs import open
 
-from six import text_type
-
 
 FILESYSTEMENCODING = sys.getfilesystemencoding() or sys.getdefaultencoding()
 
 
-class path(text_type):
-    """
-    Represents a path which behaves like a string.
-    """
-    if sys.version_info < (3, 0):
-        def __new__(cls, s, encoding=FILESYSTEMENCODING, errors='strict'):
-            if isinstance(s, str):
-                s = s.decode(encoding, errors)
-                return text_type.__new__(cls, s)
-            return text_type.__new__(cls, s)
-
+class path(str):
     @property
     def parent(self):
         """
@@ -195,4 +183,4 @@ class path(text_type):
     __div__ = __truediv__ = joinpath
 
     def __repr__(self):
-        return '%s(%s)' % (self.__class__.__name__, text_type.__repr__(self))
+        return '%s(%s)' % (self.__class__.__name__, str.__repr__(self))
