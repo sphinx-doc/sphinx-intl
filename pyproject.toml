@@ -45,8 +45,8 @@ test = [
 ]
 
 [project.urls]
-homepage = "https://github.com/sphinx-doc/sphinx-intl"
-documentation = "https://sphinx-intl.readthedocs.io"
+Homepage = "https://github.com/sphinx-doc/sphinx-intl"
+Documentation = "https://sphinx-intl.readthedocs.io"
 
 [project.scripts]
 sphinx-intl = "sphinx_intl.commands:main"
