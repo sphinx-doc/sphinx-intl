@@ -153,7 +153,8 @@ def update_txconfig_resources(transifex_organization_name, transifex_project_nam
         'add',
         '--organization', '%(transifex_organization_name)s',
         '--project', '%(transifex_project_name)s',
-        '--resource', '%(resource_name)s',
+        '--resource', '%(resource_slug)s',
+        '--resource-name', '%(resource_name)s',
         '--file-filter', '%(locale_dir)s/<lang>/LC_MESSAGES/%(resource_path)s.po',
         '--type', 'PO',
         '%(pot_dir)s/%(resource_path)s.pot',
@@ -174,7 +175,7 @@ def update_txconfig_resources(transifex_organization_name, transifex_project_nam
     ) as progress_bar:
         for pot_path in progress_bar:
             resource_path = str(pot_path.relative_to(pot_dir).with_suffix(''))
-            resource_name = normalize_resource_name(resource_path)
+            resource_slug = resource_name = normalize_resource_name(resource_path)
             pot = load_po(str(pot_path))
             if len(pot):
                 lv = locals()
