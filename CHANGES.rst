@@ -13,6 +13,7 @@ Incompatibility
 
 Features
 --------
+- #90: ``update-txconfig-resources`` command sets ``resource_name`` in the ``.tx/config`` file to match the resource's slug.
 
 Documentation
 -------------
