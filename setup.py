@@ -15,7 +15,6 @@ extras_require = {
     'test': [
         'pytest',
         'mock',
-        'six',
     ],
 }
 
