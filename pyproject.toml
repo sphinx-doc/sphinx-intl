@@ -41,7 +41,6 @@ classifiers = [
 test = [
     "pytest",
     "mock",
-    "six",
 ]
 
 [project.urls]
