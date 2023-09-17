@@ -10,16 +10,12 @@ Commands
 
 Type `sphinx-intl` without arguments, options to show command help.
 
-.. click:: sphinx_intl.commands:main
-   :prog: sphinx-intl
-   :nested: full
-
 
 Environment Variables
 =====================
 
 All command-line options can be set with environment variables using the
-format ``SPHINXINTL_<UPPER_LONG_NAME>``. Dashes (-) have to be replaced with
+format SPHINXINTL_<UPPER_LONG_NAME> . Dashes (-) have to be replaced with
 underscores (_).
 
 For example, to set the languages::

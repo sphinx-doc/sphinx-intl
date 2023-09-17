@@ -162,6 +162,20 @@ option_transifex_project_name = click.option(
 @option_tag
 @click.pass_context
 def main(ctx, config, tag):
+    """
+    Environment Variables:
+    All command-line options can be set with environment variables using the
+    format SPHINXINTL_<UPPER_LONG_NAME> . Dashes (-) have to replaced with
+        underscores (_).
+
+    For example, to set the languages:
+
+    export SPHINXINTL_LANGUAGE=de,ja
+
+    This is the same as passing the option to txutil directly:
+
+    sphinx-intl update --language=de --language=ja
+    """
     # load conf.py
     ctx.config = config
     if ctx.config is None:
