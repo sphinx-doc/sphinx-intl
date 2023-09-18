@@ -112,14 +112,14 @@ option_output_dir = click.option(
 option_tag = click.option(
     '-t', '--tag',
     envvar=ENVVAR_PREFIX + '_TAG',
-    type=TAGS, default=(), metavar='<TAG>', show_default=True,
+    type=TAGS, metavar='<TAG>', show_default=True,
     multiple=True,
     help="Pass tags to conf.py, as same as passed to sphinx-build -t option.")
 
 option_language = click.option(
     '-l', '--language',
     envvar=ENVVAR_PREFIX + '_LANGUAGE',
-    type=LANGUAGES, default=(), metavar='<LANG>', show_default=True,
+    type=LANGUAGES, metavar='<LANG>', show_default=True,
     multiple=True,
     help="Target language to update po files. Default is ALL.")
 
