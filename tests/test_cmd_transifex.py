@@ -73,7 +73,7 @@ def test_update_txconfig_resources_with_config(home_in_temp, temp):
 
     data = (tx_dir / 'config').text()
     assert re.search(r'\[o:eggs-org:p:ham-project:r:README\]', data)
-    assert re.search(r'\nresource_name = README\n', data)
+    assert re.search(r'\nresource_name += README\n', data)
 
 
 def test_update_txconfig_resources_with_pot_dir_argument(home_in_temp, temp):
@@ -96,7 +96,7 @@ def test_update_txconfig_resources_with_pot_dir_argument(home_in_temp, temp):
 
     data = (tx_dir / 'config').text().replace('\\', '/')
     assert re.search(r'\[o:eggs-org:p:ham-project:r:README\]', data)
-    assert re.search(r'\nresource_name = README\n', data)
+    assert re.search(r'\nresource_name += README\n', data)
     assert re.search(r'source_file\W*=\W*_build/locale/README.pot', data)
 
 
@@ -120,7 +120,7 @@ def test_update_txconfig_resources_with_project_name_including_dots(home_in_temp
 
     data = (tx_dir / 'config').text()
     assert re.search(r'\[o:eggs-org:p:ham-projectcom:r:README\]', data)
-    assert re.search(r'\nresource_name = README\n', data)
+    assert re.search(r'\nresource_name += README\n', data)
 
 
 def test_update_txconfig_resources_with_project_name_including_spaces(home_in_temp, temp):
@@ -143,7 +143,7 @@ def test_update_txconfig_resources_with_project_name_including_spaces(home_in_te
 
     data = (tx_dir / 'config').text()
     assert re.search(r'\[o:eggs-org:p:ham-project-com:r:README\]', data)
-    assert re.search(r'\nresource_name = README\n', data)
+    assert re.search(r'\nresource_name += README\n', data)
 
 
 def test_update_txconfig_resources_with_potfile_including_symbols(home_in_temp, temp):
@@ -174,8 +174,8 @@ def test_update_txconfig_resources_with_potfile_including_symbols(home_in_temp, 
     data = (tx_dir / 'config').text()
     assert re.search(r'\[o:eggs-org:p:ham-project-com:r:example_document\]', data)
     assert re.search(r'\[o:eggs-org:p:ham-project-com:r:test_document\]', data)
-    assert re.search(r'\nresource_name = example_document\n', data)
-    assert re.search(r'\nresource_name = test_document\n', data)
+    assert re.search(r'\nresource_name += example_document\n', data)
+    assert re.search(r'\nresource_name += test_document\n', data)
 
 
 def test_update_txconfig_resources_with_potfile_including_path_separators(home_in_temp, temp):
@@ -203,4 +203,4 @@ def test_update_txconfig_resources_with_potfile_including_path_separators(home_i
 
     data = (tx_dir / 'config').text()
     assert re.search(r'\[o:eggs-org:p:ham-project-com:r:example--document\]', data)
-    assert re.search(r'\nresource_name = example--document\n', data)
+    assert re.search(r'\nresource_name += example--document\n', data)
