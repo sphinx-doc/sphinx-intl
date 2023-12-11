@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.7, 3.8, 3.9, '3.10', '3.11', '3.12-dev']
+        python-version: [3.7, 3.8, 3.9, '3.10', '3.11', '3.12', '3.13']
       max-parallel: 1
 
     steps:
@@ -36,15 +36,9 @@ jobs:
 
       - name: Setup python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
-        if: "!endsWith(matrix.python-version, '-dev')"
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Setup python ${{ matrix.python-version }} (via deadsnakes)
-        uses: deadsnakes/action@v2.1.1
-        if: "endsWith(matrix.python-version, '-dev')"
-        with:
-          python-version: ${{ matrix.python-version }}
+          allow-prereleases: true
 
       - name: Install tox and test related
         run: |
