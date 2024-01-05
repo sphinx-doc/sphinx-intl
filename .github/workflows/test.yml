@@ -1,13 +1,17 @@
 name: Test
 on: [push, pull_request]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
 jobs:
   tests:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.7, 3.8, 3.9, '3.10', '3.11', '3.12-dev']
+        python-version: [3.7, 3.8, 3.9, '3.10', '3.11', '3.12', '3.13']
       max-parallel: 1
 
     steps:
@@ -17,7 +21,7 @@ jobs:
         run: echo $GITHUB_CONTEXT
 
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
@@ -31,16 +35,10 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Setup python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        if: "!endsWith(matrix.python-version, '-dev')"
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Setup python ${{ matrix.python-version }} (via deadsnakes)
-        uses: deadsnakes/action@v2.1.1
-        if: "endsWith(matrix.python-version, '-dev')"
-        with:
-          python-version: ${{ matrix.python-version }}
+          allow-prereleases: true
 
       - name: Install tox and test related
         run: |
@@ -66,12 +64,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
       - name: Setup python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: 3.8
 
