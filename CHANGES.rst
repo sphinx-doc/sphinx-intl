@@ -2,6 +2,32 @@
 CHANGES
 =======
 
+2.3.0 (Unreleased)
+==================
+
+Environments
+------------
+
+Incompatibility
+---------------
+
+Features
+--------
+
+Bug Fixes
+---------
+
+Documentation
+-------------
+
+Internals
+---------
+
+
+=======
+CHANGES
+=======
+
 2.2.0 (2024/04/20)
 ==================
 
