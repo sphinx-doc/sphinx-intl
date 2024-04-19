@@ -131,6 +131,12 @@ option_line_width = click.option(
     help='The maximum line width for the po files, 0 or a negative number '
          'disable line wrapping')
 
+option_no_obsolete = click.option(
+    '--no-obsolete',
+    envvar=ENVVAR_PREFIX + '_NO_OBSOLETE',
+    is_flag=True, default=False,
+    help='Remove obsolete #~ messages.')
+
 option_transifex_token = click.option(
     '--transifex-token',
     envvar=ENVVAR_PREFIX + '_TRANSIFEX_TOKEN',
@@ -221,7 +227,8 @@ def main(ctx, config, tag):
 @option_pot_dir
 @option_language
 @option_line_width
-def update(locale_dir, pot_dir, language, line_width):
+@option_no_obsolete
+def update(locale_dir, pot_dir, language, line_width, no_obsolete):
     """
     Update specified language's po files from pot.
 
@@ -247,7 +254,7 @@ def update(locale_dir, pot_dir, language, line_width):
                % locals())
         raise click.BadParameter(msg, param_hint='language')
 
-    basic.update(locale_dir, pot_dir, languages, line_width)
+    basic.update(locale_dir, pot_dir, languages, line_width, ignore_obsolete=no_obsolete)
 
 
 @main.command()
