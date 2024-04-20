@@ -1,5 +1,4 @@
 import os
-import io
 
 from babel.messages import pofile, mofile
 
