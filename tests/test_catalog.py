@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
     test_catalog
     ~~~~~~~~~~~~
@@ -15,7 +14,7 @@ def test_write_and_read_po_file_with_non_ascii_string(temp):
     from sphinx_intl import catalog
 
     cat = Catalog(locale='ja', domain='domain', fuzzy=False)
-    msg = Message('Hello World', u'こんにちは世界')
+    msg = Message('Hello World', 'こんにちは世界')
     cat[msg.id] = msg
 
     po_file = (temp / 'domain.po')
@@ -30,7 +29,7 @@ def test_fuzzy_flag_on_catalog_update():
 
     cat = Catalog(locale='ja', domain='domain', fuzzy=False)
     msg = Message('Hello Internationalized Sphinx World !',
-                  u'こんにちは国際化されたSphinxの世界!')
+                  'こんにちは国際化されたSphinxの世界!')
     cat[msg.id] = msg
     assert not msg.fuzzy
 

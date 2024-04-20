@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
     path
     ~~~~
@@ -183,4 +182,4 @@ class path(str):
     __div__ = __truediv__ = joinpath
 
     def __repr__(self):
-        return '%s(%s)' % (self.__class__.__name__, str.__repr__(self))
+        return '{}({})'.format(self.__class__.__name__, str.__repr__(self))

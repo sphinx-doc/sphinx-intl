@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import os
 from glob import glob
 
@@ -53,23 +51,23 @@ def update(locale_dir, pot_dir, languages, line_width=76, ignore_obsolete=False)
                 cat_pot = c.load_po(pot_file)
                 if os.path.exists(po_file):
                     cat = c.load_po(po_file)
-                    msgids = set([m.id for m in cat if m.id])
+                    msgids = {m.id for m in cat if m.id}
                     c.update_with_fuzzy(cat, cat_pot)
-                    new_msgids = set([m.id for m in cat if m.id])
+                    new_msgids = {m.id for m in cat if m.id}
                     if msgids != new_msgids:
                         added = new_msgids - msgids
                         deleted = msgids - new_msgids
                         status['update'] += 1
-                        click.echo('Update: {0} +{1}, -{2}'.format(
+                        click.echo('Update: {} +{}, -{}'.format(
                             po_file, len(added), len(deleted)))
                         c.dump_po(po_file, cat, width=line_width,
                                   ignore_obsolete=ignore_obsolete)
                     else:
                         status['notchanged'] += 1
-                        click.echo('Not Changed: {0}'.format(po_file))
+                        click.echo(f'Not Changed: {po_file}')
                 else:  # new po file
                     status['create'] += 1
-                    click.echo('Create: {0}'.format(po_file))
+                    click.echo(f'Create: {po_file}')
                     cat_pot.locale = lang
                     c.dump_po(po_file, cat_pot, width=line_width,
                               ignore_obsolete=ignore_obsolete)
@@ -102,7 +100,7 @@ def build(locale_dir, output_dir, languages):
                 if (os.path.exists(mo_file) and
                    os.path.getmtime(mo_file) > os.path.getmtime(po_file)):
                     continue
-                click.echo('Build: {0}'.format(mo_file))
+                click.echo(f'Build: {mo_file}')
                 cat = c.load_po(po_file)
                 c.write_mo(mo_file, cat)
 
@@ -134,7 +132,7 @@ def stat(locale_dir, languages):
                     'untranslated': len(c.untranslated_entries(cat)),
                 }
                 click.echo(
-                    '{0}: {1} translated, {2} fuzzy, {3} untranslated.'.format(
+                    '{}: {} translated, {} fuzzy, {} untranslated.'.format(
                         po_file,
                         r['translated'],
                         r['fuzzy'],

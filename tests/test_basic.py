@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
     test_basic
     ~~~~~~~~~~
@@ -8,7 +7,7 @@
     :copyright: Copyright 2019 by Takayuki SHIMIZUKAWA.
     :license: BSD, see LICENSE for details.
 """
-import mock
+from unittest import mock
 
 from sphinx_intl import basic
 
@@ -26,7 +25,7 @@ def test_update_difference_detect(temp):
     r2 = basic.update('locale', '_build/locale', ('ja',))
     assert r2 == {'create': 0, 'update': 1, 'notchanged': 0}
 
-    with open('_build/locale/README.pot', 'r') as f:
+    with open('_build/locale/README.pot') as f:
         d = f.read()
         d = d.replace('test1', 'test2')
     with open('_build/locale/README.pot', 'w') as f:

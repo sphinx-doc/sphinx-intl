@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import os
 import re
 import subprocess
@@ -108,7 +106,7 @@ def create_transifexrc(transifex_token):
     target = os.path.normpath(os.path.expanduser('~/.transifexrc'))
 
     if os.path.exists(target):
-        click.echo('{0} already exists, skipped.'.format(target))
+        click.echo(f'{target} already exists, skipped.')
         return
 
     if not transifex_token:
@@ -118,9 +116,9 @@ def create_transifexrc(transifex_token):
         """)
         raise click.BadParameter(msg, param_hint='transifex_token')
 
-    with open(target, 'wt') as rc:
+    with open(target, 'w') as rc:
         rc.write(TRANSIFEXRC_TEMPLATE % locals())
-    click.echo('Create: {0}'.format(target))
+    click.echo(f'Create: {target}')
 
 
 def create_txconfig():
@@ -129,16 +127,16 @@ def create_txconfig():
     """
     target = os.path.normpath('.tx/config')
     if os.path.exists(target):
-        click.echo('{0} already exists, skipped.'.format(target))
+        click.echo(f'{target} already exists, skipped.')
         return
 
     if not os.path.exists('.tx'):
         os.mkdir('.tx')
 
-    with open(target, 'wt') as f:
+    with open(target, 'w') as f:
         f.write(TXCONFIG_TEMPLATE)
 
-    click.echo('Create: {0}'.format(target))
+    click.echo(f'Create: {target}')
 
 
 def update_txconfig_resources(transifex_organization_name, transifex_project_name,
@@ -182,4 +180,4 @@ def update_txconfig_resources(transifex_organization_name, transifex_project_nam
                 cmd = [arg % lv for arg in cmd_tmpl]
                 subprocess.check_output(cmd, shell=False)
             else:
-                click.echo('{0} is empty, skipped'.format(pot_path))
+                click.echo(f'{pot_path} is empty, skipped')

@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 from typing import Iterator, List
 
 
 # port from https://github.com/sphinx-doc/sphinx/blob/ad41e0b/sphinx/util/tags.py
-class Tags(object):
+class Tags:
     def __init__(self, tags: List[str] = None) -> None:
         self.tags = dict.fromkeys(tags or [], True)
 

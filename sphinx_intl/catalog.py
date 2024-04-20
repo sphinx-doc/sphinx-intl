@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
-
 import os
-import io
 
 from babel.messages import pofile, mofile
 
@@ -14,13 +11,13 @@ def load_po(filename, **kwargs):
     :return: catalog object
     """
     # pre-read to get charset
-    with io.open(filename, 'rb') as f:
+    with open(filename, 'rb') as f:
         cat = pofile.read_po(f)
     charset = cat.charset or 'utf-8'
 
     # To decode lines by babel, read po file as binary mode and specify charset for
     # read_po function.
-    with io.open(filename, 'rb') as f:  # FIXME: encoding VS charset
+    with open(filename, 'rb') as f:  # FIXME: encoding VS charset
         return pofile.read_po(f, charset=charset, **kwargs)
 
 
@@ -46,7 +43,7 @@ def dump_po(filename, catalog, **kwargs):
         del kwargs['line_width']
 
     # Because babel automatically encode strings, file should be open as binary mode.
-    with io.open(filename, 'wb') as f:
+    with open(filename, 'wb') as f:
         pofile.write_po(f, catalog, **kwargs)
 
 
@@ -60,7 +57,7 @@ def write_mo(filename, catalog, **kwargs):
     dirname = os.path.dirname(filename)
     if not os.path.exists(dirname):
         os.makedirs(dirname)
-    with io.open(filename, 'wb') as f:
+    with open(filename, 'wb') as f:
         mofile.write_mo(f, catalog, **kwargs)
 
 
