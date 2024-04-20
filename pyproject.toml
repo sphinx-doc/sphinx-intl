@@ -48,7 +48,6 @@ Documentation = "https://sphinx-intl.readthedocs.io"
 sphinx-intl = "sphinx_intl.commands:main"
 
 [tool.setuptools]
-zip-safe = false
 include-package-data = true
 
 [tool.setuptools.dynamic]
@@ -57,3 +56,7 @@ version = {attr = "sphinx_intl.__version__"}
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.mypy]
+ignore_missing_imports = true
+strict_optional = false
