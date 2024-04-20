@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
     test_cmd_pot
     ~~~~~~~~~~~~~
@@ -51,7 +50,7 @@ def test_update_difference_detect(temp):
     assert r2.output.count('Update:') == 1
     assert r2.output.count('Not Changed:') == 0
 
-    with open('_build/locale/README.pot', 'r') as f:
+    with open('_build/locale/README.pot') as f:
         d = f.read()
         d = d.replace('test1', 'test2')
     with open('_build/locale/README.pot', 'w') as f:
@@ -71,7 +70,7 @@ def test_update_difference_detect(temp):
 
 
 def test_update_line_width(temp):
-    with open('_build/locale/README.pot', 'r') as f:
+    with open('_build/locale/README.pot') as f:
         template = f.read()
 
     with open('_build/locale/README.pot', 'w') as f:
@@ -84,7 +83,7 @@ def test_update_line_width(temp):
     r1 = runner.invoke(commands.update, ['-d', 'locale', '-p', '_build/locale', '-l', 'ja'])
     assert r1.exit_code == 0
 
-    with open(po_file, 'r') as f:
+    with open(po_file) as f:
         contents = f.read()
         assert '"foorbar identifier1"\n' in contents
 
@@ -96,14 +95,14 @@ def test_update_line_width(temp):
     r2 = runner.invoke(commands.update, ['-d', 'locale', '-p', '_build/locale', '-w', '1'])
     assert r2.exit_code == 0
 
-    with open(po_file, 'r') as f:
+    with open(po_file) as f:
         contents = f.read()
         assert '"foorbar"\n' in contents
         assert '"identifier2"\n' in contents
 
 
 def test_update_no_obsolete(temp):
-    with open('_build/locale/README.pot', 'r') as f:
+    with open('_build/locale/README.pot') as f:
         template = f.read()
 
     with open('_build/locale/README.pot', 'w') as f:
@@ -117,7 +116,7 @@ def test_update_no_obsolete(temp):
     r1 = runner.invoke(commands.update, ['-d', 'locale', '-p', '_build/locale', '-l', 'ja'])
     assert r1.exit_code == 0
 
-    with open(po_file, 'r') as f:
+    with open(po_file) as f:
         contents = f.read()
         assert '\nmsgid "foorbar1"\n' in contents
         assert '\nmsgid "foorbar2"\n' in contents
@@ -130,7 +129,7 @@ def test_update_no_obsolete(temp):
     r2 = runner.invoke(commands.update, ['-d', 'locale', '-p', '_build/locale'])
     assert r2.exit_code == 0
 
-    with open(po_file, 'r') as f:
+    with open(po_file) as f:
         contents = f.read()
         assert '\n#~ msgid "foorbar2"\n' in contents
 
@@ -141,7 +140,7 @@ def test_update_no_obsolete(temp):
     r3 = runner.invoke(commands.update, ['-d', 'locale', '-p', '_build/locale', '--no-obsolete'])
     assert r3.exit_code == 0
 
-    with open(po_file, 'r') as f:
+    with open(po_file) as f:
         contents = f.read()
         assert 'msgid "foorbar1"' not in contents
         assert 'msgid "foorbar2"' not in contents

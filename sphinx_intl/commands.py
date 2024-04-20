@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
     sphinx-intl
     ~~~~~~~~~~~
@@ -196,11 +195,11 @@ def main(ctx, config, tag):
     ctx.transifex_project_name = None
     target = os.path.normpath('.tx/config')
     if os.path.exists(target):
-        matched = re.search(r'\[(.*)\..*\]', open(target, 'r').read())
+        matched = re.search(r'\[(.*)\..*\]', open(target).read())
         if matched:
             ctx.transifex_project_name = matched.groups()[0]
             click.echo(
-                'Project name loaded from .tx/config: {0}'.format(
+                'Project name loaded from .tx/config: {}'.format(
                     ctx.transifex_project_name))
 
     ctx.default_map = {
