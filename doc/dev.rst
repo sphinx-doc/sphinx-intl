@@ -19,7 +19,7 @@ Setup development environment
 * Do setup under sphinx-intl.git repository root as::
 
     $ pip install -U pip setuptools wheel setuptools_scm
-    $ pip install -r requirements-testing.txt
+    $ pip install -r requirements-dev.txt
 
 * Install Transifex CLI tool (refer to `Installation instructions <https://github.com/transifex/cli#installation>`_)::
 
@@ -30,7 +30,6 @@ Testing
 
 Tests with supported python version that are in:
 
-* ``setup.py``
 * ``tox.ini``
 * ``.github/workflow/test.yml``
 

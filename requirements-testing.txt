@@ -1,4 +1,0 @@
-tox
-pytest
-docutils
-flake8

@@ -1,4 +1,6 @@
 -e.[test]
--rrequirements-testing.txt
+build
 twine
 wheel
+tox
+ruff
