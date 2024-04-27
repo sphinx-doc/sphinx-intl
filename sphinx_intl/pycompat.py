@@ -1,6 +1,7 @@
 """
 Python compatibility functions.
 """
+
 import sys
 import os
 import warnings
@@ -24,11 +25,12 @@ def relpath(path: str, start: str = os.curdir) -> str:
 def convert_with_2to3(filepath: str) -> str:
     from lib2to3.refactor import RefactoringTool, get_fixers_from_package
     from lib2to3.pgen2.parse import ParseError
-    fixers = get_fixers_from_package('lib2to3.fixes')
+
+    fixers = get_fixers_from_package("lib2to3.fixes")
     refactoring_tool = RefactoringTool(fixers)
     source = refactoring_tool._read_python_source(filepath)[0]
     try:
-        tree = refactoring_tool.refactor_string(source, 'conf.py')
+        tree = refactoring_tool.refactor_string(source, "conf.py")
     except ParseError as err:
         # do not propagate lib2to3 exceptions
         lineno, offset = err.context[1]
@@ -38,20 +40,22 @@ def convert_with_2to3(filepath: str) -> str:
 
 
 def execfile_(filepath: str, _globals: Any, open: Callable = open) -> None:
-    with open(filepath, 'rb') as f:
+    with open(filepath, "rb") as f:
         source = f.read()
 
     # compile to a code object, handle syntax errors
     filepath_enc = filepath.encode(fs_encoding)
     try:
-        code = compile(source, filepath_enc, 'exec')
+        code = compile(source, filepath_enc, "exec")
     except SyntaxError:
         # maybe the file uses 2.x syntax; try to refactor to
         # 3.x syntax using 2to3
         source = convert_with_2to3(filepath)
-        code = compile(source, filepath_enc, 'exec')
-        warnings.warn('Support for evaluating Python 2 syntax is deprecated '
-                      'and will be removed in sphinx-intl 4.0. '
-                      'Convert %s to Python 3 syntax.',
-                      source=filepath)
+        code = compile(source, filepath_enc, "exec")
+        warnings.warn(
+            "Support for evaluating Python 2 syntax is deprecated "
+            "and will be removed in sphinx-intl 4.0. "
+            "Convert %s to Python 3 syntax.",
+            source=filepath,
+        )
     exec(code, _globals)
