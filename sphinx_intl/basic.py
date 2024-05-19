@@ -10,15 +10,19 @@ from .pycompat import relpath
 # ==================================
 # utility functions
 
+
 def get_lang_dirs(path):
-    dirs = [relpath(d, path)
-            for d in glob(path+'/[a-z]*')
-            if os.path.isdir(d) and not d.endswith('pot')]
+    dirs = [
+        relpath(d, path)
+        for d in glob(path + "/[a-z]*")
+        if os.path.isdir(d) and not d.endswith("pot")
+    ]
     return (tuple(dirs),)
 
 
 # ==================================
 # commands
+
 
 def update(locale_dir, pot_dir, languages, line_width=76, ignore_obsolete=False):
     """
@@ -33,9 +37,9 @@ def update(locale_dir, pot_dir, languages, line_width=76, ignore_obsolete=False)
     :rtype: dict
     """
     status = {
-        'create': 0,
-        'update': 0,
-        'notchanged': 0,
+        "create": 0,
+        "update": 0,
+        "notchanged": 0,
     }
 
     for dirpath, dirnames, filenames in os.walk(pot_dir):
@@ -46,7 +50,7 @@ def update(locale_dir, pot_dir, languages, line_width=76, ignore_obsolete=False)
                 continue
             basename = relpath(base, pot_dir)
             for lang in languages:
-                po_dir = os.path.join(locale_dir, lang, 'LC_MESSAGES')
+                po_dir = os.path.join(locale_dir, lang, "LC_MESSAGES")
                 po_file = os.path.join(po_dir, basename + ".po")
                 cat_pot = c.load_po(pot_file)
                 if os.path.exists(po_file):
@@ -57,20 +61,31 @@ def update(locale_dir, pot_dir, languages, line_width=76, ignore_obsolete=False)
                     if msgids != new_msgids:
                         added = new_msgids - msgids
                         deleted = msgids - new_msgids
-                        status['update'] += 1
-                        click.echo('Update: {} +{}, -{}'.format(
-                            po_file, len(added), len(deleted)))
-                        c.dump_po(po_file, cat, width=line_width,
-                                  ignore_obsolete=ignore_obsolete)
+                        status["update"] += 1
+                        click.echo(
+                            "Update: {} +{}, -{}".format(
+                                po_file, len(added), len(deleted)
+                            )
+                        )
+                        c.dump_po(
+                            po_file,
+                            cat,
+                            width=line_width,
+                            ignore_obsolete=ignore_obsolete,
+                        )
                     else:
-                        status['notchanged'] += 1
-                        click.echo(f'Not Changed: {po_file}')
+                        status["notchanged"] += 1
+                        click.echo(f"Not Changed: {po_file}")
                 else:  # new po file
-                    status['create'] += 1
-                    click.echo(f'Create: {po_file}')
+                    status["create"] += 1
+                    click.echo(f"Create: {po_file}")
                     cat_pot.locale = lang
-                    c.dump_po(po_file, cat_pot, width=line_width,
-                              ignore_obsolete=ignore_obsolete)
+                    c.dump_po(
+                        po_file,
+                        cat_pot,
+                        width=line_width,
+                        ignore_obsolete=ignore_obsolete,
+                    )
 
     return status
 
@@ -87,7 +102,9 @@ def build(locale_dir, output_dir, languages):
     for lang in languages:
         lang_dir = os.path.join(locale_dir, lang)
         for dirpath, dirnames, filenames in os.walk(lang_dir):
-            dirpath_output = os.path.join(output_dir, os.path.relpath(dirpath, locale_dir))
+            dirpath_output = os.path.join(
+                output_dir, os.path.relpath(dirpath, locale_dir)
+            )
 
             for filename in filenames:
                 base, ext = os.path.splitext(filename)
@@ -97,10 +114,11 @@ def build(locale_dir, output_dir, languages):
                 mo_file = os.path.join(dirpath_output, base + ".mo")
                 po_file = os.path.join(dirpath, filename)
 
-                if (os.path.exists(mo_file) and
-                   os.path.getmtime(mo_file) > os.path.getmtime(po_file)):
+                if os.path.exists(mo_file) and os.path.getmtime(
+                    mo_file
+                ) > os.path.getmtime(po_file):
                     continue
-                click.echo(f'Build: {mo_file}')
+                click.echo(f"Build: {mo_file}")
                 cat = c.load_po(po_file)
                 c.write_mo(mo_file, cat)
 
@@ -126,17 +144,17 @@ def stat(locale_dir, languages):
                     continue
 
                 cat = c.load_po(po_file)
-                r = result[po_file.replace('\\', '/')] = {
-                    'translated': len(c.translated_entries(cat)),
-                    'fuzzy': len(c.fuzzy_entries(cat)),
-                    'untranslated': len(c.untranslated_entries(cat)),
+                r = result[po_file.replace("\\", "/")] = {
+                    "translated": len(c.translated_entries(cat)),
+                    "fuzzy": len(c.fuzzy_entries(cat)),
+                    "untranslated": len(c.untranslated_entries(cat)),
                 }
                 click.echo(
-                    '{}: {} translated, {} fuzzy, {} untranslated.'.format(
+                    "{}: {} translated, {} fuzzy, {} untranslated.".format(
                         po_file,
-                        r['translated'],
-                        r['fuzzy'],
-                        r['untranslated'],
+                        r["translated"],
+                        r["fuzzy"],
+                        r["untranslated"],
                     )
                 )
 
