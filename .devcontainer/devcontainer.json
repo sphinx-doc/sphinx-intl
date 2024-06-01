@@ -7,7 +7,7 @@
 		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
 		"ghcr.io/devcontainers/features/git:1": "latest",
 		"ghcr.io/devcontainers/features/github-cli:1": {},
-		"ghcr.io/devcontainers/features/python:1": {},
+		"ghcr.io/devcontainers/features/python:1": "none",
 		"ghcr.io/devcontainers-contrib/features/act:1": {},
 		"ghcr.io/devcontainers-contrib/features/ruff:1": {}
 	},
