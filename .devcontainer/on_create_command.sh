@@ -1,9 +1,12 @@
+#!/bin/sh
 # setup
 
-sudo pip install -U pip setuptools wheel setuptools_scm
-sudo pip install -r requirements-dev.txt
+set -ex
 
-# Install Transifex CLI tool
+pip install -U pip setuptools wheel setuptools_scm
+pip install -r requirements-dev.txt
+
+# Install Transifex CLI tool into /usr/local/bin
 # refer to Installation instructions https://github.com/transifex/cli#installation
 
-(cd `mktemp -d` && curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash && sudo mv ./tx /usr/local/bin )
+(cd /usr/local/bin && curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | sudo bash)
