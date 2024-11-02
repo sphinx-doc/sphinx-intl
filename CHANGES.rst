@@ -8,6 +8,8 @@ CHANGES
 Environments
 ------------
 
+* Avoid unrelated CI test for doc changes, and cache using setup-python action  by @rffontenelle in https://github.com/sphinx-doc/sphinx-intl/pull/106
+
 Incompatibility
 ---------------
 
