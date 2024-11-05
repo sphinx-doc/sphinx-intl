@@ -3,9 +3,11 @@ on:
   push:
     paths:
       - 'doc/'
+      - '.github/workflows/doc.yml'
   pull_request:
     paths:
       - 'doc/'
+      - '.github/workflows/doc.yml'
   workflow_dispatch:
 
 concurrency:
