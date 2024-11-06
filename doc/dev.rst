@@ -21,7 +21,7 @@ Setup development environment
     $ pip install -U pip setuptools wheel setuptools_scm
     $ pip install -r requirements-dev.txt
 
-* Install Transifex CLI tool (refer to `Installation instructions <https://github.com/transifex/cli#installation>`_)::
+* Install Transifex CLI tool (refer to `Installation instructions <https://github.com/transifex/cli>`_)::
 
     $ curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
 

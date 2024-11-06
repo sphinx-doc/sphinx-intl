@@ -10,5 +10,5 @@ Original
 
 This utility derived from these projects.
 
-* https://bitbucket.org/tk0miya/sphinx-gettext-helper
-* https://bitbucket.org/shimizukawa/sphinx-transifex
+* ``https://bitbucket.org/tk0miya/sphinx-gettext-helper``
+* ``https://bitbucket.org/shimizukawa/sphinx-transifex``

@@ -27,7 +27,7 @@ You need to use `tx` command for below features:
 * ``tx push -s`` : push pot (translation catalogs) to transifex.
 * ``tx pull -l ja`` : pull po (translated catalogs) from transifex.
 
-.. _transifex-client: https://github.com/transifex/cli
+.. _Transifex Client: https://github.com/transifex/cli
 
 
 Installation
@@ -38,5 +38,5 @@ It is strongly recommended to use virtualenv/venv for this procedure::
    $ pip install sphinx-intl
 
 If you want to use `Optional Features`_, you need install Transifex CLI tool.
-Please refer to `Installation instructions <https://github.com/transifex/cli#installation>`_.
+Please refer to `Installation instructions <https://github.com/transifex/cli>`_.
 

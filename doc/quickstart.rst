@@ -29,7 +29,7 @@ This section describe how to translate with Sphinx_ and `sphinx-intl` command.
 
    `locale_dirs` is required and `gettext_compact` is optional.
 
-   refs `example <https://github.com/sphinx-doc/sphinx-intl/blob/master/doc/conf.py#L29>`__.
+   refs `example <https://github.com/sphinx-doc/sphinx-intl/blob/master/doc/conf.py>`__.
 
 3. Extract document's translatable messages into pot files::
 
