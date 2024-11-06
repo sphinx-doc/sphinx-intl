@@ -1,5 +1,8 @@
+import dataclasses
+import multiprocessing as mp
 import os
 from glob import glob
+from typing import Optional
 
 import click
 
@@ -24,7 +27,56 @@ def get_lang_dirs(path):
 # commands
 
 
-def update(locale_dir, pot_dir, languages, line_width=76, ignore_obsolete=False):
+@dataclasses.dataclass(frozen=True)
+class UpdateItem:
+    po_file: str
+    pot_file: str
+    lang: str
+    line_width: int
+    ignore_obsolete: bool
+
+
+@dataclasses.dataclass(frozen=True)
+class UpdateResult:
+    po_file: str
+    status: str
+    added: Optional[int] = 0
+    deleted: Optional[int] = 0
+
+
+def _update_single_file(update_item: UpdateItem):
+    cat_pot = c.load_po(update_item.pot_file)
+    if os.path.exists(update_item.po_file):
+        cat = c.load_po(update_item.po_file)
+        msgids = {m.id for m in cat if m.id}
+        c.update_with_fuzzy(cat, cat_pot)
+        new_msgids = {m.id for m in cat if m.id}
+        if msgids != new_msgids:
+            added = new_msgids - msgids
+            deleted = msgids - new_msgids
+            c.dump_po(
+                update_item.po_file,
+                cat,
+                width=update_item.line_width,
+                ignore_obsolete=update_item.ignore_obsolete,
+            )
+            return UpdateResult(update_item.po_file, "update", len(added), len(deleted))
+        else:
+            return UpdateResult(update_item.po_file, "notchanged")
+    else:  # new po file
+        cat_pot.locale = update_item.lang
+        c.dump_po(
+            update_item.po_file,
+            cat_pot,
+            width=update_item.line_width,
+            ignore_obsolete=update_item.ignore_obsolete,
+        )
+        return UpdateResult(update_item.po_file, "create")
+
+
+def update(
+    locale_dir, pot_dir, languages, line_width=76, ignore_obsolete=False, jobs=0
+):
     """
     Update specified language's po files from pot.
 
@@ -33,6 +85,7 @@ def update(locale_dir, pot_dir, languages, line_width=76, ignore_obsolete=False)
     :param tuple languages: languages to update po files
     :param number line_width: maximum line width of po files
     :param bool ignore_obsolete: ignore obsolete entries in po files
+    :param number jobs: number of CPUs to use
     :return: {'create': 0, 'update': 0, 'notchanged': 0}
     :rtype: dict
     """
@@ -42,6 +95,7 @@ def update(locale_dir, pot_dir, languages, line_width=76, ignore_obsolete=False)
         "notchanged": 0,
     }
 
+    to_translate = []
     for dirpath, dirnames, filenames in os.walk(pot_dir):
         for filename in filenames:
             pot_file = os.path.join(dirpath, filename)
@@ -52,40 +106,21 @@ def update(locale_dir, pot_dir, languages, line_width=76, ignore_obsolete=False)
             for lang in languages:
                 po_dir = os.path.join(locale_dir, lang, "LC_MESSAGES")
                 po_file = os.path.join(po_dir, basename + ".po")
-                cat_pot = c.load_po(pot_file)
-                if os.path.exists(po_file):
-                    cat = c.load_po(po_file)
-                    msgids = {m.id for m in cat if m.id}
-                    c.update_with_fuzzy(cat, cat_pot)
-                    new_msgids = {m.id for m in cat if m.id}
-                    if msgids != new_msgids:
-                        added = new_msgids - msgids
-                        deleted = msgids - new_msgids
-                        status["update"] += 1
-                        click.echo(
-                            "Update: {} +{}, -{}".format(
-                                po_file, len(added), len(deleted)
-                            )
-                        )
-                        c.dump_po(
-                            po_file,
-                            cat,
-                            width=line_width,
-                            ignore_obsolete=ignore_obsolete,
-                        )
-                    else:
-                        status["notchanged"] += 1
-                        click.echo(f"Not Changed: {po_file}")
-                else:  # new po file
-                    status["create"] += 1
-                    click.echo(f"Create: {po_file}")
-                    cat_pot.locale = lang
-                    c.dump_po(
-                        po_file,
-                        cat_pot,
-                        width=line_width,
-                        ignore_obsolete=ignore_obsolete,
-                    )
+                to_translate.append(
+                    UpdateItem(po_file, pot_file, lang, line_width, ignore_obsolete)
+                )
+
+    with mp.Pool(processes=jobs or None) as pool:
+        for result in pool.imap_unordered(_update_single_file, to_translate):
+            status[result.status] += 1
+            if result.status == "update":
+                click.echo(
+                    f"Update: {result.po_file} +{result.added}, -{result.deleted}"
+                )
+            elif result.status == "create":
+                click.echo(f"Create: {result.po_file}")
+            else:
+                click.echo(f"Not Changed: {result.po_file}")
 
     return status
 
