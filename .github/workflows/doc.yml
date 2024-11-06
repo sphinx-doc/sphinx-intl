@@ -1,0 +1,49 @@
+name: Docs
+on:
+  push:
+    paths:
+      - 'doc/'
+      - '.github/workflows/doc.yml'
+  pull_request:
+    paths:
+      - 'doc/'
+      - '.github/workflows/doc.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  doc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup python binary
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3'
+          cache: 'pip'
+          cache-dependency-path: 'doc/requirements.txt'
+
+      - name: Install dependencies
+        run: pip install -r doc/requirements.txt
+
+      - name: Add sphinx-build problem matcher
+        uses: sphinx-doc/github-problem-matcher@v1.1
+
+      - name: Add sphinx-lint problem matcher
+        uses: rffontenelle/sphinx-lint-problem-matcher@v1.0.0
+
+      - name: Build docs
+        run: make -C doc html O='--keep-going --fail-on-warning --nitpicky'
+
+      - name: Lint docs
+        if: always()
+        run: sphinx-lint doc/
+        
+      - name: Check links
+        if: always()
+        run: make -C doc linkcheck O='--keep-going'
