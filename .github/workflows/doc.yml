@@ -2,11 +2,11 @@ name: Docs
 on:
   push:
     paths:
-      - 'doc/'
+      - 'doc/**'
       - '.github/workflows/doc.yml'
   pull_request:
     paths:
-      - 'doc/'
+      - 'doc/**'
       - '.github/workflows/doc.yml'
   workflow_dispatch:
 
