@@ -32,10 +32,6 @@ Internals
 * Add CI test for sphinx-intl's doc by @rffontenelle in https://github.com/sphinx-doc/sphinx-intl/pull/107
 * fix for lint by @shimizukawa in https://github.com/sphinx-doc/sphinx-intl/pull/108
 
-=======
-CHANGES
-=======
-
 2.2.0 (2024/04/20)
 ==================
 
