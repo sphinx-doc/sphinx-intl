@@ -8,6 +8,7 @@ CHANGES
 Environments
 ------------
 
+* Drop python<=3.7 support by @kloczek in https://github.com/sphinx-doc/sphinx-intl/pull/101
 * Avoid unrelated CI test for doc changes, and cache using setup-python action  by @rffontenelle in https://github.com/sphinx-doc/sphinx-intl/pull/106
 
 Incompatibility
@@ -25,6 +26,11 @@ Documentation
 Internals
 ---------
 
+* Modernize release procedures by @shimizukawa in https://github.com/sphinx-doc/sphinx-intl/pull/102
+* Modernize formatter: use ruff instead of flake8 by @shimizukawa in https://github.com/sphinx-doc/sphinx-intl/pull/103
+* add devcontainer and related dependabot config by @shimizukawa in https://github.com/sphinx-doc/sphinx-intl/pull/104
+* Add CI test for sphinx-intl's doc by @rffontenelle in https://github.com/sphinx-doc/sphinx-intl/pull/107
+* fix for lint by @shimizukawa in https://github.com/sphinx-doc/sphinx-intl/pull/108
 
 =======
 CHANGES
