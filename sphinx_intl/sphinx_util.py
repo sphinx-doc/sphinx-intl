@@ -1,9 +1,9 @@
-from typing import Iterator, List
+from collections.abc import Iterator
 
 
 # port from https://github.com/sphinx-doc/sphinx/blob/ad41e0b/sphinx/util/tags.py
 class Tags:
-    def __init__(self, tags: List[str] = None) -> None:
+    def __init__(self, tags: list[str] = None) -> None:
         self.tags = dict.fromkeys(tags or [], True)
 
     def has(self, tag: str) -> bool:
