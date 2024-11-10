@@ -157,6 +157,18 @@ option_line_width = click.option(
     "disable line wrapping",
 )
 
+option_jobs = click.option(
+    "-j",
+    "--jobs",
+    envvar=ENVVAR_PREFIX + "_JOBS",
+    type=int,
+    default=0,
+    metavar="<JOBS>",
+    show_default=True,
+    multiple=False,
+    help="The number of CPUs to use for updates. 0 means all",
+)
+
 option_no_obsolete = click.option(
     "--no-obsolete",
     envvar=ENVVAR_PREFIX + "_NO_OBSOLETE",
@@ -271,7 +283,8 @@ def main(ctx, config, tag):
 @option_language
 @option_line_width
 @option_no_obsolete
-def update(locale_dir, pot_dir, language, line_width, no_obsolete):
+@option_jobs
+def update(locale_dir, pot_dir, language, line_width, no_obsolete, jobs):
     """
     Update specified language's po files from pot.
 
@@ -300,7 +313,12 @@ def update(locale_dir, pot_dir, language, line_width, no_obsolete):
         raise click.BadParameter(msg, param_hint="language")
 
     basic.update(
-        locale_dir, pot_dir, languages, line_width, ignore_obsolete=no_obsolete
+        locale_dir,
+        pot_dir,
+        languages,
+        line_width,
+        ignore_obsolete=no_obsolete,
+        jobs=jobs,
     )
 
 
