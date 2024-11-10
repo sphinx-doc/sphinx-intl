@@ -2,13 +2,14 @@
 CHANGES
 =======
 
-2.3.0 (Unreleased)
+2.3.0 (2024/11/10)
 ==================
 
 Environments
 ------------
 
-* Drop python<=3.7 support by @kloczek in https://github.com/sphinx-doc/sphinx-intl/pull/101
+* Drop python-3.7 support by @kloczek in https://github.com/sphinx-doc/sphinx-intl/pull/101
+* Drop Python-3.8 support by @shimizukawa in https://github.com/sphinx-doc/sphinx-intl/pull/111
 * Avoid unrelated CI test for doc changes, and cache using setup-python action  by @rffontenelle in https://github.com/sphinx-doc/sphinx-intl/pull/106
 
 Incompatibility
@@ -16,6 +17,8 @@ Incompatibility
 
 Features
 --------
+
+* Perform update in parallel by @rtobar in https://github.com/sphinx-doc/sphinx-intl/pull/110
 
 Bug Fixes
 ---------
