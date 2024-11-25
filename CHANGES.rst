@@ -2,6 +2,30 @@
 CHANGES
 =======
 
+2.3.1 (unreleased)
+==================
+
+Environments
+------------
+
+* Add missing files under sphinx-intl/tests/ for sdist by @shimizukawa in https://github.com/sphinx-doc/sphinx-intl/pull/113
+
+
+Incompatibility
+---------------
+
+Features
+--------
+
+Bug Fixes
+---------
+
+Documentation
+-------------
+
+Internals
+---------
+
 2.3.0 (2024/11/10)
 ==================
 
