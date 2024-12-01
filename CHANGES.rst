@@ -2,6 +2,27 @@
 CHANGES
 =======
 
+2.3.2 (unreleased)
+==================
+
+Environments
+------------
+
+Incompatibility
+---------------
+
+Features
+--------
+
+Bug Fixes
+---------
+
+Documentation
+-------------
+
+Internals
+---------
+
 2.3.1 (2024/12/01)
 ==================
 
