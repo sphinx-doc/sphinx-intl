@@ -1,6 +1,6 @@
 import os
 
-from babel.messages import pofile, mofile
+from babel.messages import pofile, mofile, poparse
 
 
 def load_po(filename, **kwargs):
@@ -10,15 +10,16 @@ def load_po(filename, **kwargs):
     :param kwargs: keyword arguments to forward to babel's read_po call
     :return: catalog object
     """
-    # pre-read to get charset
-    with open(filename, "rb") as f:
-        cat = pofile.read_po(f)
-    charset = cat.charset or "utf-8"
-
-    # To decode lines by babel, read po file as binary mode and specify charset for
-    # read_po function.
-    with open(filename, "rb") as f:  # FIXME: encoding VS charset
-        return pofile.read_po(f, charset=charset, **kwargs)
+    return poparse.load_po(filename, **kwargs)
+    # # pre-read to get charset
+    # with open(filename, "rb") as f:
+    #     cat = pofile.read_po(f)
+    # charset = cat.charset or "utf-8"
+    #
+    # # To decode lines by babel, read po file as binary mode and specify charset for
+    # # read_po function.
+    # with open(filename, "rb") as f:  # FIXME: encoding VS charset
+    #     return pofile.read_po(f, charset=charset, **kwargs)
 
 
 def dump_po(filename, catalog, **kwargs):
