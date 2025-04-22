@@ -32,8 +32,7 @@ def dump_po(filename, catalog, **kwargs):
     :return: None
     """
     dirname = os.path.dirname(filename)
-    if not os.path.exists(dirname):
-        os.makedirs(dirname)
+    os.makedirs(dirname, exist_ok=True)
 
     # (compatibility) line_width was the original argument used to forward
     # line width hints into write_po's `width` argument; if provided,
@@ -55,8 +54,8 @@ def write_mo(filename, catalog, **kwargs):
     :return: None
     """
     dirname = os.path.dirname(filename)
-    if not os.path.exists(dirname):
-        os.makedirs(dirname)
+    os.makedirs(dirname, exist_ok=True)
+
     with open(filename, "wb") as f:
         mofile.write_mo(f, catalog, **kwargs)
 
