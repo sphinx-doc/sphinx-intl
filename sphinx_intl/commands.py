@@ -235,9 +235,7 @@ def main(ctx, config, tag):
         cfg = read_config(ctx.config, tag)
         # Use explicit locale_dirs if set, otherwise use Sphinx's default ['locales']
         locale_dirs = cfg.get("locale_dirs", ["locales"])
-        ctx.locale_dir = os.path.join(
-            os.path.dirname(ctx.config), locale_dirs[0]
-        )
+        ctx.locale_dir = os.path.join(os.path.dirname(ctx.config), locale_dirs[0])
 
     # for pot_dir
     ctx.pot_dir = None
