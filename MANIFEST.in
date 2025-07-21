@@ -1,5 +1,4 @@
 include *.rst
-include requirements-*.txt
 include tox.ini
 recursive-include tests *
 prune tests/__pycache__

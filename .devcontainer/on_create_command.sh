@@ -3,8 +3,10 @@
 
 set -ex
 
-pip install -U pip setuptools wheel setuptools_scm
-pip install -r requirements-dev.txt
+curl -LsSf https://astral.sh/uv/install.sh | sh
+. $HOME/.cargo/env
+uv tool install -U ruff
+uv tool install -U tox --with tox-uv
 
 # Install Transifex CLI tool into /usr/local/bin
 # refer to Installation instructions https://github.com/transifex/cli#installation

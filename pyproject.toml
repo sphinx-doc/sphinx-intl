@@ -7,17 +7,16 @@ authors = [
 description = "Sphinx utility that make it easy to translate and to apply translation."
 readme = "README.rst"
 requires-python = ">=3.9"
-license = {file = "LICENSE"}
+license = "BSD-2-Clause"
+license-files = ["LICENSE"]
 dependencies = [
-    "setuptools",
-    "click",
-    "babel",
+    "click>=8.0.0",
+    "babel>=2.9.0",
     "sphinx",
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
-    "License :: OSI Approved :: BSD License",
     "Topic :: Documentation",
     "Topic :: Documentation :: Sphinx",
     "Topic :: Software Development",
@@ -37,7 +36,15 @@ classifiers = [
 
 [project.optional-dependencies]
 test = [
-    "pytest",
+    "pytest>=8.3.5",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+    "ruff>=0.11.10",
+    "tox-gh-actions>=3.3.0",
+    "tox-uv>=1.25.0",
 ]
 
 [project.urls]
@@ -47,16 +54,19 @@ Documentation = "https://sphinx-intl.readthedocs.io"
 [project.scripts]
 sphinx-intl = "sphinx_intl.commands:main"
 
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
 [tool.setuptools]
 include-package-data = true
 
-[tool.setuptools.dynamic]
-version = {attr = "sphinx_intl.__version__"}
-
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+[tool.setuptools_scm]
+# this empty section means: use_scm_version=True
 
 [tool.mypy]
 ignore_missing_imports = true
 strict_optional = false
+
+[tool.uv.sources]
+sphinx-intl = { workspace = true }
