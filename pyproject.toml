@@ -9,9 +9,8 @@ readme = "README.rst"
 requires-python = ">=3.9"
 license = {file = "LICENSE"}
 dependencies = [
-    "setuptools",
-    "click",
-    "babel",
+    "click>=8.0.0",
+    "babel>=2.9.0",
     "sphinx",
 ]
 classifiers = [
@@ -37,15 +36,15 @@ classifiers = [
 
 [project.optional-dependencies]
 test = [
-    "pytest",
+    "pytest>=8.3.5",
 ]
 
 [dependency-groups]
 dev = [
-    "pytest",
-    "ruff>=0.8.0",
-    "tox-gh-actions>=3.2.0",
-    "tox-uv>=1.16.0",
+    "pytest>=8.3.5",
+    "ruff>=0.11.10",
+    "tox-gh-actions>=3.3.0",
+    "tox-uv>=1.25.0",
 ]
 
 [project.urls]
