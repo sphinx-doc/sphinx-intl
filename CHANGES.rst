@@ -19,6 +19,8 @@ Features
 Bug Fixes
 ---------
 
+- #116: Update doesn't respect default value of locale_dirs from -c passed conf.py
+
 Documentation
 -------------
 
