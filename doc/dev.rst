@@ -18,8 +18,8 @@ Setup development environment
 * Requires supported Python version
 * Do setup under sphinx-intl.git repository root as::
 
-    $ pip install -U pip setuptools wheel setuptools_scm
-    $ pip install -r requirements-dev.txt
+    $ pip install -U uv
+    $ uv sync
 
 * Install Transifex CLI tool (refer to `Installation instructions <https://github.com/transifex/cli>`_)::
 
