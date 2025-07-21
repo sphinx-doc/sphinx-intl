@@ -31,7 +31,7 @@ Testing
 Tests with supported python version that are in:
 
 * ``tox.ini``
-* ``.github/workflow/test.yml``
+* ``.github/workflow/ci.yml``
 
 Run test
 --------
