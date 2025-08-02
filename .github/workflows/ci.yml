@@ -1,6 +1,8 @@
 name: Test, Build, Publish, Release
 on:
   push:
+    branches:
+      - master
     paths-ignore:
       - 'doc/**'
   pull_request:
