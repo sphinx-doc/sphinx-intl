@@ -129,10 +129,8 @@ jobs:
     name: Sign the Python 🐍 distribution 📦 with Sigstore and upload them to GitHub Release
     if: github.repository_owner == 'sphinx-doc'
     needs:
-    - publish-to-pypi
+      - publish-to-pypi
     runs-on: ubuntu-latest
-    needs:
-      - pypi-publish
     environment: release
     permissions:
       contents: write  # IMPORTANT: mandatory for making GitHub Releases
