@@ -1,4 +1,4 @@
-name: Test, Build, Publish, Release
+name: Test
 on:
   push:
     branches:
