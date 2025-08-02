@@ -9,6 +9,7 @@ Environments
 ------------
 
 * add python-3.14 support by @rffontenelle in https://github.com/sphinx-doc/sphinx-intl/pull/115
+* Release to PyPI with digital attestations (PEP-740) by @shimizukawa in https://github.com/sphinx-doc/sphinx-intl/pull/125
 
 Incompatibility
 ---------------
