@@ -1,4 +1,4 @@
-name: Test
+name: Test, Build, Publish, Release
 on:
   push:
     paths-ignore:
@@ -55,7 +55,7 @@ jobs:
 
   build:
     name: build distribution
-    if: github.repository_owner == 'sphinx-doc'
+    if: github.repository_owner == 'sphinx-doc' && github.ref == 'refs/heads/master'
     needs:
       - tests
     runs-on: ubuntu-latest
@@ -81,7 +81,7 @@ jobs:
 
   publish-to-testpypi:
     name: Upload release to TestPyPI
-    if: github.repository_owner == 'sphinx-doc'
+    if: github.repository_owner == 'sphinx-doc' && github.ref == 'refs/heads/master'  # only publish to TestPyPI on push to master
     needs:
       - build
     runs-on: ubuntu-latest
