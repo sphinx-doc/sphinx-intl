@@ -55,7 +55,7 @@ jobs:
 
   build:
     name: build distribution
-    if: github.repository_owner == 'sphinx-doc' && github.ref == 'refs/heads/master'
+    if: github.repository_owner == 'sphinx-doc'
     needs:
       - tests
     runs-on: ubuntu-latest
