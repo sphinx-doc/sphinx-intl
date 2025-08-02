@@ -57,7 +57,13 @@ jobs:
 
   build:
     name: build distribution
-    if: ${{ github.repository_owner == 'sphinx-doc' && github.ref == 'refs/heads/master' }}
+    if: |
+      ${{ github.repository_owner == 'sphinx-doc' &&
+          (
+            ( github.event_name == 'push' && github.ref == 'refs/heads/master' )
+            || ( github.event_name == 'release' )
+          )
+      }}
     needs:
       - tests
     runs-on: ubuntu-latest
