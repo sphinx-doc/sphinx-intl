@@ -80,7 +80,7 @@ jobs:
 
   publish-to-testpypi:
     name: Upload release to TestPyPI
-    if: github.repository_owner == 'sphinx-doc' && github.ref == 'refs/heads/master'  # only publish to TestPyPI on push to master
+    if: github.repository_owner == 'sphinx-doc'
     needs:
       - build
     runs-on: ubuntu-latest
