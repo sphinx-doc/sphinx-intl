@@ -62,7 +62,9 @@ build-backend = "setuptools.build_meta"
 include-package-data = true
 
 [tool.setuptools_scm]
-# this empty section means: use_scm_version=True
+# https://setuptools-scm.readthedocs.io/en/latest/extending/#available-implementations_1
+# because pypi does not support local version like .devN+<local_version>
+local_scheme = "no-local-version"
 
 [tool.mypy]
 ignore_missing_imports = true
