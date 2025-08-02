@@ -20,13 +20,17 @@ Features
 Bug Fixes
 ---------
 
-- #116: Update doesn't respect default value of locale_dirs from -c passed conf.py
+- #116: Update doesn't respect default value of locale_dirs from `-c` passed `conf.py` by @shimizukawa in https://github.com/sphinx-doc/sphinx-intl/pull/122
 
 Documentation
 -------------
 
 Internals
 ---------
+
+* FIX: set `exist_ok=True` in `os.makedirs()` by @Dengda98 in https://github.com/sphinx-doc/sphinx-intl/pull/120
+* using uv for dev setup, build, publish by @shimizukawa in https://github.com/sphinx-doc/sphinx-intl/pull/114
+* Bump astral-sh/setup-uv from 3 to 6 in the all-github-actions group by @dependabot[bot] in https://github.com/sphinx-doc/sphinx-intl/pull/124
 
 2.3.1 (2024/12/01)
 ==================
