@@ -9,7 +9,7 @@
 		"ghcr.io/devcontainers/features/github-cli:1": {},
 		"ghcr.io/devcontainers/features/python:1": "none",
 		"ghcr.io/devcontainers-contrib/features/act:1": {},
-		"ghcr.io/devcontainers-contrib/features/ruff:1": {}
+		"ghcr.io/devcontainers-contrib/features/ruff:2": {}
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
