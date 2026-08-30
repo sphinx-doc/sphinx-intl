@@ -2,13 +2,11 @@ import dataclasses
 import multiprocessing as mp
 import os
 from glob import glob
-from typing import Optional
 
 import click
 
 from . import catalog as c
 from .pycompat import relpath
-
 
 # ==================================
 # utility functions
@@ -40,8 +38,8 @@ class UpdateItem:
 class UpdateResult:
     po_file: str
     status: str
-    added: Optional[int] = 0
-    deleted: Optional[int] = 0
+    added: int = 0
+    deleted: int = 0
 
 
 def _update_single_file(update_item: UpdateItem):
@@ -174,7 +172,7 @@ def stat(locale_dir, languages):
         for dirpath, dirnames, filenames in os.walk(lang_dir):
             for filename in filenames:
                 po_file = os.path.join(dirpath, filename)
-                base, ext = os.path.splitext(po_file)
+                _, ext = os.path.splitext(po_file)
                 if ext != ".po":
                     continue
 

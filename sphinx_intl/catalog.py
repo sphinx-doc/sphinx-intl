@@ -1,6 +1,6 @@
 import os
 
-from babel.messages import pofile, mofile
+from babel.messages import mofile, pofile
 
 
 def load_po(filename, **kwargs):

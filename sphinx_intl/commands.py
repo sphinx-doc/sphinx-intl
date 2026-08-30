@@ -7,16 +7,15 @@ Sphinx utility that make it easy to translate and to apply translation.
 :license: BSD, see LICENSE for details.
 """
 
-import re
 import os
+import re
 import warnings
 from glob import glob
 
 import click
 from sphinx.util.tags import Tags
 
-from . import basic
-from . import transifex
+from . import basic, transifex
 from .pycompat import execfile_, relpath
 
 ENVVAR_PREFIX = "SPHINXINTL"
@@ -40,7 +39,7 @@ def read_config(path, passed_tags):
     olddir = os.getcwd()
     try:
         if not os.path.isfile(path):
-            msg = "'%s' is not found (or specify --locale-dir option)." % path
+            msg = f"'{path}' is not found (or specify --locale-dir option)."
             raise click.BadParameter(msg)
         os.chdir(os.path.dirname(path) or ".")
         execfile_(os.path.basename(path), namespace)
@@ -248,13 +247,12 @@ def main(ctx, config, tag):
     ctx.transifex_project_name = None
     target = os.path.normpath(".tx/config")
     if os.path.exists(target):
-        matched = re.search(r"\[(.*)\..*\]", open(target).read())
+        with open(target) as config_file:
+            matched = re.search(r"\[(.*)\..*\]", config_file.read())
         if matched:
             ctx.transifex_project_name = matched.groups()[0]
             click.echo(
-                "Project name loaded from .tx/config: {}".format(
-                    ctx.transifex_project_name
-                )
+                f"Project name loaded from .tx/config: {ctx.transifex_project_name}"
             )
 
     ctx.default_map = {
@@ -296,8 +294,8 @@ def update(locale_dir, pot_dir, language, line_width, no_obsolete, jobs):
         pot_dir = os.path.join(locale_dir, "pot")
     if not os.path.exists(pot_dir):
         msg = (
-            "%(pot_dir)r does not exist. Please specify pot directory with "
-            "-p option, or preparing your pot files in %(pot_dir)r." % locals()
+            f"{pot_dir!r} does not exist. Please specify pot directory with "
+            f"-p option, or preparing your pot files in {pot_dir!r}."
         )
         raise click.BadParameter(msg, param_hint="pot_dir")
     if not language:
@@ -306,8 +304,8 @@ def update(locale_dir, pot_dir, language, line_width, no_obsolete, jobs):
     if not languages:
         msg = (
             "No languages are found. Please specify language with -l "
-            "option, or preparing language directories under %(locale_dir)r "
-            "directory." % locals()
+            f"option, or preparing language directories under {locale_dir!r} "
+            "directory."
         )
         raise click.BadParameter(msg, param_hint="language")
 

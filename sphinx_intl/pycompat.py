@@ -2,8 +2,8 @@
 Python compatibility functions.
 """
 
-import sys
 import os
+import sys
 import warnings
 from typing import Any, Callable
 
@@ -23,8 +23,8 @@ def relpath(path: str, start: str = os.curdir) -> str:
 # convert_with_2to3():
 # support for running 2to3 over config files
 def convert_with_2to3(filepath: str) -> str:
-    from lib2to3.refactor import RefactoringTool, get_fixers_from_package
     from lib2to3.pgen2.parse import ParseError
+    from lib2to3.refactor import RefactoringTool, get_fixers_from_package
 
     fixers = get_fixers_from_package("lib2to3.fixes")
     refactoring_tool = RefactoringTool(fixers)
@@ -58,4 +58,4 @@ def execfile_(filepath: str, _globals: Any, open: Callable = open) -> None:
             "Convert %s to Python 3 syntax.",
             source=filepath,
         )
-    exec(code, _globals)
+    exec(code, _globals)  # noqa: S102  # conf.py is executable Python by design

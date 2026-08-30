@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 from collections.abc import Iterator
 
 
 # port from https://github.com/sphinx-doc/sphinx/blob/ad41e0b/sphinx/util/tags.py
 class Tags:
-    def __init__(self, tags: list[str] = None) -> None:
+    def __init__(self, tags: list[str] | None = None) -> None:
         self.tags = dict.fromkeys(tags or [], True)
 
     def has(self, tag: str) -> bool:
