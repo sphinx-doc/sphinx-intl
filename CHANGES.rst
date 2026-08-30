@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-2.4.0 (2026/08/30)
+2.5.0 (unreleased)
 ==================
 
 Environments
