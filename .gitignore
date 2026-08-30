@@ -172,4 +172,7 @@ poetry.toml
 # ruff
 .ruff_cache/
 
+# Local Git worktrees
+.worktrees/
+
 # End of https://www.toptal.com/developers/gitignore/api/python
