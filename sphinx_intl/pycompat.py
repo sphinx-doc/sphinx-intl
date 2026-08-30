@@ -5,7 +5,8 @@ Python compatibility functions.
 import os
 import sys
 import warnings
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 # ------------------------------------------------------------------------------
 # Python 2/3 compatibility
