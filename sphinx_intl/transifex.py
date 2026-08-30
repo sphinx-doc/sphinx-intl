@@ -9,7 +9,6 @@ import click
 
 from .catalog import load_po
 
-
 # ==================================
 # settings
 
