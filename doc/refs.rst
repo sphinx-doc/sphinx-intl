@@ -14,6 +14,12 @@ Type `sphinx-intl` without arguments, options to show command help.
    :prog: sphinx-intl
    :nested: full
 
+``stat`` exit status
+--------------------
+
+``sphinx-intl stat`` exits with status 0 when all messages are translated and
+non-fuzzy; otherwise, it exits with status 1.
+
 
 Environment Variables
 =====================
@@ -48,4 +54,3 @@ however it is much convenient if pot files are generated into the
 `locale/pot` directory.  You can achieve this by replacing `_build/gettext`
 with `locale/pot` in your `Makefile` and/or `make.bat` that was generated
 by sphinx-quickstart.
-
