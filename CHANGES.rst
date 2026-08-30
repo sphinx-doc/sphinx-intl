@@ -8,6 +8,27 @@ CHANGES
 Environments
 ------------
 
+Incompatibility
+---------------
+
+Features
+--------
+
+Bug Fixes
+---------
+
+Documentation
+-------------
+
+Internals
+---------
+
+2.4.0 (2026/08/30)
+==================
+
+Environments
+------------
+
 * Drop Python-3.9 support and add Python-3.15 by @shimizukawa in https://github.com/sphinx-doc/sphinx-intl/pull/142
 
 Incompatibility
