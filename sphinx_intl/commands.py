@@ -349,7 +349,9 @@ def stat(locale_dir, language):
     if not language:
         language = get_lang_dirs(locale_dir)
     languages = sum(language, ())  # flatten
-    basic.stat(locale_dir, languages)
+    stats = basic.stat(locale_dir, languages)
+    if any(stat["fuzzy"] or stat["untranslated"] for stat in stats.values()):
+        raise click.exceptions.Exit(1)
 
 
 @main.command("create-transifexrc")

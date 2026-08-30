@@ -151,7 +151,7 @@ def test_stat(temp):
     assert r1.exit_code == 0
 
     r2 = runner.invoke(commands.stat, ['-d', 'locale'])
-    assert r2.exit_code == 0
+    assert r2.exit_code == 1
     assert 'README.po: 0 translated, 0 fuzzy, 1 untranslated.' in r2.output
 
 
@@ -161,8 +161,44 @@ def test_stat_with_multiple_languages(temp):
 
     # r2 = runner.invoke(commands.stat, ['-d', 'locale', '-l', 'ja,de', '-l', 'it'])
     r2 = runner.invoke(commands.stat, ['-d', 'locale', '-l', 'ja'])
-    assert r2.exit_code == 0
+    assert r2.exit_code == 1
     assert 'README.po: 0 translated, 0 fuzzy, 1 untranslated.' in r2.output
+
+
+def test_stat_succeeds_when_every_message_is_translated(temp):
+    r1 = runner.invoke(commands.update, ['-d', 'locale', '-p', '_build/locale', '-l', 'ja'])
+    assert r1.exit_code == 0
+
+    po_file = os.path.join('locale', 'ja', 'LC_MESSAGES', 'README.po')
+    with open(po_file) as f:
+        contents = f.read()
+    with open(po_file, 'w') as f:
+        f.write(contents.replace(
+            'msgid "sphinx-intl: translation support utility for Sphinx"\nmsgstr ""',
+            'msgid "sphinx-intl: translation support utility for Sphinx"\nmsgstr "Sphinx 向けの翻訳ユーティリティ"',
+        ))
+
+    r2 = runner.invoke(commands.stat, ['-d', 'locale'])
+    assert r2.exit_code == 0
+    assert 'README.po: 1 translated, 0 fuzzy, 0 untranslated.' in r2.output
+
+
+def test_stat_fails_when_a_message_is_fuzzy(temp):
+    r1 = runner.invoke(commands.update, ['-d', 'locale', '-p', '_build/locale', '-l', 'ja'])
+    assert r1.exit_code == 0
+
+    po_file = os.path.join('locale', 'ja', 'LC_MESSAGES', 'README.po')
+    with open(po_file) as f:
+        contents = f.read()
+    with open(po_file, 'w') as f:
+        f.write(contents.replace(
+            'msgid "sphinx-intl: translation support utility for Sphinx"\nmsgstr ""',
+            '#, fuzzy\nmsgid "sphinx-intl: translation support utility for Sphinx"\nmsgstr "Sphinx 向けの翻訳ユーティリティ"',
+        ))
+
+    r2 = runner.invoke(commands.stat, ['-d', 'locale'])
+    assert r2.exit_code == 1
+    assert 'README.po: 1 translated, 1 fuzzy, 0 untranslated.' in r2.output
 
 
 def test_build(temp):
