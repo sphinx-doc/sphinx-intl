@@ -16,6 +16,8 @@ Incompatibility
 Features
 --------
 
+* Make ``stat`` exit status indicate translation health by @shimizukawa in https://github.com/sphinx-doc/sphinx-intl/pull/143
+
 Bug Fixes
 ---------
 
@@ -487,5 +489,4 @@ Bug Fixes
   * create-transifexrc
   * create-txconfig
   * update-txconfig-resources
-
 
